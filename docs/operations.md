@@ -3,7 +3,7 @@
 ## 发布
 
 - 推送到 `main` → 工作流 *Build & deploy site*：`npm ci → validate → test → build → 部署 Pages`。
-- 站点子路径从仓库名推导（`/roam/`）；改仓库名后无需改代码。需要自定义时设置环境变量 `ROAM_BASE`。
+- 站点子路径从仓库名推导（当前为 `/Roam/`）；改仓库名后无需改代码。需要自定义时设置环境变量 `ROAM_BASE`。
 - 每日 *Check sources*：检查来源 → 有变化才提交 `history/checks.json` → 在同一工作流里构建并部署（`GITHUB_TOKEN` 推送不会触发其他工作流）。
 - 定时任务可能延迟；公开仓库 60 天无活动时 GitHub 会停用定时任务，需要在 Actions 页重新启用。网站按确认时间判断过期，不会因为检查停了就一直显示「已核实」。
 
