@@ -1,10 +1,12 @@
 # 英国冬季旅行 2026-12-11 → 2026-12-25 主数据
 # 编辑规则见 docs/editing.md。所有对象使用稳定 ID；不要复用或改名已发布的 ID。
 #
+# 来源：同行 2026-11-14 提供的逐日计划表（每晚住宿城市与当天安排）。
 # 真实性约定：
-#   - 每日城市分配与活动顺序为「初稿」（plan_status: proposed），需对照原始聊天/用户确认后再改为 selected。
+#   - 计划表中明确的安排为 selected；「可以考虑 / 可以吃 / 有票就加 / 可以坐」类建议为 proposed 或 candidate。
+#   - 计划表没有给出精确时刻，只用 daypart 标大致时段；唯一精确时刻 12/25 21:50 为用户提供。
 #   - 预订状态默认 unknown；只有明确用户确认或可用预订依据才改为 booked。
-#   - 坐标 coord_source: initial_draft 表示按地标大致位置录入，未人工核对入口，见 places 注释。
+#   - 坐标 coord_source: initial_draft 表示按地标大致位置录入，未人工核对入口。
 schema_version: 1
 
 trip:
@@ -15,7 +17,7 @@ trip:
   end_date: "2026-12-25"
   timezone: Europe/London
   currency: GBP
-  draft_notice: 每日城市分配与活动顺序为初稿，尚未经同行确认；预订状态均未确认。
+  draft_notice: 行程按同行提供的计划表录入；未给出精确时刻，预订与开放信息均未核实。
   cities:
     - { id: london, name_zh: 伦敦, name_en: London }
     - { id: cambridge, name_zh: 剑桥, name_en: Cambridge }
@@ -23,729 +25,204 @@ trip:
     - { id: durham, name_zh: 杜伦, name_en: Durham }
     - { id: edinburgh, name_zh: 爱丁堡, name_en: Edinburgh }
     - { id: oxford, name_zh: 牛津, name_en: Oxford }
+    - { id: canterbury, name_zh: 坎特伯雷, name_en: Canterbury }
 
 # ───────────────────────── 地点 ─────────────────────────
-# coord: 入口经纬度（WGS84，lat/lng）。缺坐标的地点 coord: null，进入「待定位」列表，不上地图。
+# coord: 入口经纬度（WGS84）。缺坐标的地点 coord: null，进入「待定位」列表，不上地图。
 places:
-  - id: pl-lhr-t3
-    name_zh: 希思罗机场 3 号航站楼
-    name_en: Heathrow Terminal 3
-    kind: airport
-    city: london
-    address: Heathrow Airport, Hounslow TW6 1QG
-    coord: { lat: 51.4713, lng: -0.4560 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-lhr-cbs
-    name_zh: 希思罗中央巴士站
-    name_en: Heathrow Central Bus Station
-    kind: station
-    city: london
-    address: Heathrow Central Bus Station, Hounslow TW6 1DN
-    coord: { lat: 51.4712, lng: -0.4527 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-victoria-coach
-    name_zh: 维多利亚长途汽车站
-    name_en: Victoria Coach Station
-    kind: station
-    city: london
-    address: 164 Buckingham Palace Road, London SW1W 9TP
-    coord: { lat: 51.4925, lng: -0.1497 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-kings-cross
-    name_zh: 国王十字车站
-    name_en: London King's Cross
-    kind: station
-    city: london
-    address: Euston Road, London N1 9AL
-    coord: { lat: 51.5308, lng: -0.1238 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-paddington
-    name_zh: 帕丁顿车站
-    name_en: London Paddington
-    kind: station
-    city: london
-    address: Praed Street, London W2 1HQ
-    coord: { lat: 51.5154, lng: -0.1755 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-british-museum
-    name_zh: 大英博物馆
-    name_en: The British Museum
-    kind: sight
-    city: london
-    address: Great Russell Street, London WC1B 3DG
-    coord: { lat: 51.5194, lng: -0.1270 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-westminster-abbey
-    name_zh: 威斯敏斯特教堂
-    name_en: Westminster Abbey
-    kind: sight
-    city: london
-    address: 20 Deans Yard, London SW1P 3PA
-    coord: { lat: 51.4993, lng: -0.1273 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-tower-of-london
-    name_zh: 伦敦塔
-    name_en: Tower of London
-    kind: sight
-    city: london
-    address: London EC3N 4AB
-    coord: { lat: 51.5081, lng: -0.0759 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-london-hotel-a
-    name_zh: 伦敦住宿（12/11–12/13，未选定）
-    name_en: London stay, 11–13 Dec (not chosen)
-    kind: lodging
-    city: london
-    address: null
-    coord: null
-    coord_source: none
-    coord_precision: none
-  - id: pl-london-hotel-b
-    name_zh: 伦敦住宿（12/24，未选定）
-    name_en: London stay, 24 Dec (not chosen)
-    kind: lodging
-    city: london
-    address: null
-    coord: null
-    coord_source: none
-    coord_precision: none
-  - id: pl-cambridge-station
-    name_zh: 剑桥站
-    name_en: Cambridge station
-    kind: station
-    city: cambridge
-    address: Station Road, Cambridge CB1 2JW
-    coord: { lat: 52.1940, lng: 0.1374 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-kings-college
-    name_zh: 剑桥国王学院礼拜堂
-    name_en: King's College Chapel, Cambridge
-    kind: sight
-    city: cambridge
-    address: King's Parade, Cambridge CB2 1ST
-    coord: { lat: 52.2048, lng: 0.1167 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-york-station
-    name_zh: 约克站
-    name_en: York station
-    kind: station
-    city: york
-    address: Station Road, York YO24 1AB
-    coord: { lat: 53.9580, lng: -1.0930 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-york-minster
-    name_zh: 约克大教堂
-    name_en: York Minster
-    kind: sight
-    city: york
-    address: Deangate, York YO1 7HH
-    coord: { lat: 53.9623, lng: -1.0819 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-shambles
-    name_zh: 肉铺街（The Shambles）
-    name_en: The Shambles, York
-    kind: sight
-    city: york
-    address: The Shambles, York YO1 7LZ
-    coord: { lat: 53.9595, lng: -1.0806 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-york-hotel
-    name_zh: 约克住宿（未选定）
-    name_en: York stay — not chosen
-    kind: lodging
-    city: york
-    address: null
-    coord: null
-    coord_source: none
-    coord_precision: none
-  - id: pl-durham-station
-    name_zh: 杜伦站
-    name_en: Durham station
-    kind: station
-    city: durham
-    address: Station Approach, Durham DH1 4RH
-    coord: { lat: 54.7794, lng: -1.5818 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-durham-cathedral
-    name_zh: 杜伦大教堂
-    name_en: Durham Cathedral
-    kind: sight
-    city: durham
-    address: The College, Durham DH1 3EH
-    coord: { lat: 54.7735, lng: -1.5762 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-lumley-castle
-    name_zh: 拉姆利城堡酒店
-    name_en: Lumley Castle Hotel
-    kind: lodging
-    city: durham
-    address: Ropery Lane, Chester-le-Street DH3 4NX
-    coord: { lat: 54.8510, lng: -1.5600 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-beamish-museum
-    name_zh: 比米什露天博物馆
-    name_en: Beamish, The Living Museum of the North
-    kind: sight
-    city: durham
-    address: Beamish, County Durham DH9 0RG
-    coord: { lat: 54.8826, lng: -1.6584 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-beamish-hall
-    name_zh: 比米什庄园酒店
-    name_en: Beamish Hall Hotel
-    kind: lodging
-    city: durham
-    address: Beamish, Stanley, County Durham DH9 0YB
-    coord: { lat: 54.8760, lng: -1.6600 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-edinburgh-waverley
-    name_zh: 爱丁堡韦弗利站
-    name_en: Edinburgh Waverley
-    kind: station
-    city: edinburgh
-    address: Edinburgh EH1 1BB
-    coord: { lat: 55.9520, lng: -3.1890 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-edinburgh-castle
-    name_zh: 爱丁堡城堡
-    name_en: Edinburgh Castle
-    kind: sight
-    city: edinburgh
-    address: Castlehill, Edinburgh EH1 2NG
-    coord: { lat: 55.9486, lng: -3.1999 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-royal-mile
-    name_zh: 皇家一英里
-    name_en: Royal Mile
-    kind: sight
-    city: edinburgh
-    address: High Street, Edinburgh EH1
-    coord: { lat: 55.9505, lng: -3.1878 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-holyrood
-    name_zh: 荷里路德宫
-    name_en: Palace of Holyroodhouse
-    kind: sight
-    city: edinburgh
-    address: Canongate, Edinburgh EH8 8DX
-    coord: { lat: 55.9527, lng: -3.1722 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-edinburgh-hotel
-    name_zh: 爱丁堡住宿（未选定）
-    name_en: Edinburgh stay — not chosen
-    kind: lodging
-    city: edinburgh
-    address: null
-    coord: null
-    coord_source: none
-    coord_precision: none
-  - id: pl-oxford-station
-    name_zh: 牛津站
-    name_en: Oxford station
-    kind: station
-    city: oxford
-    address: Park End Street, Oxford OX1 1HS
-    coord: { lat: 51.7535, lng: -1.2700 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-bodleian
-    name_zh: 博德利图书馆 / 拉德克利夫圆顶
-    name_en: Bodleian Libraries / Radcliffe Camera
-    kind: sight
-    city: oxford
-    address: Broad Street, Oxford OX1 3BG
-    coord: { lat: 51.7540, lng: -1.2540 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-christ-church
-    name_zh: 基督堂学院
-    name_en: Christ Church, Oxford
-    kind: sight
-    city: oxford
-    address: St Aldate's, Oxford OX1 1DP
-    coord: { lat: 51.7500, lng: -1.2560 }
-    coord_source: initial_draft
-    coord_precision: landmark_approx
-  - id: pl-oxford-hotel
-    name_zh: 牛津住宿（未选定）
-    name_en: Oxford stay — not chosen
-    kind: lodging
-    city: oxford
-    address: null
-    coord: null
-    coord_source: none
-    coord_precision: none
+  # 伦敦：交通
+  - { id: pl-lhr-t3, name_zh: 希思罗机场 3 号航站楼, name_en: Heathrow Terminal 3, kind: airport, city: london, address: "Heathrow Airport, Hounslow TW6 1QG", coord: { lat: 51.4713, lng: -0.4560 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-lhr-cbs, name_zh: 希思罗中央巴士站, name_en: Heathrow Central Bus Station, kind: station, city: london, address: "Heathrow Central Bus Station, Hounslow TW6 1DN", coord: { lat: 51.4712, lng: -0.4527 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-victoria-coach, name_zh: 维多利亚长途汽车站, name_en: Victoria Coach Station, kind: station, city: london, address: "164 Buckingham Palace Road, London SW1W 9TP", coord: { lat: 51.4925, lng: -0.1497 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-kings-cross, name_zh: 国王十字车站, name_en: London King's Cross, kind: station, city: london, address: "Euston Road, London N1 9AL", coord: { lat: 51.5308, lng: -0.1238 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-paddington, name_zh: 帕丁顿车站, name_en: London Paddington, kind: station, city: london, address: "Praed Street, London W2 1HQ", coord: { lat: 51.5154, lng: -0.1755 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  # 伦敦：景点
+  - { id: pl-national-gallery, name_zh: 英国国家美术馆, name_en: The National Gallery, kind: sight, city: london, address: "Trafalgar Square, London WC2N 5DN", coord: { lat: 51.5089, lng: -0.1283 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-covent-garden, name_zh: 科文特花园, name_en: Covent Garden, kind: sight, city: london, address: "Covent Garden, London WC2E 8RF", coord: { lat: 51.5117, lng: -0.1240 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-xmas-lights, name_zh: 伦敦圣诞灯（摄政街一带）, name_en: "Christmas lights, Regent Street area", kind: sight, city: london, address: "Regent Street, London W1B", coord: { lat: 51.5115, lng: -0.1410 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-marylebone, name_zh: 马里波恩高街, name_en: Marylebone High Street, kind: sight, city: london, address: "Marylebone High Street, London W1U", coord: { lat: 51.5205, lng: -0.1515 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-wallace, name_zh: 华莱士收藏馆, name_en: The Wallace Collection, kind: sight, city: london, address: "Hertford House, Manchester Square, London W1U 3BN", coord: { lat: 51.5175, lng: -0.1530 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  # 伦敦：住宿（未选定）
+  - { id: pl-london-hotel-a, name_zh: 伦敦住宿（12/11–14，未选定）, name_en: "London stay, 11–14 Dec (not chosen)", kind: lodging, city: london, address: null, coord: null, coord_source: none, coord_precision: none }
+  - { id: pl-london-hotel-c, name_zh: 伦敦住宿（12/21–23，未选定）, name_en: "London stay, 21–23 Dec (not chosen)", kind: lodging, city: london, address: null, coord: null, coord_source: none, coord_precision: none }
+  - { id: pl-london-hotel-b, name_zh: 伦敦住宿（12/24，未选定）, name_en: "London stay, 24 Dec (not chosen)", kind: lodging, city: london, address: null, coord: null, coord_source: none, coord_precision: none }
+  # 剑桥
+  - { id: pl-cambridge-station, name_zh: 剑桥站, name_en: Cambridge station, kind: station, city: cambridge, address: "Station Road, Cambridge CB1 2JW", coord: { lat: 52.1940, lng: 0.1374 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-kings-college, name_zh: 剑桥国王学院礼拜堂, name_en: "King's College Chapel, Cambridge", kind: sight, city: cambridge, address: "King's Parade, Cambridge CB2 1ST", coord: { lat: 52.2048, lng: 0.1167 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-the-backs, name_zh: 学院街区与康河（The Backs）, name_en: The Backs & River Cam, kind: sight, city: cambridge, address: "Queen's Road, Cambridge CB3", coord: { lat: 52.2040, lng: 0.1140 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  # 约克
+  - { id: pl-york-station, name_zh: 约克站, name_en: York station, kind: station, city: york, address: "Station Road, York YO24 1AB", coord: { lat: 53.9580, lng: -1.0930 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-york-minster, name_zh: 约克大教堂, name_en: York Minster, kind: sight, city: york, address: "Deangate, York YO1 7HH", coord: { lat: 53.9623, lng: -1.0819 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-shambles, name_zh: 约克老城（肉铺街一带）, name_en: York old town (The Shambles), kind: sight, city: york, address: "The Shambles, York YO1 7LZ", coord: { lat: 53.9595, lng: -1.0806 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-bettys, name_zh: Bettys 茶室（约克）, name_en: "Bettys Café Tea Rooms, York", kind: restaurant, city: york, address: "6–8 St Helen's Square, York YO1 8QP", coord: { lat: 53.9603, lng: -1.0838 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-york-market, name_zh: 约克圣诞市集, name_en: York Christmas market, kind: sight, city: york, address: "Parliament Street, York YO1", coord: { lat: 53.9591, lng: -1.0812 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-legacy, name_zh: Legacy 餐厅（约克）, name_en: Legacy (restaurant), kind: restaurant, city: york, address: null, coord: null, coord_source: none, coord_precision: none }
+  - { id: pl-bar-convent, name_zh: Bar Convent（候选住宿，双床房）, name_en: The Bar Convent, kind: lodging, city: york, address: "17 Blossom Street, York YO24 1AQ", coord: { lat: 53.9541, lng: -1.0907 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-york-hotel, name_zh: 约克住宿（未选定）, name_en: York stay — not chosen, kind: lodging, city: york, address: null, coord: null, coord_source: none, coord_precision: none }
+  # 杜伦
+  - { id: pl-durham-station, name_zh: 杜伦站, name_en: Durham station, kind: station, city: durham, address: "Station Approach, Durham DH1 4RH", coord: { lat: 54.7794, lng: -1.5818 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-newcastle-station, name_zh: 纽卡斯尔中央站, name_en: Newcastle Central station, kind: station, city: durham, address: "Neville Street, Newcastle upon Tyne NE1 5DL", coord: { lat: 54.9683, lng: -1.6174 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-durham-cathedral, name_zh: 杜伦大教堂与回廊, name_en: Durham Cathedral & Cloisters, kind: sight, city: durham, address: "The College, Durham DH1 3EH", coord: { lat: 54.7735, lng: -1.5762 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-durham-castle, name_zh: 杜伦城堡, name_en: Durham Castle, kind: sight, city: durham, address: "Palace Green, Durham DH1 3RW", coord: { lat: 54.7752, lng: -1.5765 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-lumley-castle, name_zh: 拉姆利城堡酒店, name_en: Lumley Castle Hotel, kind: lodging, city: durham, address: "Ropery Lane, Chester-le-Street DH3 4NX", coord: { lat: 54.8510, lng: -1.5600 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-beamish-museum, name_zh: 比米什露天博物馆, name_en: "Beamish, The Living Museum of the North", kind: sight, city: durham, address: "Beamish, County Durham DH9 0RG", coord: { lat: 54.8826, lng: -1.6584 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-beamish-hall, name_zh: 比米什庄园酒店, name_en: Beamish Hall Hotel, kind: lodging, city: durham, address: "Beamish, Stanley, County Durham DH9 0YB", coord: { lat: 54.8760, lng: -1.6600 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  # 爱丁堡
+  - { id: pl-edinburgh-waverley, name_zh: 爱丁堡韦弗利站, name_en: Edinburgh Waverley, kind: station, city: edinburgh, address: "Edinburgh EH1 1BB", coord: { lat: 55.9520, lng: -3.1890 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-edinburgh-market, name_zh: 爱丁堡圣诞市集（王子街花园）, name_en: "Edinburgh's Christmas, Princes Street Gardens", kind: sight, city: edinburgh, address: "East Princes Street Gardens, Edinburgh EH2", coord: { lat: 55.9517, lng: -3.1925 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-edinburgh-castle, name_zh: 爱丁堡城堡, name_en: Edinburgh Castle, kind: sight, city: edinburgh, address: "Castlehill, Edinburgh EH1 2NG", coord: { lat: 55.9486, lng: -3.1999 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-victoria-street, name_zh: 维多利亚街, name_en: "Victoria Street, Edinburgh", kind: sight, city: edinburgh, address: "Victoria Street, Edinburgh EH1 2HE", coord: { lat: 55.9486, lng: -3.1932 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-grassmarket, name_zh: 草地市场, name_en: "Grassmarket, Edinburgh", kind: sight, city: edinburgh, address: "Grassmarket, Edinburgh EH1 2JR", coord: { lat: 55.9474, lng: -3.1963 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-edinburgh-hotel, name_zh: 爱丁堡住宿（未选定）, name_en: Edinburgh stay — not chosen, kind: lodging, city: edinburgh, address: null, coord: null, coord_source: none, coord_precision: none }
+  # 牛津
+  - { id: pl-oxford-station, name_zh: 牛津站, name_en: Oxford station, kind: station, city: oxford, address: "Park End Street, Oxford OX1 1HS", coord: { lat: 51.7535, lng: -1.2700 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-christ-church, name_zh: 基督堂学院, name_en: "Christ Church, Oxford", kind: sight, city: oxford, address: "St Aldate's, Oxford OX1 1DP", coord: { lat: 51.7500, lng: -1.2560 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  - { id: pl-bodleian, name_zh: 博德利图书馆, name_en: Bodleian Libraries, kind: sight, city: oxford, address: "Broad Street, Oxford OX1 3BG", coord: { lat: 51.7540, lng: -1.2540 }, coord_source: initial_draft, coord_precision: landmark_approx }
+  # 坎特伯雷（同行朋友 12/25 去向）
+  - { id: pl-canterbury-bus, name_zh: 坎特伯雷巴士站, name_en: Canterbury bus station, kind: station, city: canterbury, address: "St George's Lane, Canterbury CT1", coord: null, coord_source: none, coord_precision: none }
 
 # ───────────────────────── 住宿（按晚） ─────────────────────────
-# selected_place_id 为 null 表示尚未选定；candidates 只是候选，不计入预订完成率。
 stays:
   - { id: st-1211, night: "2026-12-11", city: london, candidates: [], selected_place_id: null, booking_id: null }
   - { id: st-1212, night: "2026-12-12", city: london, candidates: [], selected_place_id: null, booking_id: null }
   - { id: st-1213, night: "2026-12-13", city: london, candidates: [], selected_place_id: null, booking_id: null }
-  - { id: st-1214, night: "2026-12-14", city: york, candidates: [], selected_place_id: null, booking_id: null }
-  - { id: st-1215, night: "2026-12-15", city: york, candidates: [], selected_place_id: null, booking_id: null }
-  - { id: st-1216, night: "2026-12-16", city: durham, candidates: [pl-lumley-castle], selected_place_id: pl-lumley-castle, booking_id: bk-lumley, selection_basis: 用户行程中点名的住宿 }
-  - { id: st-1217, night: "2026-12-17", city: durham, candidates: [pl-beamish-hall], selected_place_id: pl-beamish-hall, booking_id: bk-beamish-hall, selection_basis: 用户行程中点名的住宿 }
-  - { id: st-1218, night: "2026-12-18", city: edinburgh, candidates: [], selected_place_id: null, booking_id: null }
+  - { id: st-1214, night: "2026-12-14", city: london, candidates: [], selected_place_id: null, booking_id: null }
+  - { id: st-1215, night: "2026-12-15", city: york, candidates: [pl-bar-convent], selected_place_id: null, booking_id: null }
+  - { id: st-1216, night: "2026-12-16", city: york, candidates: [pl-bar-convent], selected_place_id: null, booking_id: null }
+  - { id: st-1217, night: "2026-12-17", city: durham, candidates: [pl-lumley-castle], selected_place_id: pl-lumley-castle, booking_id: bk-lumley, selection_basis: 计划表指定 }
+  - { id: st-1218, night: "2026-12-18", city: durham, candidates: [pl-beamish-hall], selected_place_id: pl-beamish-hall, booking_id: bk-beamish-hall, selection_basis: 计划表指定 }
   - { id: st-1219, night: "2026-12-19", city: edinburgh, candidates: [], selected_place_id: null, booking_id: null }
   - { id: st-1220, night: "2026-12-20", city: edinburgh, candidates: [], selected_place_id: null, booking_id: null }
-  - { id: st-1221, night: "2026-12-21", city: edinburgh, candidates: [], selected_place_id: null, booking_id: null }
-  - { id: st-1222, night: "2026-12-22", city: oxford, candidates: [], selected_place_id: null, booking_id: null }
-  - { id: st-1223, night: "2026-12-23", city: oxford, candidates: [], selected_place_id: null, booking_id: null }
-  - { id: st-1224, night: "2026-12-24", city: london, candidates: [], selected_place_id: null, booking_id: null }
+  - { id: st-1221, night: "2026-12-21", city: london, candidates: [], selected_place_id: null, booking_id: null }
+  - { id: st-1222, night: "2026-12-22", city: london, candidates: [], selected_place_id: null, booking_id: null }
+  - { id: st-1223, night: "2026-12-23", city: london, candidates: [], selected_place_id: null, booking_id: null }
+  - { id: st-1224, night: "2026-12-24", city: london, candidates: [], selected_place_id: null, booking_id: null, selection_basis: 须步行可达 Victoria Coach Station }
 
 # ───────────────────────── 活动 ─────────────────────────
-# time.basis: proposed（建议）/ user_stated（用户提供）/ booked（已订）；未知时间写 null。
 activities:
-  - id: act-1211-arrive
-    date: "2026-12-11"
-    order: 10
-    kind: arrival
-    title_zh: 抵达伦敦
-    title_en: Arrive in London
-    place_id: null
-    time: null
-    importance: high
-    plan_status: proposed
-    notes: 去程航班与抵达机场未提供，待补充。
-  - id: act-1212-bm
-    date: "2026-12-12"
-    order: 10
-    kind: sight
-    title_zh: 大英博物馆
-    title_en: The British Museum
-    place_id: pl-british-museum
-    time: { start: "10:00", end: "13:00", basis: proposed }
-    importance: normal
-    plan_status: proposed
-    claim_ids: [cl-bm-open-1212]
-  - id: act-1212-abbey
-    date: "2026-12-12"
-    order: 20
-    kind: sight
-    title_zh: 威斯敏斯特教堂
-    title_en: Westminster Abbey
-    place_id: pl-westminster-abbey
-    time: { start: "14:00", end: "16:00", basis: proposed }
-    importance: normal
-    plan_status: proposed
-    claim_ids: [cl-abbey-open-1212]
-  - id: act-1212-tower
-    date: "2026-12-12"
-    order: 30
-    kind: sight
-    title_zh: 伦敦塔（备选）
-    title_en: Tower of London (alternative)
-    place_id: pl-tower-of-london
-    time: null
-    importance: low
-    plan_status: candidate
-    alternative_to: act-1212-abbey
-  - id: act-1213-kings
-    date: "2026-12-13"
-    order: 20
-    kind: sight
-    title_zh: 剑桥国王学院礼拜堂（周日）
-    title_en: King's College Chapel (Sunday)
-    place_id: pl-kings-college
-    time: { start: "11:00", end: "13:00", basis: proposed }
-    buffer_min: 30
-    importance: high
-    plan_status: proposed
-    booking_ids: [bk-kings-chapel]
-    claim_ids: [cl-kings-open-1213]
-    notes: 12/13 为周日，礼拜堂周日游客开放时间可能较短，需按指定日期核实。
-  - id: act-1214-minster
-    date: "2026-12-14"
-    order: 20
-    kind: sight
-    title_zh: 约克大教堂
-    title_en: York Minster
-    place_id: pl-york-minster
-    time: { start: "14:00", end: "16:00", basis: proposed }
-    importance: normal
-    plan_status: proposed
-    claim_ids: [cl-minster-open-1214]
-  - id: act-1215-shambles
-    date: "2026-12-15"
-    order: 10
-    kind: sight
-    title_zh: 肉铺街与老城散步
-    title_en: The Shambles & old town walk
-    place_id: pl-shambles
-    time: { start: "10:00", end: "12:00", basis: proposed }
-    importance: low
-    plan_status: proposed
-  - id: act-1216-cathedral
-    date: "2026-12-16"
-    order: 20
-    kind: sight
-    title_zh: 杜伦大教堂
-    title_en: Durham Cathedral
-    place_id: pl-durham-cathedral
-    time: { start: "13:00", end: "15:00", basis: proposed }
-    importance: normal
-    plan_status: proposed
-    claim_ids: [cl-durham-cathedral-1216]
-  - id: act-1216-lumley
-    date: "2026-12-16"
-    order: 40
-    kind: lodging
-    title_zh: 入住拉姆利城堡酒店
-    title_en: Check in — Lumley Castle Hotel
-    place_id: pl-lumley-castle
-    time: null
-    importance: high
-    plan_status: selected
-    booking_ids: [bk-lumley]
-    claim_ids: [cl-lumley-checkin]
-  - id: act-1217-beamish
-    date: "2026-12-17"
-    order: 20
-    kind: sight
-    title_zh: 比米什露天博物馆
-    title_en: Beamish, The Living Museum of the North
-    place_id: pl-beamish-museum
-    time: { start: "10:00", end: "15:30", basis: proposed }
-    buffer_min: 30
-    importance: high
-    plan_status: proposed
-    booking_ids: [bk-beamish-museum]
-    claim_ids: [cl-beamish-open-1217, cl-beamish-ticket]
-    notes: 冬季开放日与开放区域会变化，必须按 12/17 核实。
-  - id: act-1217-beamish-hall
-    date: "2026-12-17"
-    order: 40
-    kind: lodging
-    title_zh: 入住比米什庄园酒店
-    title_en: Check in — Beamish Hall Hotel
-    place_id: pl-beamish-hall
-    time: null
-    importance: high
-    plan_status: selected
-    booking_ids: [bk-beamish-hall]
-    claim_ids: [cl-beamish-hall-luggage]
-  - id: act-1219-castle
-    date: "2026-12-19"
-    order: 10
-    kind: sight
-    title_zh: 爱丁堡城堡
-    title_en: Edinburgh Castle
-    place_id: pl-edinburgh-castle
-    time: { start: "09:30", end: "12:30", basis: proposed }
-    importance: high
-    plan_status: proposed
-    booking_ids: [bk-edinburgh-castle]
-    claim_ids: [cl-ed-castle-open-1219, cl-ed-castle-last-entry]
-  - id: act-1220-royal-mile
-    date: "2026-12-20"
-    order: 10
-    kind: sight
-    title_zh: 皇家一英里
-    title_en: Royal Mile
-    place_id: pl-royal-mile
-    time: { start: "10:00", end: "12:00", basis: proposed }
-    importance: low
-    plan_status: proposed
-  - id: act-1220-holyrood
-    date: "2026-12-20"
-    order: 20
-    kind: sight
-    title_zh: 荷里路德宫
-    title_en: Palace of Holyroodhouse
-    place_id: pl-holyrood
-    time: { start: "13:30", end: "15:30", basis: proposed }
-    importance: normal
-    plan_status: proposed
-    claim_ids: [cl-holyrood-open-1220]
-  - id: act-1221-free
-    date: "2026-12-21"
-    order: 10
-    kind: free
-    title_zh: 爱丁堡自由活动
-    title_en: Free day in Edinburgh
-    place_id: null
-    time: null
-    importance: low
-    plan_status: proposed
-  - id: act-1223-bodleian
-    date: "2026-12-23"
-    order: 10
-    kind: sight
-    title_zh: 博德利图书馆与拉德克利夫圆顶
-    title_en: Bodleian Libraries & Radcliffe Camera
-    place_id: pl-bodleian
-    time: { start: "10:00", end: "12:00", basis: proposed }
-    importance: normal
-    plan_status: proposed
-    claim_ids: [cl-bodleian-1223]
-  - id: act-1223-christ-church
-    date: "2026-12-23"
-    order: 20
-    kind: sight
-    title_zh: 基督堂学院
-    title_en: Christ Church, Oxford
-    place_id: pl-christ-church
-    time: { start: "14:00", end: "15:30", basis: proposed }
-    importance: normal
-    plan_status: proposed
-    claim_ids: [cl-christ-church-1223]
-  - id: act-1225-flight
-    date: "2026-12-25"
-    order: 90
-    kind: flight
-    title_zh: 返程航班 希思罗 T3 起飞
-    title_en: Return flight — departs Heathrow T3
-    place_id: pl-lhr-t3
-    time: { start: "21:50", end: null, basis: user_stated }
-    importance: critical
-    plan_status: selected
-    booking_ids: [bk-return-flight]
-    claim_ids: [cl-flight-t3-2150]
-    notes: 起飞时间与航站楼由用户提供；航班号未知，未经航司核实。
+  # 12/11–13 伦敦
+  - { id: act-1211-arrive, date: "2026-12-11", order: 10, kind: arrival, title_zh: 抵达伦敦、倒时差, title_en: Arrive in London, place_id: null, time: null, daypart: all_day, importance: high, plan_status: selected, notes: 去程航班与抵达机场未提供。 }
+  - { id: act-1212-national-gallery, date: "2026-12-12", order: 10, kind: sight, title_zh: 英国国家美术馆, title_en: The National Gallery, place_id: pl-national-gallery, time: null, daypart: flexible, importance: normal, plan_status: selected, claim_ids: [cl-ng-open], notes: 计划为 12/11–13 任选一天；此处暂放 12/12。 }
+  - { id: act-1212-covent-garden, date: "2026-12-12", order: 20, kind: sight, title_zh: 逛科文特花园, title_en: Covent Garden, place_id: pl-covent-garden, time: null, daypart: flexible, importance: low, plan_status: selected, notes: 与美术馆同一天，12/11–13 任选。 }
+  - { id: act-1212-lights, date: "2026-12-12", order: 30, kind: sight, title_zh: 看圣诞灯, title_en: Christmas lights, place_id: pl-xmas-lights, time: null, daypart: evening, importance: low, plan_status: selected }
+  - { id: act-1213-free, date: "2026-12-13", order: 10, kind: free, title_zh: 伦敦弹性日（倒时差）, title_en: Flexible day in London, place_id: null, time: null, daypart: all_day, importance: low, plan_status: selected }
+  # 12/14 剑桥一日游
+  - { id: act-1214-kings, date: "2026-12-14", order: 20, kind: sight, title_zh: 剑桥国王学院礼拜堂, title_en: "King's College Chapel", place_id: pl-kings-college, time: null, daypart: morning, importance: high, plan_status: selected, booking_ids: [bk-kings-chapel], claim_ids: [cl-kings-open-1214] }
+  - { id: act-1214-backs, date: "2026-12-14", order: 25, kind: sight, title_zh: 学院街区与康河, title_en: Colleges & River Cam, place_id: pl-the-backs, time: null, daypart: afternoon, importance: normal, plan_status: selected }
+  # 12/15 约克
+  - { id: act-1215-old-town, date: "2026-12-15", order: 20, kind: sight, title_zh: 逛约克老城, title_en: York old town, place_id: pl-shambles, time: null, daypart: afternoon, importance: normal, plan_status: selected }
+  - { id: act-1215-bettys, date: "2026-12-15", order: 30, kind: meal, title_zh: Bettys 下午茶, title_en: Afternoon tea at Bettys, place_id: pl-bettys, time: null, daypart: afternoon, importance: normal, plan_status: selected, booking_ids: [bk-bettys], claim_ids: [cl-bettys-1215] }
+  # 12/16 约克
+  - { id: act-1216-minster, date: "2026-12-16", order: 10, kind: sight, title_zh: 约克大教堂, title_en: York Minster, place_id: pl-york-minster, time: null, daypart: morning, importance: high, plan_status: selected, claim_ids: [cl-minster-open-1216] }
+  - { id: act-1216-market, date: "2026-12-16", order: 20, kind: sight, title_zh: 约克圣诞市集, title_en: York Christmas market, place_id: pl-york-market, time: null, daypart: afternoon, importance: normal, plan_status: selected, claim_ids: [cl-york-market-1216] }
+  - { id: act-1216-legacy, date: "2026-12-16", order: 30, kind: meal, title_zh: 晚餐：Legacy, title_en: Dinner at Legacy, place_id: pl-legacy, time: null, daypart: evening, importance: normal, plan_status: proposed, booking_ids: [bk-legacy], claim_ids: [cl-legacy-1216], notes: 计划表为「可以吃」，属建议。 }
+  # 12/17 杜伦 → Lumley Castle
+  - { id: act-1217-cathedral, date: "2026-12-17", order: 20, kind: sight, title_zh: 杜伦大教堂与回廊, title_en: Durham Cathedral & Cloisters, place_id: pl-durham-cathedral, time: null, daypart: morning, importance: high, plan_status: selected, claim_ids: [cl-durham-cathedral-1217] }
+  - { id: act-1217-castle, date: "2026-12-17", order: 25, kind: sight, title_zh: 杜伦城堡导览（有票才加）, title_en: Durham Castle guided tour (if tickets), place_id: pl-durham-castle, time: null, daypart: afternoon, importance: normal, plan_status: candidate, booking_ids: [bk-durham-castle], claim_ids: [cl-durham-castle-tour-1217], notes: 只有导览参观、需要票。 }
+  - { id: act-1217-lumley, date: "2026-12-17", order: 40, kind: lodging, title_zh: 入住拉姆利城堡酒店, title_en: Check in — Lumley Castle Hotel, place_id: pl-lumley-castle, time: null, daypart: evening, importance: high, plan_status: selected, booking_ids: [bk-lumley], claim_ids: [cl-lumley-checkin] }
+  # 12/18 Beamish Hall + 博物馆圣诞夜场
+  - { id: act-1218-beamish-hall, date: "2026-12-18", order: 20, kind: lodging, title_zh: 入住比米什庄园酒店, title_en: Check in — Beamish Hall Hotel, place_id: pl-beamish-hall, time: null, daypart: afternoon, importance: high, plan_status: selected, booking_ids: [bk-beamish-hall], claim_ids: [cl-beamish-hall-checkin] }
+  - { id: act-1218-beamish-evening, date: "2026-12-18", order: 30, kind: sight, title_zh: 比米什博物馆圣诞夜场, title_en: Beamish Museum Christmas evening, place_id: pl-beamish-museum, time: null, daypart: evening, importance: critical, plan_status: selected, booking_ids: [bk-beamish-evening], claim_ids: [cl-beamish-evening-1218], notes: 固定日期的夜场活动，必须按 12/18 核实场次与票。 }
+  # 12/19 北上爱丁堡
+  - { id: act-1219-market, date: "2026-12-19", order: 30, kind: sight, title_zh: 爱丁堡老城或圣诞市集, title_en: Old Town or Christmas market, place_id: pl-edinburgh-market, time: null, daypart: evening, importance: low, plan_status: selected, claim_ids: [cl-ed-market-1219] }
+  # 12/20 爱丁堡
+  - { id: act-1220-castle, date: "2026-12-20", order: 10, kind: sight, title_zh: 爱丁堡城堡, title_en: Edinburgh Castle, place_id: pl-edinburgh-castle, time: null, daypart: morning, importance: high, plan_status: selected, booking_ids: [bk-edinburgh-castle], claim_ids: [cl-ed-castle-open-1220, cl-ed-castle-last-entry] }
+  - { id: act-1220-victoria-st, date: "2026-12-20", order: 20, kind: sight, title_zh: 逛维多利亚街, title_en: Victoria Street, place_id: pl-victoria-street, time: null, daypart: afternoon, importance: low, plan_status: selected }
+  - { id: act-1220-grassmarket, date: "2026-12-20", order: 30, kind: sight, title_zh: 草地市场, title_en: Grassmarket, place_id: pl-grassmarket, time: null, daypart: afternoon, importance: low, plan_status: selected }
+  # 12/22 牛津一日游
+  - { id: act-1222-christ-church, date: "2026-12-22", order: 20, kind: sight, title_zh: 基督堂学院, title_en: "Christ Church, Oxford", place_id: pl-christ-church, time: null, daypart: morning, importance: high, plan_status: selected, booking_ids: [bk-christ-church], claim_ids: [cl-christ-church-1222, cl-magdalen-closed-1222], notes: Magdalen College 据计划表自 12/22 起闭馆，不安排。 }
+  - { id: act-1222-bodleian, date: "2026-12-22", order: 25, kind: sight, title_zh: 博德利图书馆, title_en: Bodleian Libraries, place_id: pl-bodleian, time: null, daypart: afternoon, importance: high, plan_status: selected, booking_ids: [bk-bodleian], claim_ids: [cl-bodleian-1222] }
+  # 12/23 伦敦
+  - { id: act-1223-marylebone, date: "2026-12-23", order: 10, kind: sight, title_zh: 马里波恩与小店, title_en: Marylebone & shops, place_id: pl-marylebone, time: null, daypart: flexible, importance: low, plan_status: selected }
+  - { id: act-1223-wallace, date: "2026-12-23", order: 20, kind: sight, title_zh: 华莱士收藏馆, title_en: The Wallace Collection, place_id: pl-wallace, time: null, daypart: flexible, importance: normal, plan_status: selected, claim_ids: [cl-wallace-open-1223, cl-wallace-closed-1224], notes: 安排在 23 日是因为 24 日闭馆。 }
+  # 12/24 伦敦
+  - { id: act-1224-easy, date: "2026-12-24", order: 10, kind: free, title_zh: 轻松吃饭、散步、收行李, title_en: "Easy day, pack", place_id: null, time: null, daypart: all_day, importance: low, plan_status: selected }
+  - { id: act-1224-checkin, date: "2026-12-24", order: 20, kind: lodging, title_zh: 换到步行可达维多利亚长途汽车站的住处, title_en: Move to a stay walkable to Victoria Coach Station, place_id: pl-london-hotel-b, time: null, daypart: evening, importance: critical, plan_status: selected, notes: 12/25 地铁通常不运营，住处须能步行到车站。 }
+  # 12/25 返程
+  - { id: act-1225-flight, date: "2026-12-25", order: 90, kind: flight, title_zh: 返程航班 希思罗 T3 起飞, title_en: Return flight — departs Heathrow T3, place_id: pl-lhr-t3, time: { start: "21:50", end: null, basis: user_stated }, importance: critical, plan_status: selected, booking_ids: [bk-return-flight], claim_ids: [cl-flight-t3-2150], notes: 起飞时间与航站楼由用户提供；航班号未知，未经航司核实。 }
 
 # ───────────────────────── 交通段 ─────────────────────────
-# route_precision: actual_network / schematic / unavailable。没有真实路线 GeoJSON 时一律 schematic。
-# duration_min 只填人工核实的时长；未核实为 null。
+# duration_min 只填人工核实的时长；未核实为 null（计划表给出的时长写在 notes 与 Claim 中）。
 legs:
-  - id: leg-1213-to-cambridge
-    date: "2026-12-13"
-    order: 10
-    mode: rail
-    from_place_id: pl-kings-cross
-    to_place_id: pl-cambridge-station
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: schematic
-    importance: high
-    booking_ids: [bk-rail-cambridge]
-    claim_ids: [cl-rail-cambridge-1213]
-    notes: 周日工程施工可能影响班次，需按 12/13 核实。
-  - id: leg-1213-from-cambridge
-    date: "2026-12-13"
-    order: 30
-    mode: rail
-    from_place_id: pl-cambridge-station
-    to_place_id: pl-kings-cross
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: schematic
-    importance: high
-    booking_ids: [bk-rail-cambridge]
-    claim_ids: [cl-rail-cambridge-1213]
-  - id: leg-1214-to-york
-    date: "2026-12-14"
-    order: 10
-    mode: rail
-    from_place_id: pl-kings-cross
-    to_place_id: pl-york-station
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: schematic
-    importance: high
-    booking_ids: [bk-rail-york]
-    claim_ids: [cl-rail-york-1214]
-  - id: leg-1216-to-durham
-    date: "2026-12-16"
-    order: 10
-    mode: rail
-    from_place_id: pl-york-station
-    to_place_id: pl-durham-station
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: schematic
-    importance: high
-    booking_ids: [bk-rail-durham]
-    claim_ids: [cl-rail-durham-1216]
-  - id: leg-1216-to-lumley
-    date: "2026-12-16"
-    order: 30
-    mode: taxi
-    from_place_id: pl-durham-cathedral
-    to_place_id: pl-lumley-castle
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: schematic
-    importance: normal
-    notes: 交通方式待定（出租车 / 公交），未核实。
-  - id: leg-1217-to-beamish
-    date: "2026-12-17"
-    order: 10
-    mode: taxi
-    from_place_id: pl-lumley-castle
-    to_place_id: pl-beamish-museum
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: schematic
-    importance: normal
-    notes: 交通方式待定，未核实。
-  - id: leg-1218-to-edinburgh
-    date: "2026-12-18"
-    order: 10
-    mode: rail
-    from_place_id: pl-durham-station
-    to_place_id: pl-edinburgh-waverley
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: schematic
-    importance: high
-    booking_ids: [bk-rail-edinburgh]
-    claim_ids: [cl-rail-edinburgh-1218]
-    notes: 需先从比米什庄园前往杜伦站，该段未录入。
-  - id: leg-1222-to-oxford
-    date: "2026-12-22"
-    order: 10
-    mode: rail
-    from_place_id: pl-edinburgh-waverley
-    to_place_id: pl-oxford-station
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: schematic
-    importance: high
-    booking_ids: [bk-rail-oxford]
-    claim_ids: [cl-rail-oxford-1222]
-    notes: 长途，可能需换乘；路线未核实。
-  - id: leg-1224-to-london
-    date: "2026-12-24"
-    order: 10
-    mode: rail
-    from_place_id: pl-oxford-station
-    to_place_id: pl-paddington
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: schematic
-    importance: critical
-    booking_ids: [bk-rail-london-1224]
-    claim_ids: [cl-rail-london-1224]
-    notes: 平安夜铁路通常提前收车，需按 12/24 核实末班时间。
-  - id: leg-1225-to-victoria
-    date: "2026-12-25"
-    order: 10
-    mode: walk_or_taxi
-    from_place_id: pl-london-hotel-b
-    to_place_id: pl-victoria-coach
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: unavailable
-    importance: critical
-    claim_ids: [cl-xmas-no-tube]
-    notes: 12/24 晚住宿未定（宜靠近维多利亚站），起点坐标缺失；圣诞节当天地铁通常不运营，需步行或出租车。
-  - id: leg-1225-coach
-    date: "2026-12-25"
-    order: 20
-    mode: coach
-    from_place_id: pl-victoria-coach
-    to_place_id: pl-lhr-cbs
-    depart: "16:45"
-    arrive: null
-    timing_basis: proposed
-    duration_min: null
-    route_precision: schematic
-    importance: critical
-    booking_ids: [bk-coach-1225]
-    claim_ids: [cl-xmas-coach-runs, cl-xmas-coach-1645, cl-xmas-no-rail, cl-hex-xmas]
-    notes: 16:45 为助手建议班次（proposed），不是已订班次。
-  - id: leg-1225-to-t3
-    date: "2026-12-25"
-    order: 30
-    mode: walk
-    from_place_id: pl-lhr-cbs
-    to_place_id: pl-lhr-t3
-    depart: null
-    arrive: null
-    timing_basis: null
-    duration_min: null
-    route_precision: schematic
-    importance: high
-    notes: 中央巴士站至 T3 步行连接，时长未核实。
+  - { id: leg-1214-to-cambridge, date: "2026-12-14", order: 10, mode: rail, from_place_id: pl-kings-cross, to_place_id: pl-cambridge-station, depart: null, arrive: null, timing_basis: null, daypart: morning, duration_min: null, route_precision: schematic, importance: high, booking_ids: [bk-rail-cambridge], claim_ids: [cl-rail-cambridge-1214] }
+  - { id: leg-1214-from-cambridge, date: "2026-12-14", order: 30, mode: rail, from_place_id: pl-cambridge-station, to_place_id: pl-kings-cross, depart: null, arrive: null, timing_basis: null, daypart: evening, duration_min: null, route_precision: schematic, importance: high, booking_ids: [bk-rail-cambridge], claim_ids: [cl-rail-cambridge-1214] }
+  - { id: leg-1215-to-york, date: "2026-12-15", order: 10, mode: rail, from_place_id: pl-kings-cross, to_place_id: pl-york-station, depart: null, arrive: null, timing_basis: null, daypart: morning, duration_min: null, route_precision: schematic, importance: high, booking_ids: [bk-rail-york], claim_ids: [cl-rail-york-1215] }
+  - { id: leg-1217-to-durham, date: "2026-12-17", order: 10, mode: rail, from_place_id: pl-york-station, to_place_id: pl-durham-station, depart: null, arrive: null, timing_basis: null, daypart: morning, duration_min: null, route_precision: schematic, importance: high, booking_ids: [bk-rail-durham], claim_ids: [cl-rail-durham-1217] }
+  - { id: leg-1217-to-lumley, date: "2026-12-17", order: 30, mode: taxi, from_place_id: pl-durham-cathedral, to_place_id: pl-lumley-castle, depart: null, arrive: null, timing_basis: null, daypart: evening, duration_min: null, route_precision: schematic, importance: normal, notes: 交通方式待定（出租车 / 公交）。 }
+  - { id: leg-1218-to-beamish-hall, date: "2026-12-18", order: 10, mode: taxi, from_place_id: pl-lumley-castle, to_place_id: pl-beamish-hall, depart: null, arrive: null, timing_basis: null, daypart: afternoon, duration_min: null, route_precision: schematic, importance: normal, notes: 换酒店，交通方式待定。 }
+  - { id: leg-1218-to-museum, date: "2026-12-18", order: 25, mode: taxi, from_place_id: pl-beamish-hall, to_place_id: pl-beamish-museum, depart: null, arrive: null, timing_basis: null, daypart: evening, duration_min: null, route_precision: schematic, importance: normal, notes: 去程方式待定。 }
+  - { id: leg-1218-return, date: "2026-12-18", order: 40, mode: taxi, from_place_id: pl-beamish-museum, to_place_id: pl-beamish-hall, depart: null, arrive: null, timing_basis: null, daypart: evening, duration_min: null, route_precision: schematic, importance: high, booking_ids: [bk-beamish-taxi], notes: 夜场结束后的回程须提前约车。 }
+  - { id: leg-1219-to-station, date: "2026-12-19", order: 10, mode: taxi, from_place_id: pl-beamish-hall, to_place_id: pl-durham-station, depart: null, arrive: null, timing_basis: null, daypart: morning, duration_min: null, route_precision: schematic, importance: high, notes: 去杜伦站或纽卡斯尔中央站，待定；地图暂按杜伦站示意。 }
+  - { id: leg-1219-to-edinburgh, date: "2026-12-19", order: 20, mode: rail, from_place_id: pl-durham-station, to_place_id: pl-edinburgh-waverley, depart: null, arrive: null, timing_basis: null, daypart: morning, duration_min: null, route_precision: schematic, importance: high, booking_ids: [bk-rail-edinburgh], claim_ids: [cl-rail-edinburgh-1219], notes: 也可从纽卡斯尔出发。 }
+  - { id: leg-1221-to-london, date: "2026-12-21", order: 10, mode: rail, from_place_id: pl-edinburgh-waverley, to_place_id: pl-kings-cross, depart: null, arrive: null, timing_basis: null, daypart: all_day, duration_min: null, route_precision: schematic, importance: critical, booking_ids: [bk-rail-london-1221], claim_ids: [cl-rail-london-1221], notes: 直达列车，计划表称快车约 4 小时 10 分钟（未核实）。 }
+  - { id: leg-1222-to-oxford, date: "2026-12-22", order: 10, mode: rail, from_place_id: pl-paddington, to_place_id: pl-oxford-station, depart: null, arrive: null, timing_basis: null, daypart: morning, duration_min: null, route_precision: schematic, importance: high, booking_ids: [bk-rail-oxford], claim_ids: [cl-rail-oxford-1222] }
+  - { id: leg-1222-from-oxford, date: "2026-12-22", order: 30, mode: rail, from_place_id: pl-oxford-station, to_place_id: pl-paddington, depart: null, arrive: null, timing_basis: null, daypart: evening, duration_min: null, route_precision: schematic, importance: high, booking_ids: [bk-rail-oxford], claim_ids: [cl-rail-oxford-1222] }
+  - { id: leg-1225-to-victoria, date: "2026-12-25", order: 10, mode: walk, from_place_id: pl-london-hotel-b, to_place_id: pl-victoria-coach, depart: null, arrive: null, timing_basis: null, daypart: afternoon, duration_min: null, route_precision: unavailable, importance: critical, claim_ids: [cl-xmas-no-tube], notes: 12/24 住处未定，起点坐标缺失；圣诞节当天地铁通常不运营。 }
+  - { id: leg-1225-coach, date: "2026-12-25", order: 20, mode: coach, from_place_id: pl-victoria-coach, to_place_id: pl-lhr-cbs, depart: "16:45", arrive: null, timing_basis: proposed, duration_min: null, route_precision: schematic, importance: critical, booking_ids: [bk-coach-1225], claim_ids: [cl-coach-821-1225, cl-coach-821-1645, cl-coach-821-seats, cl-xmas-no-rail, cl-hex-xmas], notes: 计划表建议坐 821；16:45 为此前建议班次（proposed），不是已订班次，须先确认余票。 }
+  - { id: leg-1225-to-t3, date: "2026-12-25", order: 30, mode: walk, from_place_id: pl-lhr-cbs, to_place_id: pl-lhr-t3, depart: null, arrive: null, timing_basis: null, duration_min: null, route_precision: schematic, importance: high, notes: 中央巴士站至 T3 步行连接，时长未核实。 }
+  - { id: leg-1225-friend-814, date: "2026-12-25", order: 25, mode: coach, from_place_id: pl-victoria-coach, to_place_id: pl-canterbury-bus, depart: null, arrive: null, timing_basis: null, daypart: afternoon, duration_min: null, route_precision: unavailable, importance: normal, booking_ids: [bk-coach-814], claim_ids: [cl-coach-814-1225], notes: 同行朋友当天回坎特伯雷：从 Victoria 坐 814（建议），先确认余票。 }
 
 # ───────────────────────── 预订 ─────────────────────────
-# status: unknown / not_booked / booked / cancelled / not_required
-# amount.minor: 整数最小单位（便士）；未知写 null。
+# status: unknown / not_booked / booked / cancelled / not_required；amount.minor 为便士整数。
+# selected: false 表示计划表中的建议 / 候选，尚未选定，不计入预订完成率。
 bookings:
-  - { id: bk-return-flight, title_zh: 返程机票（12/25 T3 21:50）, kind: flight, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null, reference_public: false, notes: 用户提供了起飞时间，但未说明已出票；不自动标为 booked。 }
-  - { id: bk-coach-1225, title_zh: 12/25 维多利亚 → 希思罗大巴, kind: coach, selected: false, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null, notes: 16:45 为建议班次，尚未选定。 }
-  - { id: bk-lumley, title_zh: 拉姆利城堡酒店 12/16, kind: lodging, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
-  - { id: bk-beamish-hall, title_zh: 比米什庄园酒店 12/17, kind: lodging, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
-  - { id: bk-beamish-museum, title_zh: 比米什博物馆门票, kind: ticket, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null, notes: 是否必须预约待核实。 }
-  - { id: bk-kings-chapel, title_zh: 国王学院礼拜堂门票, kind: ticket, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
-  - { id: bk-edinburgh-castle, title_zh: 爱丁堡城堡门票（建议提前订时段）, kind: ticket, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
-  - { id: bk-rail-cambridge, title_zh: 伦敦 ⇄ 剑桥火车 12/13, kind: rail, selected: true, required: false, status: not_required, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null, notes: 可当天购票；如需优惠票再改为 required。 }
-  - { id: bk-rail-york, title_zh: 伦敦 → 约克火车 12/14, kind: rail, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
-  - { id: bk-rail-durham, title_zh: 约克 → 杜伦火车 12/16, kind: rail, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
-  - { id: bk-rail-edinburgh, title_zh: 杜伦 → 爱丁堡火车 12/18, kind: rail, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
-  - { id: bk-rail-oxford, title_zh: 爱丁堡 → 牛津火车 12/22, kind: rail, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
-  - { id: bk-rail-london-1224, title_zh: 牛津 → 伦敦火车 12/24, kind: rail, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-return-flight, title_zh: 返程机票（12/25 T3 21:50）, kind: flight, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null, notes: 用户提供了起飞时间，但未说明已出票；不自动标为 booked。 }
+  - { id: bk-coach-1225, title_zh: 12/25 维多利亚 → 希思罗大巴（821）, kind: coach, selected: false, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null, notes: 建议班次，须先确认余票。 }
+  - { id: bk-coach-814, title_zh: 12/25 维多利亚 → 坎特伯雷大巴（814，朋友）, kind: coach, selected: false, required: true, status: unknown, owner: 同行朋友, amount: { currency: GBP, minor: null }, cancel_by: null, notes: 建议班次，须先确认余票。 }
+  - { id: bk-lumley, title_zh: 拉姆利城堡酒店 12/17, kind: lodging, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-beamish-hall, title_zh: 比米什庄园酒店 12/18, kind: lodging, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-beamish-evening, title_zh: 比米什博物馆圣诞夜场门票 12/18, kind: ticket, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-beamish-taxi, title_zh: 夜场回程出租车（提前约）12/18, kind: taxi, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-bar-convent, title_zh: Bar Convent 双床房 12/15–16（候选）, kind: lodging, selected: false, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null, notes: 计划表为「可以考虑」。 }
+  - { id: bk-bettys, title_zh: Bettys 下午茶 12/15, kind: restaurant, selected: true, required: false, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null, notes: 是否可以 / 需要预订待核实。 }
+  - { id: bk-legacy, title_zh: Legacy 晚餐 12/16（建议）, kind: restaurant, selected: false, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-durham-castle, title_zh: 杜伦城堡导览票 12/17（有票才去）, kind: ticket, selected: false, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-kings-chapel, title_zh: 国王学院礼拜堂门票 12/14, kind: ticket, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-edinburgh-castle, title_zh: 爱丁堡城堡门票 12/20（建议订时段）, kind: ticket, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-christ-church, title_zh: 基督堂学院门票 12/22, kind: ticket, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-bodleian, title_zh: 博德利图书馆参观 12/22, kind: ticket, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-rail-cambridge, title_zh: 伦敦 ⇄ 剑桥火车 12/14, kind: rail, selected: true, required: false, status: not_required, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null, notes: 可当天购票；如需优惠票再改为 required。 }
+  - { id: bk-rail-york, title_zh: 伦敦 → 约克火车 12/15, kind: rail, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-rail-durham, title_zh: 约克 → 杜伦火车 12/17, kind: rail, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-rail-edinburgh, title_zh: 杜伦/纽卡斯尔 → 爱丁堡火车 12/19, kind: rail, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-rail-london-1221, title_zh: 爱丁堡 → 伦敦直达火车 12/21, kind: rail, selected: true, required: true, status: unknown, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null }
+  - { id: bk-rail-oxford, title_zh: 伦敦 ⇄ 牛津火车 12/22, kind: rail, selected: true, required: false, status: not_required, owner: null, amount: { currency: GBP, minor: null }, cancel_by: null, notes: 可当天购票；如需优惠票再改为 required。 }
 
 # ───────────────────────── 待核实事实（Claim） ─────────────────────────
-# 每条 Claim 是一个具体、可核实的陈述。状态由 history/reviews.yaml（人工）与 history/checks.json（规则）推导，
-# 本文件不直接写 verified。critical: true 表示关键交通或固定日期活动。
 claims:
+  # 12/25 返程
   - { id: cl-flight-t3-2150, subject_id: act-1225-flight, kind: departure_time, statement_zh: 返程航班 12/25 21:50 从希思罗 T3 起飞, target_date: "2026-12-25", importance: critical, critical: true, source_ids: [src-user-chat], max_age_days: 7, origin: user_stated }
-  - { id: cl-xmas-coach-runs, subject_id: leg-1225-coach, kind: service_runs, statement_zh: 12/25 有 Victoria Coach Station → Heathrow Central Bus Station 的大巴班次, target_date: "2026-12-25", direction: Victoria Coach Station → Heathrow Central Bus Station, importance: critical, critical: true, source_ids: [src-national-express], max_age_days: 3, check_rule: null }
-  - { id: cl-xmas-coach-1645, subject_id: leg-1225-coach, kind: departure_time, statement_zh: 12/25 有 16:45 从 Victoria 出发前往希思罗的班次, target_date: "2026-12-25", direction: Victoria Coach Station → Heathrow Central Bus Station, importance: critical, critical: true, source_ids: [src-national-express], max_age_days: 3, origin: assistant_proposed }
+  - { id: cl-coach-821-1225, subject_id: leg-1225-coach, kind: service_runs, statement_zh: 12/25 有 821 路 Victoria Coach Station → 希思罗中央巴士站班次, target_date: "2026-12-25", direction: Victoria Coach Station → Heathrow Central Bus Station, importance: critical, critical: true, source_ids: [src-national-express], max_age_days: 3, origin: assistant_proposed }
+  - { id: cl-coach-821-1645, subject_id: leg-1225-coach, kind: departure_time, statement_zh: 12/25 821 路有 16:45 从 Victoria 出发的班次, target_date: "2026-12-25", direction: Victoria Coach Station → Heathrow Central Bus Station, importance: critical, critical: true, source_ids: [src-national-express], max_age_days: 3, origin: assistant_proposed }
+  - { id: cl-coach-821-seats, subject_id: leg-1225-coach, kind: availability, statement_zh: 所选 12/25 821 班次仍有余票（动态信息，需记录查询条件与时间）, target_date: "2026-12-25", direction: Victoria Coach Station → Heathrow Central Bus Station, importance: critical, critical: true, source_ids: [src-national-express], max_age_days: 1 }
+  - { id: cl-coach-814-1225, subject_id: leg-1225-friend-814, kind: service_runs, statement_zh: 12/25 有 814 路 Victoria → 坎特伯雷班次且有余票, target_date: "2026-12-25", direction: Victoria Coach Station → Canterbury, importance: normal, critical: false, source_ids: [src-national-express], max_age_days: 3, origin: assistant_proposed }
   - { id: cl-xmas-no-rail, subject_id: leg-1225-coach, kind: service_runs, statement_zh: 12/25 全国铁路无常规客运（因此依赖大巴）, target_date: "2026-12-25", importance: high, critical: true, source_ids: [src-national-rail], max_age_days: 14 }
-  - { id: cl-xmas-no-tube, subject_id: leg-1225-to-victoria, kind: service_runs, statement_zh: 12/25 伦敦地铁不运营, target_date: "2026-12-25", importance: high, critical: true, source_ids: [src-tfl], max_age_days: 14 }
+  - { id: cl-xmas-no-tube, subject_id: leg-1225-to-victoria, kind: service_runs, statement_zh: 12/25 伦敦地铁不运营（住处须步行可达 Victoria）, target_date: "2026-12-25", importance: high, critical: true, source_ids: [src-tfl], max_age_days: 14 }
   - { id: cl-hex-xmas, subject_id: leg-1225-coach, kind: service_runs, statement_zh: 12/25 希思罗快线不运营, target_date: "2026-12-25", importance: normal, critical: false, source_ids: [src-heathrow-express], max_age_days: 14 }
-  - { id: cl-rail-london-1224, subject_id: leg-1224-to-london, kind: last_service, statement_zh: 12/24 牛津 → 伦敦帕丁顿末班车时间满足当日计划, target_date: "2026-12-24", direction: Oxford → London Paddington, importance: critical, critical: true, source_ids: [src-gwr, src-national-rail], max_age_days: 3 }
-  - { id: cl-rail-cambridge-1213, subject_id: leg-1213-to-cambridge, kind: service_runs, statement_zh: 12/13（周日）伦敦 ⇄ 剑桥列车正常运行，无工程停运, target_date: "2026-12-13", direction: London King's Cross ⇄ Cambridge, importance: high, critical: true, source_ids: [src-national-rail], max_age_days: 3 }
-  - { id: cl-rail-york-1214, subject_id: leg-1214-to-york, kind: service_runs, statement_zh: 12/14 伦敦国王十字 → 约克有直达列车, target_date: "2026-12-14", direction: London King's Cross → York, importance: high, critical: true, source_ids: [src-lner], max_age_days: 7 }
-  - { id: cl-rail-durham-1216, subject_id: leg-1216-to-durham, kind: service_runs, statement_zh: 12/16 约克 → 杜伦有列车, target_date: "2026-12-16", direction: York → Durham, importance: high, critical: true, source_ids: [src-lner], max_age_days: 7 }
-  - { id: cl-rail-edinburgh-1218, subject_id: leg-1218-to-edinburgh, kind: service_runs, statement_zh: 12/18 杜伦 → 爱丁堡有列车, target_date: "2026-12-18", direction: Durham → Edinburgh Waverley, importance: high, critical: true, source_ids: [src-lner], max_age_days: 7 }
-  - { id: cl-rail-oxford-1222, subject_id: leg-1222-to-oxford, kind: service_runs, statement_zh: 12/22 爱丁堡 → 牛津当日可达（含换乘）, target_date: "2026-12-22", direction: Edinburgh Waverley → Oxford, importance: high, critical: true, source_ids: [src-national-rail], max_age_days: 7 }
-  - { id: cl-kings-open-1213, subject_id: act-1213-kings, kind: opening, statement_zh: 国王学院礼拜堂 12/13（周日）对游客开放及开放时段, target_date: "2026-12-13", importance: high, critical: true, source_ids: [src-kings-college], max_age_days: 7 }
-  - { id: cl-bm-open-1212, subject_id: act-1212-bm, kind: opening, statement_zh: 大英博物馆 12/12 开放, target_date: "2026-12-12", importance: normal, critical: false, source_ids: [src-british-museum], max_age_days: 14 }
-  - { id: cl-abbey-open-1212, subject_id: act-1212-abbey, kind: opening, statement_zh: 威斯敏斯特教堂 12/12（周六）开放参观, target_date: "2026-12-12", importance: normal, critical: false, source_ids: [src-westminster-abbey], max_age_days: 14 }
-  - { id: cl-minster-open-1214, subject_id: act-1214-minster, kind: opening, statement_zh: 约克大教堂 12/14 下午开放参观, target_date: "2026-12-14", importance: normal, critical: false, source_ids: [src-york-minster], max_age_days: 14 }
-  - { id: cl-durham-cathedral-1216, subject_id: act-1216-cathedral, kind: opening, statement_zh: 杜伦大教堂 12/16 开放参观, target_date: "2026-12-16", importance: normal, critical: false, source_ids: [src-durham-cathedral], max_age_days: 14 }
-  - { id: cl-lumley-checkin, subject_id: act-1216-lumley, kind: lodging, statement_zh: 拉姆利城堡酒店入住时间与寄存行李安排, target_date: "2026-12-16", importance: normal, critical: false, source_ids: [src-lumley-castle], max_age_days: 30 }
-  - { id: cl-beamish-open-1217, subject_id: act-1217-beamish, kind: opening, statement_zh: 比米什博物馆 12/17（周四）开放, target_date: "2026-12-17", importance: high, critical: true, source_ids: [src-beamish], max_age_days: 7 }
-  - { id: cl-beamish-ticket, subject_id: act-1217-beamish, kind: ticket, statement_zh: 比米什博物馆票型与是否需提前预约, target_date: "2026-12-17", importance: normal, critical: false, source_ids: [src-beamish], max_age_days: 14 }
-  - { id: cl-beamish-hall-luggage, subject_id: act-1217-beamish-hall, kind: lodging, statement_zh: 比米什庄园酒店房型与寄存行李, target_date: "2026-12-17", importance: normal, critical: false, source_ids: [src-beamish-hall], max_age_days: 30 }
-  - { id: cl-ed-castle-open-1219, subject_id: act-1219-castle, kind: opening, statement_zh: 爱丁堡城堡 12/19 开放, target_date: "2026-12-19", importance: high, critical: true, source_ids: [src-edinburgh-castle], max_age_days: 7 }
-  - { id: cl-ed-castle-last-entry, subject_id: act-1219-castle, kind: last_entry, statement_zh: 爱丁堡城堡 12/19 最后入场时间, target_date: "2026-12-19", importance: normal, critical: false, source_ids: [src-edinburgh-castle], max_age_days: 7 }
-  - { id: cl-holyrood-open-1220, subject_id: act-1220-holyrood, kind: opening, statement_zh: 荷里路德宫 12/20 开放（王室驻留期间会关闭）, target_date: "2026-12-20", importance: normal, critical: false, source_ids: [src-rct-holyrood], max_age_days: 7 }
-  - { id: cl-bodleian-1223, subject_id: act-1223-bodleian, kind: opening, statement_zh: 博德利图书馆 12/23 导览/开放, target_date: "2026-12-23", importance: normal, critical: false, source_ids: [src-bodleian], max_age_days: 14 }
-  - { id: cl-christ-church-1223, subject_id: act-1223-christ-church, kind: opening, statement_zh: 基督堂学院 12/23 对游客开放, target_date: "2026-12-23", importance: normal, critical: false, source_ids: [src-christ-church], max_age_days: 14 }
+  # 铁路
+  - { id: cl-rail-cambridge-1214, subject_id: leg-1214-to-cambridge, kind: service_runs, statement_zh: 12/14（周一）伦敦 ⇄ 剑桥列车正常运行、无工程停运, target_date: "2026-12-14", direction: London King's Cross ⇄ Cambridge, importance: high, critical: true, source_ids: [src-national-rail], max_age_days: 3 }
+  - { id: cl-rail-york-1215, subject_id: leg-1215-to-york, kind: service_runs, statement_zh: 12/15 伦敦国王十字 → 约克有直达列车, target_date: "2026-12-15", direction: London King's Cross → York, importance: high, critical: true, source_ids: [src-lner], max_age_days: 7 }
+  - { id: cl-rail-durham-1217, subject_id: leg-1217-to-durham, kind: service_runs, statement_zh: 12/17 约克 → 杜伦有列车, target_date: "2026-12-17", direction: York → Durham, importance: high, critical: true, source_ids: [src-lner], max_age_days: 7 }
+  - { id: cl-rail-edinburgh-1219, subject_id: leg-1219-to-edinburgh, kind: service_runs, statement_zh: 12/19（周六）杜伦或纽卡斯尔 → 爱丁堡有列车, target_date: "2026-12-19", direction: Durham → Edinburgh Waverley, importance: high, critical: true, source_ids: [src-lner], max_age_days: 7 }
+  - { id: cl-rail-london-1221, subject_id: leg-1221-to-london, kind: service_runs, statement_zh: 12/21 爱丁堡 → 伦敦国王十字有直达列车，快车约 4 小时 10 分钟, target_date: "2026-12-21", direction: Edinburgh Waverley → London King's Cross, importance: critical, critical: true, source_ids: [src-lner], max_age_days: 7, origin: user_stated }
+  - { id: cl-rail-oxford-1222, subject_id: leg-1222-to-oxford, kind: service_runs, statement_zh: 12/22 伦敦帕丁顿 ⇄ 牛津列车正常运行, target_date: "2026-12-22", direction: London Paddington ⇄ Oxford, importance: high, critical: true, source_ids: [src-gwr], max_age_days: 7 }
+  # 景点与餐饮
+  - { id: cl-ng-open, subject_id: act-1212-national-gallery, kind: opening, statement_zh: 国家美术馆 12/11–13 开放（暂按 12/12 核实）, target_date: "2026-12-12", importance: normal, critical: false, source_ids: [src-national-gallery], max_age_days: 14 }
+  - { id: cl-kings-open-1214, subject_id: act-1214-kings, kind: opening, statement_zh: 国王学院礼拜堂 12/14（周一）对游客开放及开放时段, target_date: "2026-12-14", importance: high, critical: true, source_ids: [src-kings-college], max_age_days: 7 }
+  - { id: cl-bettys-1215, subject_id: act-1215-bettys, kind: opening, statement_zh: Bettys 约克店 12/15 供应下午茶、是否可预订, target_date: "2026-12-15", importance: normal, critical: false, source_ids: [src-bettys], max_age_days: 14 }
+  - { id: cl-minster-open-1216, subject_id: act-1216-minster, kind: opening, statement_zh: 约克大教堂 12/16 对游客开放, target_date: "2026-12-16", importance: high, critical: false, source_ids: [src-york-minster], max_age_days: 14 }
+  - { id: cl-york-market-1216, subject_id: act-1216-market, kind: opening, statement_zh: 约克圣诞市集 12/16 仍在举办, target_date: "2026-12-16", importance: normal, critical: false, source_ids: [src-visit-york], max_age_days: 14 }
+  - { id: cl-legacy-1216, subject_id: act-1216-legacy, kind: opening, statement_zh: Legacy 12/16 晚上营业、需要订位, target_date: "2026-12-16", importance: normal, critical: false, source_ids: [src-legacy], max_age_days: 14 }
+  - { id: cl-durham-cathedral-1217, subject_id: act-1217-cathedral, kind: opening, statement_zh: 杜伦大教堂与回廊 12/17 开放参观, target_date: "2026-12-17", importance: high, critical: false, source_ids: [src-durham-cathedral], max_age_days: 14 }
+  - { id: cl-durham-castle-tour-1217, subject_id: act-1217-castle, kind: ticket, statement_zh: 杜伦城堡 12/17 有导览场次及余票, target_date: "2026-12-17", importance: normal, critical: false, source_ids: [src-durham-castle], max_age_days: 3 }
+  - { id: cl-lumley-checkin, subject_id: act-1217-lumley, kind: lodging, statement_zh: 拉姆利城堡酒店入住时间与寄存行李, target_date: "2026-12-17", importance: normal, critical: false, source_ids: [src-lumley-castle], max_age_days: 30 }
+  - { id: cl-beamish-hall-checkin, subject_id: act-1218-beamish-hall, kind: lodging, statement_zh: 比米什庄园酒店入住时间与寄存行李, target_date: "2026-12-18", importance: normal, critical: false, source_ids: [src-beamish-hall], max_age_days: 30 }
+  - { id: cl-beamish-evening-1218, subject_id: act-1218-beamish-evening, kind: opening, statement_zh: 比米什博物馆 12/18（周五）有圣诞夜场、场次时间与票型, target_date: "2026-12-18", importance: critical, critical: true, source_ids: [src-beamish], max_age_days: 7 }
+  - { id: cl-ed-market-1219, subject_id: act-1219-market, kind: opening, statement_zh: 爱丁堡圣诞市集 12/19 晚上开放, target_date: "2026-12-19", importance: low, critical: false, source_ids: [src-edinburgh-christmas], max_age_days: 14 }
+  - { id: cl-ed-castle-open-1220, subject_id: act-1220-castle, kind: opening, statement_zh: 爱丁堡城堡 12/20（周日）开放, target_date: "2026-12-20", importance: high, critical: true, source_ids: [src-edinburgh-castle], max_age_days: 7 }
+  - { id: cl-ed-castle-last-entry, subject_id: act-1220-castle, kind: last_entry, statement_zh: 爱丁堡城堡 12/20 最后入场时间, target_date: "2026-12-20", importance: normal, critical: false, source_ids: [src-edinburgh-castle], max_age_days: 7 }
+  - { id: cl-christ-church-1222, subject_id: act-1222-christ-church, kind: opening, statement_zh: 基督堂学院 12/22 有参观安排, target_date: "2026-12-22", importance: high, critical: true, source_ids: [src-christ-church], max_age_days: 7, origin: user_stated }
+  - { id: cl-bodleian-1222, subject_id: act-1222-bodleian, kind: opening, statement_zh: 博德利图书馆 12/22 有参观安排, target_date: "2026-12-22", importance: high, critical: true, source_ids: [src-bodleian], max_age_days: 7, origin: user_stated }
+  - { id: cl-magdalen-closed-1222, subject_id: act-1222-christ-church, kind: closure, statement_zh: Magdalen College 自 12/22 起闭馆, target_date: "2026-12-22", importance: low, critical: false, source_ids: [src-magdalen], max_age_days: 14, origin: user_stated }
+  - { id: cl-wallace-open-1223, subject_id: act-1223-wallace, kind: opening, statement_zh: 华莱士收藏馆 12/23 开放, target_date: "2026-12-23", importance: normal, critical: false, source_ids: [src-wallace], max_age_days: 14 }
+  - { id: cl-wallace-closed-1224, subject_id: act-1223-wallace, kind: closure, statement_zh: 华莱士收藏馆 12/24 闭馆, target_date: "2026-12-24", importance: low, critical: false, source_ids: [src-wallace], max_age_days: 14, origin: user_stated }

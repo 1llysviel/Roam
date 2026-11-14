@@ -1,6 +1,6 @@
 import { useState, type ReactElement } from 'react';
 import type { DayItem, Index } from '../lib/derive';
-import { BASIS_LABEL, BOOKING_LABEL, KIND_LABEL, MODE_LABEL, PLAN_LABEL, PRECISION_LABEL } from '../lib/derive';
+import { BASIS_LABEL, BOOKING_LABEL, DAYPART_LABEL, KIND_LABEL, MODE_LABEL, PLAN_LABEL, PRECISION_LABEL } from '../lib/derive';
 import { appleMapsLeg, appleMapsPlace, googleMapsLeg, googleMapsPlace } from '../lib/links';
 import Badge, { type Tone } from './Badge';
 import Evidence from './Evidence';
@@ -34,6 +34,7 @@ export default function ItemCard({ ix, item, n, selected, onLocate }: {
     time = a.time?.start ?? null;
     if (time && a.time?.end) time += `–${a.time.end}`;
     basis = a.time ? BASIS_LABEL[a.time.basis] : null;
+    if (!time && a.daypart) { time = DAYPART_LABEL[a.daypart]; basis = '大致时段'; }
     title = a.title_zh;
     sub = p ? `${p.name_en}${p.address ? ' · ' + p.address : ''}` : a.title_en;
     kind = KIND_LABEL[a.kind];
@@ -51,6 +52,7 @@ export default function ItemCard({ ix, item, n, selected, onLocate }: {
     const f = ix.places.get(l.from_place_id)!, t = ix.places.get(l.to_place_id)!;
     time = l.depart ? `${l.depart}${l.arrive ? '–' + l.arrive : ''}` : null;
     basis = l.timing_basis ? (l.timing_basis === 'proposed' ? '建议班次' : BASIS_LABEL[l.timing_basis]) : null;
+    if (!time && l.daypart) { time = DAYPART_LABEL[l.daypart]; basis = '大致时段'; }
     title = `${f.name_zh} → ${t.name_zh}`;
     sub = `${f.name_en} → ${t.name_en}`;
     kind = MODE_LABEL[l.mode];

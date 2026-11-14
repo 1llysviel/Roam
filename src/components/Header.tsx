@@ -12,7 +12,7 @@ export default function Header({ ix, view, onView }: { ix: Index; view: View; on
         <span className="brand-mark" aria-hidden="true">R</span>
         <div>
           <h1 className="trip-title">{t.title_zh}</h1>
-          <p className="trip-sub">{shortDate(t.start_date)}–{shortDate(t.end_date)} · {ix.days.length} 天<span className="cities"> · {t.cities.map((c) => c.name_zh).join(' · ')}</span></p>
+          <p className="trip-sub">{shortDate(t.start_date)}–{shortDate(t.end_date)} · {ix.days.length} 天<span className="cities"> · {ix.tripCities.map((c) => ix.cityName.get(c)).join(' · ')}</span></p>
         </div>
       </div>
       <nav className="tabs" aria-label="视图">

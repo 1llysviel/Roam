@@ -12,6 +12,7 @@ export type RoutePrecision = 'actual_network' | 'schematic' | 'unavailable';
 export type PlanStatus = 'selected' | 'candidate' | 'proposed';
 export type TimeBasis = 'proposed' | 'user_stated' | 'booked';
 export type Importance = 'critical' | 'high' | 'normal' | 'low';
+export type Daypart = 'morning' | 'afternoon' | 'evening' | 'all_day' | 'flexible';
 export type CoordSource = 'manual_verified' | 'initial_draft' | 'imported' | 'none';
 
 export interface City { id: string; name_zh: string; name_en: string }
@@ -59,6 +60,7 @@ export interface Activity {
   title_en: string;
   place_id: string | null;
   time: { start: HHMM | null; end: HHMM | null; basis: TimeBasis } | null;
+  daypart?: Daypart; // 没有精确时刻时的大致时段
   buffer_min?: number;
   importance: Importance;
   plan_status: PlanStatus;
@@ -81,6 +83,7 @@ export interface Leg {
   duration_min: number | null;
   route_precision: RoutePrecision;
   route_geojson?: string; // geo/ 下的文件名，来源与许可须在文件 properties 中声明
+  daypart?: Daypart;
   importance: Importance;
   booking_ids?: string[];
   claim_ids?: string[];

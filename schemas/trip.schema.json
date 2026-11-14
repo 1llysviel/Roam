@@ -102,6 +102,7 @@
             }
           ]
         },
+        "daypart": { "enum": ["morning", "afternoon", "evening", "all_day", "flexible"] },
         "buffer_min": { "type": "integer", "minimum": 0 },
         "importance": { "$ref": "#/$defs/importance" },
         "plan_status": { "enum": ["selected", "candidate", "proposed"] },
@@ -127,6 +128,7 @@
         "duration_min": { "type": ["integer", "null"], "minimum": 0 },
         "route_precision": { "enum": ["actual_network", "schematic", "unavailable"] },
         "route_geojson": { "type": "string" },
+        "daypart": { "enum": ["morning", "afternoon", "evening", "all_day", "flexible"] },
         "importance": { "$ref": "#/$defs/importance" },
         "booking_ids": { "$ref": "#/$defs/idList" },
         "claim_ids": { "$ref": "#/$defs/idList" },

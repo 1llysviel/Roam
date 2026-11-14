@@ -15,6 +15,7 @@ export interface Index {
   claimStates: ClaimState[];
   claimState: Map<string, ClaimState>;
   cityName: Map<string, string>;
+  tripCities: string[];
   itemsByDay: Map<string, DayItem[]>;
   stayByNight: Map<string, Stay>;
   cityOfDay: Map<string, string[]>;
@@ -33,10 +34,13 @@ export function buildIndex(bundle: Bundle, now: Date): Index {
   for (const list of itemsByDay.values()) list.sort((x, y) => x.order - y.order);
 
   const stayByNight = new Map(d.stays.map((s) => [s.night, s]));
+  // 行程城市 = 有住宿或有活动的城市；只作为交通终点出现的城市（如同行朋友回坎特伯雷）不计入
+  const tripCities = new Set<string>(d.stays.map((s) => s.city));
+  for (const a of d.activities) if (a.place_id) { const c = places.get(a.place_id)?.city; if (c) tripCities.add(c); }
   const cityOfDay = new Map<string, string[]>();
   for (const day of days) {
     const set: string[] = [];
-    const push = (c?: string) => { if (c && !set.includes(c)) set.push(c); };
+    const push = (c?: string) => { if (c && tripCities.has(c) && !set.includes(c)) set.push(c); };
     const prevStay = stayByNight.get(dateRangePrev(day));
     push(prevStay?.city);
     for (const it of itemsByDay.get(day) ?? []) {
@@ -57,6 +61,7 @@ export function buildIndex(bundle: Bundle, now: Date): Index {
     claimState: new Map(claimStates.map((s) => [s.claim.id, s])),
     cityName: new Map(d.trip.cities.map((c) => [c.id, c.name_zh])),
     itemsByDay, stayByNight, cityOfDay, subjectOf,
+    tripCities: d.trip.cities.map((c) => c.id).filter((c) => tripCities.has(c)),
   };
 }
 
@@ -90,4 +95,5 @@ export const BASIS_LABEL = { proposed: '建议时间', user_stated: '用户提�
 export const BOOKING_LABEL: Record<Booking['status'], string> = {
   unknown: '状态未知', not_booked: '未订', booked: '已订', cancelled: '已取消', not_required: '无需预订',
 };
+export const DAYPART_LABEL = { morning: '上午', afternoon: '下午', evening: '傍晚 / 晚上', all_day: '全天', flexible: '时间灵活' } as const;
 export const PRECISION_LABEL = { actual_network: '实际路网', schematic: '连接示意', unavailable: '无法显示' } as const;

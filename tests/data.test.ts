@@ -62,3 +62,29 @@ test('缺坐标的地点必须标 coord_source: none（不猜测上图）', () =
   bad.data.places.find((p) => p.id === 'pl-york-hotel')!.coord_source = 'initial_draft';
   assert.ok(validateAll(bad).some((e) => /coord_source/.test(e)));
 });
+
+test('每晚住宿城市与同行计划表一致', () => {
+  const expect: Record<string, string> = {
+    '2026-12-11': 'london', '2026-12-12': 'london', '2026-12-13': 'london', '2026-12-14': 'london',
+    '2026-12-15': 'york', '2026-12-16': 'york', '2026-12-17': 'durham', '2026-12-18': 'durham',
+    '2026-12-19': 'edinburgh', '2026-12-20': 'edinburgh', '2026-12-21': 'london', '2026-12-22': 'london',
+    '2026-12-23': 'london', '2026-12-24': 'london',
+  };
+  for (const s of l.data.stays) assert.equal(s.city, expect[s.night], s.night);
+  assert.equal(l.data.stays.find((s) => s.night === '2026-12-17')!.selected_place_id, 'pl-lumley-castle');
+  assert.equal(l.data.stays.find((s) => s.night === '2026-12-18')!.selected_place_id, 'pl-beamish-hall');
+});
+
+test('「可以考虑 / 可以吃 / 有票才加」类建议不算选定，不计入预订完成率', () => {
+  for (const id of ['bk-bar-convent', 'bk-legacy', 'bk-durham-castle', 'bk-coach-1225', 'bk-coach-814']) {
+    assert.equal(l.data.bookings.find((b) => b.id === id)!.selected, false, id);
+  }
+  assert.equal(l.data.stays.find((s) => s.night === '2026-12-15')!.selected_place_id, null);
+  assert.equal(l.data.activities.find((a) => a.id === 'act-1216-legacy')!.plan_status, 'proposed');
+  assert.equal(l.data.activities.find((a) => a.id === 'act-1217-castle')!.plan_status, 'candidate');
+});
+
+test('计划表给出的 4h10m 只作为待核实陈述，不写入人工核实时长', () => {
+  assert.equal(l.data.legs.find((x) => x.id === 'leg-1221-to-london')!.duration_min, null);
+  assert.match(l.data.claims.find((c) => c.id === 'cl-rail-london-1221')!.statement_zh, /4 小时 10 分钟/);
+});
