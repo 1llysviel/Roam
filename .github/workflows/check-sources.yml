@@ -1,0 +1,94 @@
+# 每日检查已登记的官方来源（单一状态写入者），写入 history/checks.json 后在同一工作流内显式构建部署。
+# - GITHUB_TOKEN 推送不会再次触发其他工作流，所以这里直接部署。
+# - 没有写权限时：上传报告，网站保持上次结果，不要求 PAT。
+# - 旅行结束后脚本直接退出，不再抓取。定时可能延迟；公开仓库长期无活动时 GitHub 会停用定时任务。
+name: Check sources
+
+on:
+  schedule:
+    - cron: '17 5 * * *'   # 每天一次（UTC 05:17 ≈ 伦敦 05:17）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: roam-state-writer
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      pushed: ${{ steps.commit.outputs.pushed }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check registered sources
+        run: npm run check:sources
+      - name: Commit state
+        id: commit
+        run: |
+          if git diff --quiet -- history/checks.json; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"; echo "状态无变化"; exit 0
+          fi
+          git config user.name "roam-checker"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add history/checks.json
+          git commit -m "chore(checks): 更新来源检查状态 $(date -u +%F)"
+          for i in 1 2 3; do
+            if git pull --rebase --quiet origin main && git push origin HEAD:main; then
+              echo "pushed=true" >> "$GITHUB_OUTPUT"; exit 0
+            fi
+            sleep $((i * 5))
+          done
+          echo "::warning::无法写入仓库（可能缺少 Actions 写权限：Settings → Actions → General → Workflow permissions）。网站保持上次结果，报告见 artifact。"
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: check-report
+          path: reports/check-report.md
+          retention-days: 7
+          if-no-files-found: ignore
+
+  build:
+    needs: check
+    if: needs.check.outputs.pushed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+          retention-days: 3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

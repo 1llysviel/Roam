@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roam.local/schemas/reviews.schema.json",
+  "type": "object", "additionalProperties": false, "required": ["schema_version", "reviews"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "claim_id", "at", "reviewer", "result", "method"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^rv-[a-z0-9-]+$" },
+          "claim_id": { "type": "string" },
+          "at": { "type": "string", "format": "date-time" },
+          "reviewer": { "type": "string" },
+          "result": { "enum": ["verified", "needs_review", "conflict", "invalid"] },
+          "verified_for_date": { "type": "string", "format": "date" },
+          "value": { "type": "string" },
+          "source_id": { "type": "string" },
+          "evidence": { "type": "string", "maxLength": 600 },
+          "method": { "enum": ["manual", "rule"] }
+        },
+        "if": { "properties": { "result": { "const": "verified" } } },
+        "then": { "required": ["verified_for_date", "source_id"] }
+      }
+    }
+  }
+}

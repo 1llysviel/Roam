@@ -1,0 +1,9 @@
+node_modules/
+dist/
+public/data/
+public/exports/
+reports/
+design/shots/
+*.log
+.DS_Store
+.env*

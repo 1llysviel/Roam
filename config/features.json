@@ -1,0 +1,23 @@
+{
+  "$comment": "功能开关。全部为 false 时站点仍提供完整行程、事实记录、统计、地图与示意路线。开启前须确认无需账户、无需付费、可合法稳定运行。",
+  "routeCalculation": false,
+  "isochroneCalculation": false,
+  "transitRouting": false,
+  "onlineGeocoding": false,
+  "aiExtraction": false,
+  "basemap": {
+    "enabled": true,
+    "name": "OpenStreetMap",
+    "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "attribution": "© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+    "maxZoom": 19
+  },
+  "sourceChecks": {
+    "perDomainDelayMs": 2000,
+    "timeoutMs": 15000,
+    "retries": 2,
+    "maxEvents": 400,
+    "excerptMaxChars": 280,
+    "excerptMaxBlocks": 6
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roam.local/schemas/trip.schema.json",
+  "title": "Roam trip data",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trip", "places", "stays", "activities", "legs", "bookings", "claims"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "trip": { "$ref": "#/$defs/trip" },
+    "places": { "type": "array", "items": { "$ref": "#/$defs/place" } },
+    "stays": { "type": "array", "items": { "$ref": "#/$defs/stay" } },
+    "activities": { "type": "array", "items": { "$ref": "#/$defs/activity" } },
+    "legs": { "type": "array", "items": { "$ref": "#/$defs/leg" } },
+    "bookings": { "type": "array", "items": { "$ref": "#/$defs/booking" } },
+    "claims": { "type": "array", "items": { "$ref": "#/$defs/claim" } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "format": "date" },
+    "hhmm": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" },
+    "importance": { "enum": ["critical", "high", "normal", "low"] },
+    "idList": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
+    "trip": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title_zh", "title_en", "start_date", "end_date", "timezone", "currency", "cities"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title_zh": { "type": "string", "minLength": 1 },
+        "title_en": { "type": "string", "minLength": 1 },
+        "start_date": { "$ref": "#/$defs/date" },
+        "end_date": { "$ref": "#/$defs/date" },
+        "timezone": { "const": "Europe/London" },
+        "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+        "draft_notice": { "type": "string" },
+        "cities": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["id", "name_zh", "name_en"],
+            "properties": { "id": { "$ref": "#/$defs/id" }, "name_zh": { "type": "string" }, "name_en": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "place": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name_zh", "name_en", "kind", "city", "address", "coord", "coord_source", "coord_precision"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name_zh": { "type": "string" },
+        "name_en": { "type": "string" },
+        "kind": { "enum": ["airport", "station", "sight", "lodging", "restaurant", "other"] },
+        "city": { "$ref": "#/$defs/id" },
+        "address": { "type": ["string", "null"] },
+        "coord": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object", "additionalProperties": false, "required": ["lat", "lng"],
+              "properties": { "lat": { "type": "number", "minimum": -90, "maximum": 90 }, "lng": { "type": "number", "minimum": -180, "maximum": 180 } }
+            }
+          ]
+        },
+        "coord_source": { "enum": ["manual_verified", "initial_draft", "imported", "none"] },
+        "coord_precision": { "enum": ["entrance", "building", "landmark_approx", "none"] }
+      }
+    },
+    "stay": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "night", "city", "candidates", "selected_place_id", "booking_id"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "night": { "$ref": "#/$defs/date" },
+        "city": { "$ref": "#/$defs/id" },
+        "candidates": { "$ref": "#/$defs/idList" },
+        "selected_place_id": { "type": ["string", "null"] },
+        "booking_id": { "type": ["string", "null"] },
+        "selection_basis": { "type": "string" }
+      }
+    },
+    "activity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "date", "order", "kind", "title_zh", "title_en", "place_id", "time", "importance", "plan_status"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "date": { "$ref": "#/$defs/date" },
+        "order": { "type": "integer" },
+        "kind": { "enum": ["arrival", "sight", "meal", "lodging", "free", "flight", "other"] },
+        "title_zh": { "type": "string" },
+        "title_en": { "type": "string" },
+        "place_id": { "type": ["string", "null"] },
+        "time": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object", "additionalProperties": false, "required": ["start", "basis"],
+              "properties": {
+                "start": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/hhmm" }] },
+                "end": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/hhmm" }] },
+                "basis": { "enum": ["proposed", "user_stated", "booked"] }
+              }
+            }
+          ]
+        },
+        "buffer_min": { "type": "integer", "minimum": 0 },
+        "importance": { "$ref": "#/$defs/importance" },
+        "plan_status": { "enum": ["selected", "candidate", "proposed"] },
+        "alternative_to": { "$ref": "#/$defs/id" },
+        "booking_ids": { "$ref": "#/$defs/idList" },
+        "claim_ids": { "$ref": "#/$defs/idList" },
+        "notes": { "type": "string" }
+      }
+    },
+    "leg": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "date", "order", "mode", "from_place_id", "to_place_id", "depart", "arrive", "timing_basis", "duration_min", "route_precision", "importance"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "date": { "$ref": "#/$defs/date" },
+        "order": { "type": "integer" },
+        "mode": { "enum": ["rail", "coach", "bus", "tube", "walk", "taxi", "walk_or_taxi", "flight", "car"] },
+        "from_place_id": { "$ref": "#/$defs/id" },
+        "to_place_id": { "$ref": "#/$defs/id" },
+        "depart": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/hhmm" }] },
+        "arrive": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/hhmm" }] },
+        "timing_basis": { "enum": ["proposed", "user_stated", "booked", null] },
+        "duration_min": { "type": ["integer", "null"], "minimum": 0 },
+        "route_precision": { "enum": ["actual_network", "schematic", "unavailable"] },
+        "route_geojson": { "type": "string" },
+        "importance": { "$ref": "#/$defs/importance" },
+        "booking_ids": { "$ref": "#/$defs/idList" },
+        "claim_ids": { "$ref": "#/$defs/idList" },
+        "notes": { "type": "string" }
+      }
+    },
+    "booking": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title_zh", "kind", "selected", "required", "status", "owner", "amount", "cancel_by"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title_zh": { "type": "string" },
+        "kind": { "type": "string" },
+        "selected": { "type": "boolean" },
+        "required": { "type": "boolean" },
+        "status": { "enum": ["unknown", "not_booked", "booked", "cancelled", "not_required"] },
+        "owner": { "type": ["string", "null"] },
+        "amount": {
+          "type": "object", "additionalProperties": false, "required": ["currency", "minor"],
+          "properties": { "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }, "minor": { "type": ["integer", "null"] } }
+        },
+        "cancel_by": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/date" }] },
+        "reference_public": { "type": "boolean" },
+        "evidence": { "type": "string", "description": "booked 时必填：用户确认或预订依据（不含订单号等私密信息）" },
+        "notes": { "type": "string" }
+      },
+      "if": { "properties": { "status": { "const": "booked" } } },
+      "then": { "required": ["evidence"] }
+    },
+    "claim": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "subject_id", "kind", "statement_zh", "target_date", "importance", "critical", "source_ids", "max_age_days"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "subject_id": { "$ref": "#/$defs/id" },
+        "kind": { "type": "string" },
+        "statement_zh": { "type": "string" },
+        "target_date": { "$ref": "#/$defs/date" },
+        "direction": { "type": "string" },
+        "importance": { "$ref": "#/$defs/importance" },
+        "critical": { "type": "boolean" },
+        "applicable": { "type": "boolean" },
+        "source_ids": { "$ref": "#/$defs/idList" },
+        "max_age_days": { "type": "integer", "minimum": 1 },
+        "check_rule": { "type": ["string", "null"] },
+        "origin": { "enum": ["user_stated", "assistant_proposed"] }
+      }
+    }
+  }
+}

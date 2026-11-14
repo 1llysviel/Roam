@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": [
+      "ES2023",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": false,
+    "isolatedModules": true,
+    "types": [
+      "node",
+      "vite/client"
+    ],
+    "noEmit": true
+  },
+  "include": [
+    "src",
+    "scripts",
+    "providers",
+    "tests",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "scripts/screenshots.ts"
+  ]
+}

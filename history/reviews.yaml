@@ -1,0 +1,13 @@
+# 人工复核记录（ReviewEvent）。只追加，不改写历史。示例：
+# - id: rv-0001
+#   claim_id: cl-xmas-coach-runs
+#   at: "2026-11-20T10:00:00Z"
+#   reviewer: 维护者昵称
+#   result: verified            # verified / needs_review / conflict / invalid
+#   verified_for_date: "2026-12-25"
+#   value: 12/25 有 Victoria → Heathrow 班次，含 16:45
+#   source_id: src-national-express
+#   evidence: 官网时刻表查询结果摘要（查询条件：2026-12-25，Victoria → Heathrow CBS）
+#   method: manual              # manual / rule
+schema_version: 1
+reviews: []

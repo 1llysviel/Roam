@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roam.local/schemas/isochrone.schema.json",
+  "title": "ReachabilityQuery / GeometryArtifact（扩展：等时圈导入）",
+  "description": "导入的可达范围必须带查询参数与来源；否则只能标为未核实。见 src/lib/geojson.ts。",
+  "type": "object",
+  "required": ["type", "features", "roam"],
+  "properties": {
+    "type": { "const": "FeatureCollection" },
+    "roam": {
+      "type": "object",
+      "required": ["query", "source", "generated_at", "license"],
+      "properties": {
+        "query": {
+          "type": "object",
+          "required": ["origin_place_id", "direction", "mode", "minutes", "date", "time"],
+          "properties": {
+            "origin_place_id": { "type": "string" },
+            "direction": { "enum": ["depart_from", "arrive_at"] },
+            "mode": { "enum": ["walk", "bike", "car", "transit"] },
+            "minutes": { "enum": [15, 30, 45, 60] },
+            "date": { "type": "string", "format": "date" },
+            "time": { "type": "string" },
+            "max_walk_min": { "type": "integer" },
+            "max_transfers": { "type": "integer" }
+          }
+        },
+        "source": { "type": "string" },
+        "generated_at": { "type": "string" },
+        "data_valid_for": { "type": "string" },
+        "license": { "type": "string" },
+        "warnings": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "features": { "type": "array" }
+  }
+}

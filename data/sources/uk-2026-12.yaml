@@ -1,0 +1,24 @@
+# 来源登记。url 为来源线索：首次人工核对前 lead: true，表示「尚未确认该页即为对应事实的权威页面」。
+# keywords 用于从页面中抽取相关段落；不匹配关键词的导航、广告变化不会触发复核。
+# fetch: auto（脚本定时检查）/ manual（需登录、验证码或无法可靠解析，只给人工入口）
+schema_version: 1
+sources:
+  - { id: src-user-chat, kind: user_statement, title: 用户在规划聊天中提供的信息, url: null, publisher: 同行, fetch: manual, lead: false, keywords: [] }
+  - { id: src-national-express, kind: official, title: National Express（圣诞节班次）, url: "https://www.nationalexpress.com/en", publisher: National Express, fetch: auto, lead: true, keywords: [christmas, "25 december", "christmas day", heathrow, victoria] }
+  - { id: src-national-rail, kind: official, title: National Rail（节假日与工程信息）, url: "https://www.nationalrail.co.uk/", publisher: National Rail, fetch: auto, lead: true, keywords: [christmas, "christmas day", "boxing day", "christmas eve", engineering, "24 december", "25 december"] }
+  - { id: src-tfl, kind: official, title: TfL（圣诞节运营）, url: "https://tfl.gov.uk/", publisher: Transport for London, fetch: auto, lead: true, keywords: [christmas, "christmas day", "25 december"] }
+  - { id: src-heathrow-express, kind: official, title: Heathrow Express, url: "https://www.heathrowexpress.com/", publisher: Heathrow Express, fetch: auto, lead: true, keywords: [christmas, "25 december", "christmas day"] }
+  - { id: src-gwr, kind: official, title: GWR（牛津 ⇄ 伦敦）, url: "https://www.gwr.com/", publisher: Great Western Railway, fetch: auto, lead: true, keywords: [christmas, "christmas eve", "24 december", oxford, paddington] }
+  - { id: src-lner, kind: official, title: LNER（东海岸干线）, url: "https://www.lner.co.uk/", publisher: LNER, fetch: auto, lead: true, keywords: [york, durham, edinburgh, december, engineering, christmas] }
+  - { id: src-kings-college, kind: official, title: King's College Cambridge — Visit, url: "https://www.kings.cam.ac.uk/visit", publisher: King's College Cambridge, fetch: auto, lead: true, keywords: [opening, sunday, december, chapel, closed, tickets] }
+  - { id: src-british-museum, kind: official, title: The British Museum — Visit, url: "https://www.britishmuseum.org/visit", publisher: The British Museum, fetch: auto, lead: true, keywords: [opening, december, closed, daily] }
+  - { id: src-westminster-abbey, kind: official, title: Westminster Abbey — Visit, url: "https://www.westminster-abbey.org/visit-us/", publisher: Westminster Abbey, fetch: auto, lead: true, keywords: [opening, saturday, december, closed] }
+  - { id: src-york-minster, kind: official, title: York Minster — Visit, url: "https://yorkminster.org/visit/", publisher: York Minster, fetch: auto, lead: true, keywords: [opening, december, closed, last entry] }
+  - { id: src-durham-cathedral, kind: official, title: Durham Cathedral, url: "https://www.durhamcathedral.co.uk/", publisher: Durham Cathedral, fetch: auto, lead: true, keywords: [opening, december, closed, visit] }
+  - { id: src-lumley-castle, kind: official, title: Lumley Castle Hotel, url: "https://www.lumleycastle.com/", publisher: Lumley Castle Hotel, fetch: manual, lead: true, keywords: [check-in, "check in", luggage] }
+  - { id: src-beamish, kind: official, title: Beamish Museum — Plan your visit, url: "https://www.beamish.org.uk/", publisher: Beamish Museum, fetch: auto, lead: true, keywords: [opening, december, winter, closed, tickets, christmas] }
+  - { id: src-beamish-hall, kind: official, title: Beamish Hall Hotel, url: null, publisher: Beamish Hall Hotel, fetch: manual, lead: true, keywords: [], notes: 官网地址待确认后填写。 }
+  - { id: src-edinburgh-castle, kind: official, title: Edinburgh Castle, url: "https://www.edinburghcastle.scot/", publisher: Historic Environment Scotland, fetch: auto, lead: true, keywords: [opening, "last entry", december, winter, closed, tickets] }
+  - { id: src-rct-holyrood, kind: official, title: Royal Collection Trust — Palace of Holyroodhouse, url: "https://www.rct.uk/visit/palace-of-holyroodhouse", publisher: Royal Collection Trust, fetch: auto, lead: true, keywords: [opening, december, closed, "last admission"] }
+  - { id: src-bodleian, kind: official, title: Bodleian Libraries — Visit, url: "https://visit.bodleian.ox.ac.uk/", publisher: Bodleian Libraries, fetch: auto, lead: true, keywords: [opening, december, tours, closed, christmas] }
+  - { id: src-christ-church, kind: official, title: Christ Church — Visiting, url: "https://www.chch.ox.ac.uk/visiting", publisher: Christ Church Oxford, fetch: auto, lead: true, keywords: [opening, december, closed, christmas] }

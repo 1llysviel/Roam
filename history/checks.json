@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "writer": "check-sources",
+  "last_attempt_at": null,
+  "last_success_at": null,
+  "last_run_summary": null,
+  "sources": {},
+  "pending_reviews": [],
+  "rule_results": [],
+  "events": []
+}

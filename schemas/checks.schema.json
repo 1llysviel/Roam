@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roam.local/schemas/checks.schema.json",
+  "type": "object",
+  "required": ["schema_version", "writer", "last_attempt_at", "last_success_at", "sources", "pending_reviews", "rule_results", "events"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "writer": { "const": "check-sources" },
+    "last_attempt_at": { "type": ["string", "null"] },
+    "last_success_at": { "type": ["string", "null"] },
+    "last_run_summary": { "type": ["string", "null"] },
+    "sources": { "type": "object" },
+    "pending_reviews": { "type": "array" },
+    "rule_results": { "type": "array" },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object", "required": ["id", "source_id", "at", "fetch_status", "changed"],
+        "properties": { "fetch_status": { "enum": ["ok", "blocked", "error", "unsupported"] } }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "roam",
+  "private": true,
+  "version": "0.1.0",
+  "description": "免费、静态、可共享的旅行计划站（GitHub Pages）",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "npm run build:data && vite",
+    "validate": "tsx scripts/validate.ts",
+    "build:data": "tsx scripts/build-data.ts",
+    "check:sources": "tsx scripts/check-sources.ts",
+    "export": "tsx scripts/build-data.ts --exports-only",
+    "build": "npm run build:data && tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "node --import tsx --test \"tests/**/*.test.ts\"",
+    "shots": "tsx scripts/screenshots.ts"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "vite": "^8.3.8",
+    "typescript": "~5.9.3",
+    "tsx": "^4.21.0",
+    "yaml": "^2.8.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "node-html-parser": "^7.0.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/leaflet": "^1.9.20",
+    "@types/node": "^22.15.0",
+    "@vitejs/plugin-react": "^6.3.0"
+  }
+}

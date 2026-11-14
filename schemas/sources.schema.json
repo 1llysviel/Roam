@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roam.local/schemas/sources.schema.json",
+  "type": "object", "additionalProperties": false, "required": ["schema_version", "sources"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "kind", "title", "url", "publisher", "fetch", "lead", "keywords"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^src-[a-z0-9-]+$" },
+          "kind": { "enum": ["official", "user_statement", "third_party"] },
+          "title": { "type": "string" },
+          "url": { "oneOf": [{ "type": "null" }, { "type": "string", "pattern": "^https://" }] },
+          "publisher": { "type": "string" },
+          "fetch": { "enum": ["auto", "manual"] },
+          "lead": { "type": "boolean" },
+          "keywords": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}
