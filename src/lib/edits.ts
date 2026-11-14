@@ -1,6 +1,7 @@
 // 编辑操作：浏览器预览（本地草稿）与构建（data/edits/*.json）共用同一套应用逻辑。
 // 只允许白名单内的字段；应用后的完整数据仍须通过 scripts/lib/load.ts 的 Schema 与引用校验。
 import type { Activity, Claim, Leg, Place, ReviewEvent, Source, TripData } from './model';
+import { validateGeoJSON } from './geojson';
 
 export type EditEntity = 'activity' | 'leg' | 'booking';
 
@@ -12,7 +13,8 @@ export type EditOp =
   | { type: 'add_activity'; activity: Activity }
   | { type: 'add_leg'; leg: Leg }
   | { type: 'add_source'; source: Source }
-  | { type: 'add_claim'; claim: Claim };
+  | { type: 'add_claim'; claim: Claim }
+  | { type: 'add_geo'; name: string; geojson: unknown };
 
 export interface EditFile {
   format: 'roam-edits';
@@ -31,15 +33,29 @@ export const EDITABLE_FIELDS: Record<EditEntity, string[]> = {
   booking: ['status', 'owner', 'amount', 'cancel_by', 'evidence', 'notes', 'selected', 'required'],
 };
 
-export interface ApplyResult { data: TripData; reviews: ReviewEvent[]; sources: Source[]; errors: string[]; touched: Set<string> }
+/** 变更包作用的全部状态：主数据、复核、来源与共享 GeoJSON。 */
+export interface ChangeState { data: TripData; reviews: ReviewEvent[]; sources: Source[]; geo: Record<string, unknown> }
+export interface ApplyResult extends ChangeState { errors: string[]; touched: Set<string> }
+
+/** GeoJSON 的类型：带 roam.query 或含面要素视为可达范围，否则视为路线。 */
+export function geoKind(g: unknown): 'isochrone' | 'route' {
+  const x = g as { roam?: { query?: unknown }; features?: Array<{ geometry?: { type?: string } }> };
+  if (x?.roam?.query) return 'isochrone';
+  return (x?.features ?? []).some((f) => /Polygon/.test(f?.geometry?.type ?? '')) ? 'isochrone' : 'route';
+}
 
 const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x));
 
 /** 依次应用操作；遇到未知对象或不允许的字段记为错误并跳过该操作。 */
-export function applyOps(base: TripData, baseReviews: ReviewEvent[], ops: EditOp[], baseSources: Source[] = []): ApplyResult {
+export function applyChange(state: ChangeState, ops: EditOp[]): ApplyResult {
+  return applyOps(state.data, state.reviews, ops, state.sources, state.geo);
+}
+
+export function applyOps(base: TripData, baseReviews: ReviewEvent[], ops: EditOp[], baseSources: Source[] = [], baseGeo: Record<string, unknown> = {}): ApplyResult {
   const data = clone(base);
   const reviews = clone(baseReviews);
   const sources = clone(baseSources);
+  const geo: Record<string, unknown> = { ...baseGeo };
   const allIds = () => new Set<string>([...data.activities, ...data.legs, ...data.places, ...data.bookings, ...data.claims, ...data.stays, ...sources].map((x) => x.id));
   const errors: string[] = [];
   const touched = new Set<string>();
@@ -122,11 +138,19 @@ export function applyOps(base: TripData, baseReviews: ReviewEvent[], ops: EditOp
         touched.add(c.id); touched.add(subject.id);
         break;
       }
+      case 'add_geo': {
+        if (!/^[a-z0-9-]+\.geojson$/.test(op.name ?? '') || op.name in geo) { errors.push(`GeoJSON 文件名无效或已存在：${op.name}`); break; }
+        const chk = validateGeoJSON(op.geojson, geoKind(op.geojson));
+        if (!chk.ok || !chk.reliable) { errors.push(`GeoJSON ${op.name} 不能共享：${[...chk.errors, ...chk.warnings].join('；')}`); break; }
+        geo[op.name] = clone(op.geojson);
+        touched.add(op.name);
+        break;
+      }
       default:
         errors.push(`未知操作 ${(op as { type?: string }).type}`);
     }
   }
-  return { data, reviews, sources, errors, touched };
+  return { data, reviews, sources, geo, errors, touched };
 }
 
 function placeName(data: TripData, id: string) { return data.places.find((p) => p.id === id)?.name_zh ?? id; }
@@ -174,6 +198,7 @@ export function describeOp(op: EditOp, data: TripData): string {
     case 'add_leg': return `新增交通：${op.leg.date.slice(5).replace('-', '/')} ${placeName(data, op.leg.from_place_id)} → ${placeName(data, op.leg.to_place_id)}`;
     case 'add_source': return `新增来源：${op.source.title}`;
     case 'add_claim': return `附带核实项：${op.claim.statement_zh}`;
+    case 'add_geo': return `共享 GeoJSON：${op.name}（${geoKind(op.geojson) === 'isochrone' ? '可达范围' : '路线'}）`;
     case 'add_review': return `登记复核：${data.claims.find((c) => c.id === op.review.claim_id)?.statement_zh ?? op.review.claim_id} → ${op.review.result}`;
   }
 }

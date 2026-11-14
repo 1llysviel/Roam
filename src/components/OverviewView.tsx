@@ -4,6 +4,8 @@ import { bookingCompletion, coverage, criticalGaps, effectiveRate, legsMissingDu
 import { daysBetweenInstants, formatInstantLondon, shortDate } from '../lib/dates';
 import ExtensionsPanel, { type ImportedLayer } from './ExtensionsPanel';
 import DisplayToggles from './DisplayToggles';
+import TransferPanel from './TransferPanel';
+import type { Bundle } from '../lib/model';
 
 function Stat({ label, r, hint, onClick }: { label: string; r: Ratio; hint: string; onClick: () => void }) {
   return (
@@ -16,8 +18,9 @@ function Stat({ label, r, hint, onClick }: { label: string; r: Ratio; hint: stri
   );
 }
 
-export default function OverviewView({ ix, nav, now, imported, setImported }: {
+export default function OverviewView({ ix, nav, now, imported, setImported, published, preview, knownEditIds }: {
   ix: Index; nav: (p: Partial<UrlState>, push?: boolean) => void; now: Date; imported: ImportedLayer[]; setImported: (l: ImportedLayer[]) => void;
+  published: Bundle; preview: Bundle; knownEditIds: Set<string>; // preview：含草稿、未做软删除派生的原始数据（导出用）
 }) {
   const cov = coverage(ix.claimStates);
   const eff = effectiveRate(ix.claimStates);
@@ -68,6 +71,8 @@ export default function OverviewView({ ix, nav, now, imported, setImported }: {
       <h3 className="section-title">显示设置</h3>
       <p className="muted small">只影响本设备的显示，自动保存在浏览器。</p>
       <DisplayToggles />
+
+      <TransferPanel published={published} preview={preview} knownEditIds={knownEditIds} imported={imported} setImported={setImported} />
 
       <ExtensionsPanel ix={ix} imported={imported} setImported={setImported} />
     </main>

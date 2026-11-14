@@ -5,7 +5,7 @@ import YAML from 'yaml';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 import type { AppliedEdit, ChecksState, ClaimTemplate, Features, RejectedEdit, ReviewEvent, Source, TripData } from '../../src/lib/model';
-import { applyOps, type EditFile } from '../../src/lib/edits';
+import { applyChange, type EditFile } from '../../src/lib/edits';
 import { dateRange } from '../../src/lib/dates';
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -131,8 +131,8 @@ export function applyEditFiles(base: Loaded): WithEdits {
     catch (e) { rejected.push({ file, id: null, errors: [`JSON 解析失败：${(e as Error).message}`] }); continue; }
     if (!check(ef)) { rejected.push({ file, id: (ef as any)?.id ?? null, errors: (check.errors ?? []).map((e: { instancePath: string; message?: string }) => `${e.instancePath} ${e.message}`) }); continue; }
     if (applied.some((a) => a.id === ef.id)) { rejected.push({ file, id: ef.id, errors: ['重复的修改 ID'] }); continue; }
-    const r = applyOps(cur.data, cur.reviews, ef.ops, cur.sources);
-    const next: Loaded = { ...cur, data: r.data, reviews: r.reviews, sources: r.sources };
+    const r = applyChange(cur, ef.ops);
+    const next: Loaded = { ...cur, data: r.data, reviews: r.reviews, sources: r.sources, geo: r.geo };
     const errs = [...r.errors, ...validateAll(next)];
     if (errs.length) { rejected.push({ file, id: ef.id, errors: errs.slice(0, 10) }); continue; }
     cur = next;

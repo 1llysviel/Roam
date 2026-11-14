@@ -369,3 +369,17 @@ summary { cursor: pointer; color: var(--ink-2); min-height: 28px; }
   .claim-draft { grid-template-columns: auto minmax(0, 1fr); }
   .claim-draft > label.check, .claim-draft > .linklike { grid-column: 2; justify-self: start; }
 }
+
+/* ── 导入与导出 ── */
+.transfer-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); }
+.transfer-box { padding: var(--s4); border: 1px solid var(--rule); border-radius: var(--radius); background: var(--card); min-width: 0; }
+.transfer-box h4 { margin: 0 0 var(--s2); font: 600 var(--fs-md) var(--font-sans); }
+.transfer-box .import-result { display: grid; gap: var(--s1); justify-items: start; }
+.transfer-box .import-result p { margin: 0; overflow-wrap: anywhere; }
+.op-list { margin: 0; padding-left: var(--s5); max-height: 220px; overflow: auto; width: 100%; }
+.op-list li { overflow-wrap: anywhere; }
+.export-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.export-table th, .export-table td { text-align: left; padding: 6px var(--s2); border-bottom: 1px solid var(--rule); }
+.export-table thead th { font-size: var(--fs-xs); color: var(--muted); font-weight: 600; }
+.export-table tbody th { font-weight: 500; }
+@media (max-width: 860px) { .transfer-grid { grid-template-columns: 1fr; } }

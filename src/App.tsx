@@ -3,7 +3,7 @@ import type { Bundle } from './lib/model';
 import { buildIndex } from './lib/derive';
 import { readUrl, writeUrl, type UrlState } from './lib/url';
 import { londonToday } from './lib/dates';
-import { applyOps, quickCheck, type EditOp } from './lib/edits';
+import { applyChange, quickCheck, type EditOp } from './lib/edits';
 import { EditContext, useLocalState, type EditCtx } from './lib/draft';
 import Header from './components/Header';
 import DayView from './components/DayView';
@@ -39,6 +39,7 @@ export default function App() {
 
   // 已提交的批次一旦出现在发布版本的 applied 列表中，就从本地移除
   const appliedIds = useMemo(() => new Set(published?.edits?.applied.map((a) => a.id) ?? []), [published]);
+  const knownEditIds = useMemo(() => new Set([...appliedIds, ...st.submitted.map((x) => x.id)]), [appliedIds, st.submitted]);
   const rejected = useMemo(() => new Map((published?.edits?.rejected ?? []).filter((r) => r.id).map((r) => [r.id!, r])), [published]);
   useEffect(() => {
     if (!published) return;
@@ -50,9 +51,9 @@ export default function App() {
   const view = useMemo(() => {
     if (!published) return null;
     const pendingOps = st.submitted.filter((s) => !rejected.has(s.id)).flatMap((s) => s.ops);
-    const pend = applyOps(published.data, published.reviews, pendingOps, published.sources);
-    const draft = applyOps(pend.data, pend.reviews, st.ops, pend.sources);
-    const bundle: Bundle = { ...published, data: draft.data, reviews: draft.reviews, sources: draft.sources };
+    const pend = applyChange(published, pendingOps);
+    const draft = applyChange(pend, st.ops);
+    const bundle: Bundle = { ...published, data: draft.data, reviews: draft.reviews, sources: draft.sources, geo: draft.geo };
     return { bundle, touchedDraft: draft.touched, touchedPending: pend.touched, errors: [...draft.errors, ...quickCheck(draft.data)] };
   }, [published, st.ops, st.submitted, rejected]);
 
@@ -97,7 +98,7 @@ export default function App() {
         {url.v === 'day' && <DayView ix={ix} day={day} url={url} nav={nav} today={today} imported={imported} />}
         {url.v === 'claims' && <ClaimsView ix={ix} url={url} nav={nav} now={now} />}
         {url.v === 'bookings' && <BookingsView ix={ix} url={url} nav={nav} />}
-        {url.v === 'overview' && <OverviewView ix={ix} nav={nav} now={now} imported={imported} setImported={setImported} />}
+        {url.v === 'overview' && <OverviewView ix={ix} nav={nav} now={now} imported={imported} setImported={setImported} published={published} preview={view.bundle} knownEditIds={knownEditIds} />}
         {url.v === 'print' && <PrintView ix={ix} />}
         <DraftBar published={published} st={st} update={update} errors={view.errors} rejected={rejected} />
         <footer className="site-foot">

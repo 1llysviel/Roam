@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import type { Bundle, RejectedEdit } from '../lib/model';
 import type { LocalState } from '../lib/draft';
-import { describeOp, makeEditFile, privacyWarnings, type EditFile } from '../lib/edits';
-
-const MAX_URL = 7000;
+import { describeOp, privacyWarnings, type EditFile } from '../lib/edits';
+import { changeFile, downloadText, githubNewFileUrl, serialize } from '../lib/io';
 
 /** 草稿栏：查看 / 撤销 / 提交到 GitHub / 下载。提交方式是打开 GitHub 新建文件页并预填内容，不需要任何 token。 */
 export default function DraftBar({ published, st, update, errors, rejected }: {
@@ -21,27 +20,16 @@ export default function DraftBar({ published, st, update, errors, rejected }: {
   const repo = published.build.repo;
   const warnings = privacyWarnings(st.ops);
 
-  function download(file: EditFile) {
-    const blob = new Blob([JSON.stringify(file, null, 2) + '\n'], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${file.id}.json`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  }
+  const download = (file: EditFile) => downloadText(`${file.id}.json`, serialize(file), 'application/json');
 
   async function submit() {
-    const file = makeEditFile(st.ops, st.author, published.build.version);
-    if (note.trim()) file.note = note.trim();
-    const json = JSON.stringify(file, null, 2) + '\n';
-    const base = `https://github.com/${repo}/new/${published.build.branch}/data/edits?filename=${encodeURIComponent(file.id + '.json')}&message=${encodeURIComponent(`edit: ${file.author} 通过网站修改 ${file.ops.length} 项`)}`;
-    let href = `${base}&value=${encodeURIComponent(json)}`;
-    if (href.length > MAX_URL) {
-      href = base;
-      try { await navigator.clipboard.writeText(json); setMsg('修改较多，内容已复制到剪贴板：请在打开的 GitHub 页面中粘贴，然后点 Commit changes。'); }
+    const file = changeFile(st.ops, st.author, published.build.version, note);
+    const { url, prefilled } = githubNewFileUrl(repo!, published.build.branch, file);
+    if (!prefilled) {
+      try { await navigator.clipboard.writeText(serialize(file)); setMsg('修改较多，内容已复制到剪贴板：请在打开的 GitHub 页面中粘贴，然后点 Commit changes。'); }
       catch { download(file); setMsg('修改较多且无法写入剪贴板，已下载文件：请在打开的 GitHub 页面中粘贴文件内容。'); }
     } else setMsg('已在新窗口打开 GitHub：确认内容后点「Commit changes」。发布完成（约 1 分钟）后这里会自动清除。');
-    window.open(href, '_blank', 'noopener');
+    window.open(url, '_blank', 'noopener');
     update((s) => ({ ops: [], submitted: [...s.submitted, file] }));
     setSubmitting(false);
   }
@@ -70,7 +58,7 @@ export default function DraftBar({ published, st, update, errors, rejected }: {
                 ))}
               </ol>
               <p className="draft-tools">
-                <button type="button" className="linklike" onClick={() => download(makeEditFile(st.ops, st.author, published.build.version))}>下载草稿文件（发给维护者代录）</button>
+                <button type="button" className="linklike" onClick={() => download(changeFile(st.ops, st.author, published.build.version, note))}>下载草稿文件（发给维护者代录）</button>
                 {' · '}
                 <button type="button" className="linklike" onClick={() => { if (confirm('放弃全部本地草稿？')) update({ ops: [] }); }}>全部放弃</button>
               </p>

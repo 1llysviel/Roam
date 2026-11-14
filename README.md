@@ -50,7 +50,7 @@ npm run dev
 | 每日自动检查登记来源（变化 → 待复核，不自动改事实） | 在线地理编码 `onlineGeocoding` |
 | 预订待办、住宿空缺、统计与点击定位 | AI 提取 `aiExtraction` |
 | Apple / Google 地图外部导航链接 | |
-| 本地 GeoJSON 导入（仅当前设备）与校验 | |
+| 统一导入（变更包 / 导出包 / GeoJSON）→ 草稿 → 提交；导出已发布或含草稿版本 | |
 | 网页编辑 → 本地草稿 → GitHub 提交（`data/edits/`，构建时校验） | |
 | 显示开关（候选 / 交通段 / 关键项 / 英文名），本设备保存 | |
 | JSON / CSV / ICS 导出、打印版 | |
@@ -74,7 +74,7 @@ design/          视觉规格、审查记录、基准截图  docs/           编
 ## 文档
 
 - [编辑数据与核实](docs/editing.md)
-- [模板与拼接（核实项模板、Actions 结构）](docs/architecture.md)
+- [模板与拼接（核实项模板、Actions 结构、统一进出通道）](docs/architecture.md)
 - [发布、回滚与复制为下一次旅行](docs/operations.md)
 - [实施 TODO 状态](docs/TODO.md)
 - [视觉规格](design/visual-spec.md) · [视觉审查记录](design/review-log.md)

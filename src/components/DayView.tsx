@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useEdit } from '../lib/draft';
 import { StayEditor, AddItemForm } from './editors';
 import { MODE_LABEL } from '../lib/derive';
+import { geoKind } from '../lib/edits';
 import DisplayToggles from './DisplayToggles';
 import type { Index } from '../lib/derive';
 import { dayPlaces } from '../lib/derive';
@@ -44,6 +45,13 @@ export default function DayView({ ix, day, url, nav, today, imported }: {
     return { points: pts, seqOfPlace: seq };
   }, [ix, day, items]);
   const legs = useMemo(() => items.flatMap((i) => (i.type === 'leg' ? [i.l] : [])), [items]);
+  // 已共享的可达范围：只在查询日期当天显示
+  const layers = useMemo<ImportedLayer[]>(() => [
+    ...Object.entries(ix.bundle.geo ?? {})
+      .filter(([, g]) => geoKind(g) === 'isochrone' && (g as { roam?: { query?: { date?: string } } }).roam?.query?.date === day)
+      .map(([name, g]) => ({ name, geojson: g, reliable: true, check: { ok: true, reliable: true, errors: [], warnings: [], summary: '已共享' } })),
+    ...imported,
+  ], [ix, day, imported]);
 
   const select = useCallback((id: string) => nav({ p: id }, false), [nav]);
   useEffect(() => {
@@ -123,7 +131,7 @@ export default function DayView({ ix, day, url, nav, today, imported }: {
           )}
         </section>
         <div className="day-map">
-          <MapPane ix={ix} points={points} legs={legs} selected={url.p} onSelect={select} imported={imported} />
+          <MapPane ix={ix} points={points} legs={legs} selected={url.p} onSelect={select} imported={layers} />
           {sel && (
             <aside className="place-sheet" aria-label="地点详情">
               <button type="button" className="sheet-close" aria-label="关闭地点详情" onClick={() => nav({ p: null }, false)}>×</button>
