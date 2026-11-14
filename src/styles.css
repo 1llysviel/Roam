@@ -357,3 +357,15 @@ summary { cursor: pointer; color: var(--ink-2); min-height: 28px; }
 .removed-list ul { margin: var(--s2) 0 0; padding-left: var(--s5); }
 .removed-list li { display: flex; justify-content: space-between; gap: var(--s3); padding: 2px 0; }
 .removed-list li > span { overflow-wrap: anywhere; }
+
+/* ── 附带核实项 ── */
+.claim-drafts { border: 1px dashed var(--rule-strong); border-radius: var(--radius); padding: var(--s2) var(--s3) var(--s3); margin: var(--s3) 0 0; }
+.claim-drafts legend { padding: 0 var(--s1); font-size: var(--fs-sm); color: var(--ink-2); font-weight: 600; }
+.claim-draft { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: var(--s2); align-items: center; margin-bottom: var(--s2); }
+.claim-draft.is-off .cd-text { color: var(--muted); text-decoration: line-through; }
+.claim-draft > input[type="checkbox"] { width: 18px; height: 18px; }
+.editor .claim-draft label.check { min-height: 0; }
+@media (max-width: 860px) {
+  .claim-draft { grid-template-columns: auto minmax(0, 1fr); }
+  .claim-draft > label.check, .claim-draft > .linklike { grid-column: 2; justify-self: start; }
+}

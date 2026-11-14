@@ -1,0 +1,40 @@
+# 可复用的「构建 + 发布到 Pages」模板。由 pages.yml 与 check-sources.yml 引用拼接，不单独触发。
+# 调用方需授予 contents: read、pages: write、id-token: write。
+name: _deploy-pages (template)
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: 要构建的分支或提交（来源检查写回后需要用最新的 main）
+        type: string
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: ./.github/actions/setup
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+          retention-days: 3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

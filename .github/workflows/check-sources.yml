@@ -1,4 +1,4 @@
-# 每日检查已登记的官方来源（单一状态写入者），写入 history/checks.json 后在同一工作流内显式构建部署。
+# 每日检查已登记的官方来源（单一状态写入者），写入 history/checks.json 后引用部署模板发布。
 # - GITHUB_TOKEN 推送不会再次触发其他工作流，所以这里直接部署。
 # - 没有写权限时：上传报告，网站保持上次结果，不要求 PAT。
 # - 旅行结束后脚本直接退出，不再抓取。定时可能延迟；公开仓库长期无活动时 GitHub 会停用定时任务。
@@ -26,11 +26,7 @@ jobs:
       pushed: ${{ steps.commit.outputs.pushed }}
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
+      - uses: ./.github/actions/setup
       - name: Check registered sources
         run: npm run check:sources
       - name: Commit state
@@ -59,36 +55,9 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-  build:
+  deploy:
     needs: check
     if: needs.check.outputs.pushed == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: main
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: dist
-          retention-days: 3
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    concurrency:
-      group: pages-deploy
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+    uses: ./.github/workflows/_deploy-pages.yml
+    with:
+      ref: main

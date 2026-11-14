@@ -1,6 +1,6 @@
 // 编辑操作：浏览器预览（本地草稿）与构建（data/edits/*.json）共用同一套应用逻辑。
 // 只允许白名单内的字段；应用后的完整数据仍须通过 scripts/lib/load.ts 的 Schema 与引用校验。
-import type { Activity, Leg, Place, ReviewEvent, TripData } from './model';
+import type { Activity, Claim, Leg, Place, ReviewEvent, Source, TripData } from './model';
 
 export type EditEntity = 'activity' | 'leg' | 'booking';
 
@@ -10,7 +10,9 @@ export type EditOp =
   | { type: 'select_stay'; stay_ids: string[]; place_id: string | null }
   | { type: 'add_review'; review: ReviewEvent }
   | { type: 'add_activity'; activity: Activity }
-  | { type: 'add_leg'; leg: Leg };
+  | { type: 'add_leg'; leg: Leg }
+  | { type: 'add_source'; source: Source }
+  | { type: 'add_claim'; claim: Claim };
 
 export interface EditFile {
   format: 'roam-edits';
@@ -29,14 +31,16 @@ export const EDITABLE_FIELDS: Record<EditEntity, string[]> = {
   booking: ['status', 'owner', 'amount', 'cancel_by', 'evidence', 'notes', 'selected', 'required'],
 };
 
-export interface ApplyResult { data: TripData; reviews: ReviewEvent[]; errors: string[]; touched: Set<string> }
+export interface ApplyResult { data: TripData; reviews: ReviewEvent[]; sources: Source[]; errors: string[]; touched: Set<string> }
 
 const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x));
 
 /** 依次应用操作；遇到未知对象或不允许的字段记为错误并跳过该操作。 */
-export function applyOps(base: TripData, baseReviews: ReviewEvent[], ops: EditOp[]): ApplyResult {
+export function applyOps(base: TripData, baseReviews: ReviewEvent[], ops: EditOp[], baseSources: Source[] = []): ApplyResult {
   const data = clone(base);
   const reviews = clone(baseReviews);
+  const sources = clone(baseSources);
+  const allIds = () => new Set<string>([...data.activities, ...data.legs, ...data.places, ...data.bookings, ...data.claims, ...data.stays, ...sources].map((x) => x.id));
   const errors: string[] = [];
   const touched = new Set<string>();
   const list = (e: EditEntity) => (e === 'activity' ? data.activities : e === 'leg' ? data.legs : data.bookings) as unknown as Array<Record<string, unknown> & { id: string }>;
@@ -100,11 +104,29 @@ export function applyOps(base: TripData, baseReviews: ReviewEvent[], ops: EditOp
         touched.add(op.review.claim_id);
         break;
       }
+      case 'add_source': {
+        if (!/^src-[a-z0-9-]+$/.test(op.source?.id ?? '') || allIds().has(op.source.id)) { errors.push(`来源 ID 无效或已存在：${op.source?.id}`); break; }
+        sources.push(clone(op.source));
+        touched.add(op.source.id);
+        break;
+      }
+      case 'add_claim': {
+        const c = op.claim;
+        if (!c?.id || allIds().has(c.id)) { errors.push(`事实 ID 无效或已存在：${c?.id}`); break; }
+        const subject = (data.activities.find((x) => x.id === c.subject_id) ?? data.legs.find((x) => x.id === c.subject_id)) as (Activity | Leg | undefined);
+        if (!subject) { errors.push(`找不到事实主体 ${c.subject_id}`); break; }
+        const missing = c.source_ids.filter((s) => !sources.some((x) => x.id === s));
+        if (missing.length) { errors.push(`找不到来源 ${missing.join(',')}`); break; }
+        data.claims.push(clone(c));
+        subject.claim_ids = [...(subject.claim_ids ?? []), c.id];
+        touched.add(c.id); touched.add(subject.id);
+        break;
+      }
       default:
         errors.push(`未知操作 ${(op as { type?: string }).type}`);
     }
   }
-  return { data, reviews, errors, touched };
+  return { data, reviews, sources, errors, touched };
 }
 
 function placeName(data: TripData, id: string) { return data.places.find((p) => p.id === id)?.name_zh ?? id; }
@@ -150,6 +172,8 @@ export function describeOp(op: EditOp, data: TripData): string {
     case 'select_stay': return `${op.stay_ids.length} 晚住宿 → ${op.place_id ? placeName(data, op.place_id) : '未选定'}`;
     case 'add_activity': return `新增活动：${op.activity.date.slice(5).replace('-', '/')} ${op.activity.title_zh}`;
     case 'add_leg': return `新增交通：${op.leg.date.slice(5).replace('-', '/')} ${placeName(data, op.leg.from_place_id)} → ${placeName(data, op.leg.to_place_id)}`;
+    case 'add_source': return `新增来源：${op.source.title}`;
+    case 'add_claim': return `附带核实项：${op.claim.statement_zh}`;
     case 'add_review': return `登记复核：${data.claims.find((c) => c.id === op.review.claim_id)?.statement_zh ?? op.review.claim_id} → ${op.review.result}`;
   }
 }

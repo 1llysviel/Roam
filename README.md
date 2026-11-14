@@ -10,7 +10,7 @@
 
 - 线上：`https://1llysviel.github.io/Roam/`（启用 Pages 后可用；子路径随仓库名自动推导）
 - 视图：`行程`（日期导航 + 当天卡片 + 地图）· `核实`（事实、来源、历史）· `预订`（待办与住宿空缺）· `总览`（覆盖率、有效核实率、预订完成率、关键缺口、扩展开关）· `打印版`
-- **编辑**：右上角「✎ 编辑」可直接在网页上新增 / 删除活动与交通、选住处、改预订、登记核实、调整时段；先存为本设备草稿，再一键打开 GitHub 提交给同行（无需 token），见 [编辑说明](docs/editing.md)
+- **编辑**：右上角「✎ 编辑」可直接在网页上新增 / 删除活动与交通（可按模板附带核实项）、选住处、改预订、登记核实、调整时段；先存为本设备草稿，再一键打开 GitHub 提交给同行（无需 token），见 [编辑说明](docs/editing.md)
 - 链接带日期 / 视图 / 地点参数，例如 `?d=2026-12-25&p=pl-victoria-coach`，可以直接发给同行，刷新不会 404。
 
 ## 首次启用（仅需一次）
@@ -62,6 +62,8 @@ npm run dev
 ```
 data/trips/      行程主数据（YAML）        data/sources/   来源登记
 data/edits/      网站提交的修改记录（构建时按序应用）
+templates/       核实项模板（{{占位符}}，新增 / 编辑时填充拼接）
+.github/         actions/setup（公共步骤）+ workflows/_deploy-pages（可复用部署模板）
 history/         reviews.yaml 人工复核 · checks.json 自动检查状态（唯一写入者：check-sources）
 schemas/         JSON Schema               geo/            已审核的路线 / 范围 GeoJSON（需声明来源与许可）
 src/             React + TypeScript 前端   scripts/        校验、构建、导出、来源检查、截图
@@ -72,6 +74,7 @@ design/          视觉规格、审查记录、基准截图  docs/           编
 ## 文档
 
 - [编辑数据与核实](docs/editing.md)
+- [模板与拼接（核实项模板、Actions 结构）](docs/architecture.md)
 - [发布、回滚与复制为下一次旅行](docs/operations.md)
 - [实施 TODO 状态](docs/TODO.md)
 - [视觉规格](design/visual-spec.md) · [视觉审查记录](design/review-log.md)

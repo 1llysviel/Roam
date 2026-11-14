@@ -5,6 +5,7 @@ import { appleMapsLeg, appleMapsPlace, googleMapsLeg, googleMapsPlace } from '..
 import Badge, { type Tone } from './Badge';
 import Evidence from './Evidence';
 import { ActivityEditor, LegEditor, RemoveConfirm } from './editors';
+import { AddClaimsForm } from './ClaimComposer';
 import { useEdit } from '../lib/draft';
 
 const BOOK_TONE: Record<string, Tone> = { booked: 'ok', unknown: 'warn', not_booked: 'bad', cancelled: 'bad', not_required: 'muted' };
@@ -23,6 +24,7 @@ export default function ItemCard({ ix, item, n, selected, onLocate }: {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(false);
   const [removing, setRemoving] = useState(false);
+  const [addingClaims, setAddingClaims] = useState(false);
   const { editMode, touchedDraft, touchedPending, prefs } = useEdit();
   const claimIds = item.type === 'activity' ? item.a.claim_ids ?? [] : item.l.claim_ids ?? [];
   const bookingIds = item.type === 'activity' ? item.a.booking_ids ?? [] : item.l.booking_ids ?? [];
@@ -99,8 +101,10 @@ export default function ItemCard({ ix, item, n, selected, onLocate }: {
           )}
           {claimIds.length > 0 && <button type="button" className="btn btn-ghost" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? '收起来源' : `来源详情 (${claimIds.length})`}</button>}
           {editMode && !editing && !removing && <button type="button" className="btn btn-edit" onClick={() => setEditing(true)}>✎ 修改</button>}
+          {editMode && !editing && !removing && !addingClaims && <button type="button" className="btn btn-edit" onClick={() => setAddingClaims(true)}>＋ 核实项</button>}
           {editMode && !editing && !removing && <button type="button" className="btn btn-ghost btn-del" onClick={() => setRemoving(true)} aria-label={`删除 ${title}`}>删除</button>}
         </div>
+        {addingClaims && <AddClaimsForm ix={ix} subject={item.type === 'activity' ? { entity: 'activity', item: item.a } : { entity: 'leg', item: item.l }} onDone={() => setAddingClaims(false)} />}
         {removing && <RemoveConfirm entity={item.type} id={id} title={title} onDone={() => setRemoving(false)} />}
         {editing && (item.type === 'activity' ? <ActivityEditor ix={ix} a={item.a} onDone={() => setEditing(false)} /> : <LegEditor l={item.l} onDone={() => setEditing(false)} />)}
         {open && <Evidence ix={ix} claimIds={claimIds} />}

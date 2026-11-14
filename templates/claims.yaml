@@ -1,0 +1,108 @@
+# 核实项模板（类似 factory/template）：新增或编辑行程项目时，按项目类型挑选适用模板，
+# 用项目数据填充 {{占位符}} 后拼接成待核实事实（Claim）。网页上可以勾选、改写，也可以写自定义核实项。
+#
+# 可用占位符：
+#   {{title}}    项目名称（活动）           {{place}}    地点中文名
+#   {{date}}     2026-12-17                {{md}}       12/17
+#   {{weekday}}  周四                      {{daypart}}  上午 / 下午 / 傍晚 / 晚上 …
+#   {{time}}     活动开始时间               {{city}}     城市
+#   {{from}} {{to}}        交通段起终点中文名
+#   {{from_en}} {{to_en}}  交通段起终点英文名（同时用作 Claim 的 direction）
+#   {{mode}}     交通方式（火车、长途大巴…） {{depart}}   出发时间
+#
+# 字段：
+#   for.activity / for.leg  适用的活动类型 / 交通方式；"*" 表示全部
+#   requires                这些占位符为空时模板不适用（例如没有出发时间就不出「班次时刻」）
+#   default                 新增时是否默认勾选
+#   critical                inherit = 项目重要性为关键或高时记为关键事实；也可写 true / false
+#   max_age_days            确认后多少天视为过期
+schema_version: 1
+templates:
+  # ── 景点 ──
+  - id: sight-opening
+    label: 指定日期开放
+    for: { activity: [sight] }
+    kind: opening
+    statement: "{{title}} {{md}}（{{weekday}}）对游客开放及开放时段"
+    default: true
+    critical: inherit
+    max_age_days: 7
+  - id: sight-last-entry
+    label: 最后入场时间
+    for: { activity: [sight] }
+    kind: last_entry
+    statement: "{{title}} {{md}} 最后入场时间"
+    default: false
+    critical: false
+    max_age_days: 7
+  - id: sight-ticket
+    label: 票型与预约
+    for: { activity: [sight] }
+    kind: ticket
+    statement: "{{title}} 票型与是否需要提前预约（{{md}}）"
+    default: false
+    critical: false
+    max_age_days: 14
+  # ── 餐饮 ──
+  - id: meal-open-booking
+    label: 营业与订位
+    for: { activity: [meal] }
+    kind: opening
+    statement: "{{title}} {{md}} {{daypart}}营业、是否需要订位"
+    default: true
+    critical: inherit
+    max_age_days: 14
+  # ── 住宿 ──
+  - id: lodging-checkin
+    label: 入住与寄存
+    for: { activity: [lodging] }
+    kind: lodging
+    statement: "{{title}} 入住时间与寄存行李（{{md}}）"
+    default: true
+    critical: false
+    max_age_days: 30
+  # ── 航班 ──
+  - id: flight-departure
+    label: 起飞时刻与航站楼
+    for: { activity: [flight] }
+    kind: departure_time
+    statement: "{{title}} {{md}} {{time}} 起飞时刻与航站楼"
+    requires: [time]
+    default: true
+    critical: true
+    max_age_days: 7
+  # ── 公共交通 ──
+  - id: transit-runs
+    label: 当日有班次
+    for: { leg: [rail, coach, bus, tube] }
+    kind: service_runs
+    statement: "{{md}}（{{weekday}}）{{from}} → {{to}} 有{{mode}}班次、无停运"
+    default: true
+    critical: inherit
+    max_age_days: 7
+  - id: transit-departure
+    label: 指定班次时刻
+    for: { leg: [rail, coach, bus] }
+    kind: departure_time
+    statement: "{{md}} {{from}} → {{to}} 有 {{depart}} 出发的{{mode}}班次"
+    requires: [depart]
+    default: true
+    critical: inherit
+    max_age_days: 3
+  - id: transit-seats
+    label: 余票（动态）
+    for: { leg: [rail, coach] }
+    kind: availability
+    statement: "所选 {{md}} {{from}} → {{to}} {{mode}}班次仍有余票（动态信息，需记录查询条件与时间）"
+    default: false
+    critical: inherit
+    max_age_days: 1
+  # ── 出租车 / 约车 ──
+  - id: taxi-prebook
+    label: 可提前约车
+    for: { leg: [taxi, car] }
+    kind: availability
+    statement: "{{md}} {{daypart}} {{from}} → {{to}} 可提前预约出租车"
+    default: false
+    critical: inherit
+    max_age_days: 7

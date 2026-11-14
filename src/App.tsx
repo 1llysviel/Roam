@@ -50,9 +50,9 @@ export default function App() {
   const view = useMemo(() => {
     if (!published) return null;
     const pendingOps = st.submitted.filter((s) => !rejected.has(s.id)).flatMap((s) => s.ops);
-    const pend = applyOps(published.data, published.reviews, pendingOps);
-    const draft = applyOps(pend.data, pend.reviews, st.ops);
-    const bundle: Bundle = { ...published, data: draft.data, reviews: draft.reviews };
+    const pend = applyOps(published.data, published.reviews, pendingOps, published.sources);
+    const draft = applyOps(pend.data, pend.reviews, st.ops, pend.sources);
+    const bundle: Bundle = { ...published, data: draft.data, reviews: draft.reviews, sources: draft.sources };
     return { bundle, touchedDraft: draft.touched, touchedPending: pend.touched, errors: [...draft.errors, ...quickCheck(draft.data)] };
   }, [published, st.ops, st.submitted, rejected]);
 

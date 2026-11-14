@@ -232,6 +232,19 @@ export interface Features {
 }
 
 /** 构建产物：前端读取的唯一数据文件。 */
+/** 核实项模板（templates/claims.yaml），见 src/lib/templates.ts。 */
+export interface ClaimTemplate {
+  id: string;
+  label: string;
+  for: { activity?: string[]; leg?: string[] };
+  kind: string;
+  statement: string;
+  requires?: string[];
+  default: boolean;
+  critical: 'inherit' | boolean;
+  max_age_days: number;
+}
+
 export interface AppliedEdit { id: string; file: string; author: string; created_at: string; ops: number }
 export interface RejectedEdit { file: string; id: string | null; errors: string[] }
 
@@ -245,5 +258,6 @@ export interface Bundle {
   checks: ChecksState;
   features: Features;
   geo: Record<string, unknown>; // 已审核的 GeoJSON（路线、导入范围），键为文件名
+  templates: ClaimTemplate[];
   license: string;
 }

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roam.local/schemas/claim-templates.schema.json",
+  "type": "object", "additionalProperties": false, "required": ["schema_version", "templates"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "templates": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "label", "for", "kind", "statement", "default", "critical", "max_age_days"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "label": { "type": "string" },
+          "for": {
+            "type": "object", "additionalProperties": false,
+            "properties": {
+              "activity": { "type": "array", "items": { "type": "string" } },
+              "leg": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "kind": { "type": "string" },
+          "statement": { "type": "string", "minLength": 1 },
+          "requires": { "type": "array", "items": { "type": "string" } },
+          "default": { "type": "boolean" },
+          "critical": { "enum": ["inherit", true, false] },
+          "max_age_days": { "type": "integer", "minimum": 1 }
+        }
+      }
+    }
+  }
+}

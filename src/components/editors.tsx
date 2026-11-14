@@ -1,6 +1,8 @@
 // 编辑表单：只产生白名单内的编辑操作，写入本地草稿。
-import { useState } from 'react';
-import type { Activity, Booking, Claim, Leg, Place, Stay } from '../lib/model';
+import { useMemo, useState } from 'react';
+import type { Activity, Booking, Claim, Leg, Place, Stay, TripData } from '../lib/model';
+import { composeClaimOps, type SourceChoice, type TemplateSubject } from '../lib/templates';
+import { ClaimDraftList, SourcePicker, useClaimDrafts } from './ClaimComposer';
 import type { Index } from '../lib/derive';
 import { BOOKING_LABEL, DAYPART_LABEL, MODE_LABEL, PLAN_LABEL } from '../lib/derive';
 import { newId, type EditOp } from '../lib/edits';
@@ -175,7 +177,7 @@ export function BookingEditor({ b, onDone }: { b: Booking; onDone: () => void })
         <label className="check"><input type="checkbox" checked={f.selected} onChange={(e) => setF({ ...f, selected: e.target.checked })} />已选定</label>
         <label className="check"><input type="checkbox" checked={f.required} onChange={(e) => setF({ ...f, required: e.target.checked })} />需要预订</label>
       </div>
-      <label className="ed-wide">依据{f.status === 'booked' && <strong className="tone-text-bad"> *</strong>}<input value={f.evidence} onChange={(e) => setF({ ...f, evidence: e.target.value })} maxLength={300} placeholder="例如：小林 11/20 在群里确认已付款（不要写订单号）" /></label>
+      <label className="ed-wide"><span>依据{f.status === 'booked' && <strong className="tone-text-bad"> *</strong>}</span><input value={f.evidence} onChange={(e) => setF({ ...f, evidence: e.target.value })} maxLength={300} placeholder="例如：小林 11/20 在群里确认已付款（不要写订单号）" /></label>
       <label className="ed-wide">备注<input value={f.notes} onChange={(e) => setF({ ...f, notes: e.target.value })} maxLength={300} /></label>
       <Actions onSave={save} onCancel={onDone} disabled={!amountOk || needEvidence} hint={needEvidence ? '标为已订必须写依据' : !amountOk ? '金额格式如 129.50' : undefined} />
     </div>
@@ -262,8 +264,8 @@ function PlacePicker({ ix, day, value, onChange, newPlace, setNewPlace, label, a
   );
 }
 
-function makePlace(np: NewPlace, kind: Place['kind']): Place {
-  return { id: newId('pl-u'), name_zh: np.name_zh.trim(), name_en: np.name_en.trim() || np.name_zh.trim(), kind, city: np.city, address: np.address.trim() || null, coord: null, coord_source: 'none', coord_precision: 'none' };
+function makePlace(np: NewPlace, kind: Place['kind'], id: string): Place {
+  return { id, name_zh: np.name_zh.trim(), name_en: np.name_en.trim() || np.name_zh.trim(), kind, city: np.city, address: np.address.trim() || null, coord: null, coord_source: 'none', coord_precision: 'none' };
 }
 
 function PositionSelect({ ix, day, value, onChange }: { ix: Index; day: string; value: string; onChange: (v: string) => void }) {
@@ -291,6 +293,8 @@ export function AddItemForm({ ix, day, onDone }: { ix: Index; day: string; onDon
   const [l, setL] = useState({ mode: 'rail' as Leg['mode'], from: '', to: '', depart: '', arrive: '', timing_basis: '', daypart: '', importance: 'normal' as Leg['importance'], notes: '' });
   const [np, setNp] = useState<NewPlace>(blankPlace);
   const [np2, setNp2] = useState<NewPlace>(blankPlace);
+  const [ids] = useState(() => ({ act: newId('act-u'), leg: newId('leg-u'), p1: newId('pl-u'), p2: newId('pl-u') }));
+  const [source, setSource] = useState<SourceChoice>({ type: 'none' });
 
   const order = date !== day || pos === '__end' ? orderAfter(ix, date, (() => { const it = ix.itemsByDay.get(date) ?? []; const last = it.at(-1); return last ? (last.type === 'activity' ? last.a.id : last.l.id) : null; })()) : orderAfter(ix, day, pos === '__start' ? null : pos);
 
@@ -298,36 +302,53 @@ export function AddItemForm({ ix, day, onDone }: { ix: Index; day: string; onDon
   const actOk = a.title_zh.trim().length > 0 && placeOk(a.place, np);
   const legOk = !!l.from && !!l.to && placeOk(l.from, np) && placeOk(l.to, np2) && !(l.from === l.to && l.from !== '__new');
 
-  const save = () => {
-    const ops: EditOp[] = [];
-    const resolve = (v: string, p: NewPlace, kind: Place['kind']): string | null => {
-      if (v === '__new') { const place = makePlace(p, kind); ops.push({ type: 'add_place', place }); return place.id; }
+  /** 由表单状态构造新项目（ID 稳定，便于模板预览与提交一致）。 */
+  const built = useMemo(() => {
+    const placeOps: EditOp[] = [];
+    const resolve = (v: string, p: NewPlace, kind: Place['kind'], id: string): string | null => {
+      if (v === '__new') { if (!p.name_zh.trim()) return null; placeOps.push({ type: 'add_place', place: makePlace(p, kind, id) }); return id; }
       return v || null;
     };
+    let subject: TemplateSubject | null = null;
+    let itemOp: EditOp | null = null;
     if (what === 'activity') {
-      const placeId = resolve(a.place, np, PLACE_KIND_FOR[a.kind]);
+      const placeId = resolve(a.place, np, PLACE_KIND_FOR[a.kind], ids.p1);
       const act: Activity = {
-        id: newId('act-u'), date, order, kind: a.kind, title_zh: a.title_zh.trim(), title_en: a.title_en.trim() || a.title_zh.trim(),
+        id: ids.act, date, order, kind: a.kind, title_zh: a.title_zh.trim(), title_en: a.title_en.trim() || a.title_zh.trim(),
         place_id: placeId, time: a.start ? { start: a.start, end: a.end || null, basis: a.basis as 'proposed' } : null,
         importance: a.importance, plan_status: a.plan_status,
       };
       if (!a.start && a.daypart) act.daypart = a.daypart as Activity['daypart'];
       if (a.notes.trim()) act.notes = a.notes.trim();
-      ops.push({ type: 'add_activity', activity: act });
+      itemOp = { type: 'add_activity', activity: act };
+      if (act.title_zh) subject = { entity: 'activity', item: act };
     } else {
-      const from = resolve(l.from, np, 'other')!;
-      const to = resolve(l.to, np2, 'other')!;
-      const both = ix.places.get(from)?.coord && ix.places.get(to)?.coord;
-      const leg: Leg = {
-        id: newId('leg-u'), date, order, mode: l.mode, from_place_id: from, to_place_id: to,
-        depart: l.depart || null, arrive: l.arrive || null, timing_basis: (l.timing_basis || null) as Leg['timing_basis'],
-        duration_min: null, route_precision: both ? 'schematic' : 'unavailable', importance: l.importance,
-      };
-      if (l.daypart) leg.daypart = l.daypart as Leg['daypart'];
-      if (l.notes.trim()) leg.notes = l.notes.trim();
-      ops.push({ type: 'add_leg', leg });
+      const from = resolve(l.from, np, 'other', ids.p1);
+      const to = resolve(l.to, np2, 'other', ids.p2);
+      if (from && to) {
+        const both = ix.places.get(from)?.coord && ix.places.get(to)?.coord;
+        const leg: Leg = {
+          id: ids.leg, date, order, mode: l.mode, from_place_id: from, to_place_id: to,
+          depart: l.depart || null, arrive: l.arrive || null, timing_basis: (l.timing_basis || null) as Leg['timing_basis'],
+          duration_min: null, route_precision: both ? 'schematic' : 'unavailable', importance: l.importance,
+        };
+        if (l.daypart) leg.daypart = l.daypart as Leg['daypart'];
+        if (l.notes.trim()) leg.notes = l.notes.trim();
+        itemOp = { type: 'add_leg', leg };
+        subject = { entity: 'leg', item: leg };
+      }
     }
-    addOps(ops);
+    const newPlaces = placeOps.flatMap((o) => (o.type === 'add_place' ? [o.place] : []));
+    const preview: TripData = { ...ix.bundle.data, places: [...ix.bundle.data.places, ...newPlaces] };
+    return { placeOps, itemOp, subject, preview };
+  }, [what, a, l, np, np2, date, order, ids, ix]);
+
+  const claims = useClaimDrafts(ix, built.subject, built.preview);
+
+  const save = () => {
+    if (!built.itemOp || !built.subject) return;
+    const claimOps = composeClaimOps(claims.drafts, built.subject, built.preview, source);
+    addOps([...built.placeOps, built.itemOp, ...claimOps]);
     onDone();
   };
 
@@ -344,7 +365,7 @@ export function AddItemForm({ ix, day, onDone }: { ix: Index; day: string; onDon
           <>
             <label>类型<select value={a.kind} onChange={(e) => setA({ ...a, kind: e.target.value as Activity['kind'] })}>{KIND_OPTIONS.map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
             <label>计划状态<select value={a.plan_status} onChange={(e) => setA({ ...a, plan_status: e.target.value as Activity['plan_status'] })}>{Object.entries(PLAN_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
-            <label className="ed-wide">名称 <strong className="tone-text-bad">*</strong><input value={a.title_zh} onChange={(e) => setA({ ...a, title_zh: e.target.value })} placeholder="例如：自然史博物馆" maxLength={80} /></label>
+            <label className="ed-wide"><span>名称 <strong className="tone-text-bad">*</strong></span><input value={a.title_zh} onChange={(e) => setA({ ...a, title_zh: e.target.value })} placeholder="例如：自然史博物馆" maxLength={80} /></label>
             <label className="ed-wide">英文名（可选）<input value={a.title_en} onChange={(e) => setA({ ...a, title_en: e.target.value })} maxLength={80} /></label>
             <PlacePicker ix={ix} day={date} value={a.place} onChange={(v) => setA({ ...a, place: v })} newPlace={np} setNewPlace={setNp} label="地点" />
             <label>时段<select value={a.daypart} onChange={(e) => setA({ ...a, daypart: e.target.value })} disabled={!!a.start}><option value="">未指定</option>{Object.entries(DAYPART_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
@@ -368,6 +389,10 @@ export function AddItemForm({ ix, day, onDone }: { ix: Index; day: string; onDon
             <p className="small muted ed-wide">新交通段在地图上只画「连接示意」虚线；时长不估算，需要在核实中登记。</p>
           </>
         )}
+      </div>
+      <div className="ed-grid">
+        <ClaimDraftList subject={built.subject} drafts={claims.drafts} setDrafts={claims.setDrafts} update={claims.update} />
+        {claims.drafts.some((d) => d.checked) && <SourcePicker ix={ix} value={source} onChange={setSource} />}
       </div>
       <p className="small muted">新增项目的预订状态为「未知」，需要时到「预订」中补充；「已订」时间只能在关联预订确认后设置。</p>
       <Actions onSave={save} onCancel={onDone} disabled={what === 'activity' ? !actOk : !legOk}

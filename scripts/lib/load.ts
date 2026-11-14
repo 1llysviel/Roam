@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
-import type { AppliedEdit, ChecksState, Features, RejectedEdit, ReviewEvent, Source, TripData } from '../../src/lib/model';
+import type { AppliedEdit, ChecksState, ClaimTemplate, Features, RejectedEdit, ReviewEvent, Source, TripData } from '../../src/lib/model';
 import { applyOps, type EditFile } from '../../src/lib/edits';
 import { dateRange } from '../../src/lib/dates';
 
@@ -16,7 +16,7 @@ const readJson = (p: string) => JSON.parse(readFileSync(join(ROOT, p), 'utf8'));
 
 export interface Loaded {
   data: TripData; sources: Source[]; reviews: ReviewEvent[]; checks: ChecksState; features: Features;
-  geo: Record<string, unknown>;
+  geo: Record<string, unknown>; templates: ClaimTemplate[];
 }
 
 function makeAjv() {
@@ -35,7 +35,8 @@ export function loadAll(): Loaded {
   const geo: Record<string, unknown> = {};
   const geoDir = join(ROOT, 'geo');
   if (existsSync(geoDir)) for (const f of readdirSync(geoDir)) if (f.endsWith('.geojson')) geo[f] = readJson(`geo/${f}`);
-  return { data, sources, reviews, checks, features, geo };
+  const templates = (readYaml('templates/claims.yaml') as { templates: ClaimTemplate[] }).templates;
+  return { data, sources, reviews, checks, features, geo, templates };
 }
 
 /** Schema 校验 + 引用完整性 + 真实性约定。返回错误列表（空表示通过）。 */
@@ -50,6 +51,7 @@ export function validateAll(l: Loaded): string[] {
   check('sources.schema.json', { schema_version: 1, sources: l.sources }, 'sources');
   check('reviews.schema.json', { schema_version: 1, reviews: l.reviews }, 'reviews');
   check('checks.schema.json', l.checks, 'checks');
+  check('claim-templates.schema.json', { schema_version: 1, templates: l.templates }, 'templates');
   if (errs.length) return errs;
 
   const d = l.data;
@@ -129,8 +131,8 @@ export function applyEditFiles(base: Loaded): WithEdits {
     catch (e) { rejected.push({ file, id: null, errors: [`JSON 解析失败：${(e as Error).message}`] }); continue; }
     if (!check(ef)) { rejected.push({ file, id: (ef as any)?.id ?? null, errors: (check.errors ?? []).map((e: { instancePath: string; message?: string }) => `${e.instancePath} ${e.message}`) }); continue; }
     if (applied.some((a) => a.id === ef.id)) { rejected.push({ file, id: ef.id, errors: ['重复的修改 ID'] }); continue; }
-    const r = applyOps(cur.data, cur.reviews, ef.ops);
-    const next: Loaded = { ...cur, data: r.data, reviews: r.reviews };
+    const r = applyOps(cur.data, cur.reviews, ef.ops, cur.sources);
+    const next: Loaded = { ...cur, data: r.data, reviews: r.reviews, sources: r.sources };
     const errs = [...r.errors, ...validateAll(next)];
     if (errs.length) { rejected.push({ file, id: ef.id, errors: errs.slice(0, 10) }); continue; }
     cur = next;

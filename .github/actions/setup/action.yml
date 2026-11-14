@@ -1,0 +1,12 @@
+# 公共步骤模板：安装 Node 与锁定版本的依赖。各工作流在 checkout 之后引用：uses: ./.github/actions/setup
+name: Setup Roam
+description: Node.js 22 + npm ci（使用 npm 缓存）
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v5
+      with:
+        node-version: 22
+        cache: npm
+    - run: npm ci
+      shell: bash

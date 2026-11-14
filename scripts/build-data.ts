@@ -31,7 +31,7 @@ const bundle: Bundle = {
   build: { version: `${pkgVersion}+${commit ? commit.slice(0, 7) : 'local'}`, built_at: builtAt, commit, repo: process.env.GITHUB_REPOSITORY ?? repoFromGit(), branch: process.env.GITHUB_REF_NAME ?? 'main' },
   edits: { applied, rejected },
   data: loaded.data, sources: loaded.sources, reviews: loaded.reviews, checks: loaded.checks,
-  features: loaded.features, geo: loaded.geo,
+  features: loaded.features, geo: loaded.geo, templates: loaded.templates,
   license: '行程数据与核实记录：CC BY 4.0（仓库作者）。地图底图 © OpenStreetMap contributors（ODbL），不随导出分发。',
 };
 

@@ -5,13 +5,13 @@
 // - 旅行结束后直接退出，不再抓取。
 import { readFileSync, writeFileSync, mkdirSync, appendFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { loadAll, ROOT } from './lib/load';
+import { loadAll, applyEditFiles, ROOT } from './lib/load';
 import { textBlocks, relevantBlocks, hashBlocks, looksBlocked } from './lib/extract';
 import { RULES } from '../src/lib/rules';
 import { londonToday } from '../src/lib/dates';
 import type { ChecksState, CheckEvent, FetchStatus, SourceState } from '../src/lib/model';
 
-const l = loadAll();
+const l = applyEditFiles(loadAll()).loaded; // 网站上新增的来源与核实项也一并检查
 const cfg = l.features.sourceChecks;
 const now = new Date();
 const today = londonToday(now);
