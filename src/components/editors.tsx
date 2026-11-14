@@ -31,14 +31,15 @@ const hhmm = (v: string) => (v ? v : null);
 export function ActivityEditor({ ix, a, onDone }: { ix: Index; a: Activity; onDone: () => void }) {
   const { addOps } = useEdit();
   const [f, setF] = useState({
+    title_zh: a.title_zh, title_en: a.title_en,
     date: a.date, plan_status: a.plan_status, daypart: a.daypart ?? '', start: a.time?.start ?? '', end: a.time?.end ?? '',
     basis: a.time?.basis ?? 'proposed', notes: a.notes ?? '', importance: a.importance,
   });
   const save = () => {
     const time = f.start ? { start: f.start, end: hhmm(f.end), basis: f.basis } : null;
     const ops = diffOps('activity', a.id,
-      { date: a.date, plan_status: a.plan_status, daypart: a.daypart, time: a.time, notes: a.notes, importance: a.importance },
-      { date: f.date, plan_status: f.plan_status, daypart: f.daypart || undefined, time, notes: f.notes || undefined, importance: f.importance });
+      { title_zh: a.title_zh, title_en: a.title_en, date: a.date, plan_status: a.plan_status, daypart: a.daypart, time: a.time, notes: a.notes, importance: a.importance },
+      { title_zh: f.title_zh.trim() || a.title_zh, title_en: f.title_en.trim() || a.title_en, date: f.date, plan_status: f.plan_status, daypart: f.daypart || undefined, time, notes: f.notes || undefined, importance: f.importance });
     if (ops.length) addOps(ops);
     onDone();
   };
@@ -46,6 +47,8 @@ export function ActivityEditor({ ix, a, onDone }: { ix: Index; a: Activity; onDo
   return (
     <div className="editor" role="group" aria-label={`编辑 ${a.title_zh}`}>
       <div className="ed-grid">
+        <label className="ed-wide">名称<input value={f.title_zh} onChange={(e) => setF({ ...f, title_zh: e.target.value })} maxLength={80} /></label>
+        <label className="ed-wide">英文名<input value={f.title_en} onChange={(e) => setF({ ...f, title_en: e.target.value })} maxLength={80} /></label>
         <label>日期<select value={f.date} onChange={(e) => setF({ ...f, date: e.target.value })}>{ix.days.map((d) => <option key={d} value={d}>{shortDate(d)} {weekdayZh(d)}</option>)}</select></label>
         <label>计划状态<select value={f.plan_status} onChange={(e) => setF({ ...f, plan_status: e.target.value as Activity['plan_status'] })}>{Object.entries(PLAN_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
         <label>时段<select value={f.daypart} onChange={(e) => setF({ ...f, daypart: e.target.value })}><option value="">未指定</option>{Object.entries(DAYPART_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
@@ -203,6 +206,192 @@ export function ReviewForm({ ix, claim, onDone }: { ix: Index; claim: Claim; onD
       <label className="ed-wide">证据摘要<textarea rows={2} value={f.evidence} onChange={(e) => setF({ ...f, evidence: e.target.value })} maxLength={600} placeholder="在哪个页面、用什么查询条件、何时看到的" /></label>
       {f.date !== claim.target_date && f.result === 'verified' && <p className="small tone-text-warn">⚠ 核实日期与目标日期不同，不会计入有效核实。</p>}
       <Actions onSave={save} onCancel={onDone} disabled={missing} />
+    </div>
+  );
+}
+
+// ───────────── 新增与删除 ─────────────
+
+const KIND_OPTIONS: Array<[Activity['kind'], string]> = [['sight', '景点'], ['meal', '餐饮'], ['lodging', '住宿'], ['free', '自由活动'], ['arrival', '抵达'], ['flight', '航班'], ['other', '其他']];
+const PLACE_KIND_FOR: Record<Activity['kind'], Place['kind']> = { sight: 'sight', meal: 'restaurant', lodging: 'lodging', free: 'other', arrival: 'other', flight: 'airport', other: 'other' };
+
+/** 计算插入位置的 order：放在 afterId 之后（null = 当天最前）。 */
+export function orderAfter(ix: Index, day: string, afterId: string | null): number {
+  const items = ix.itemsByDay.get(day) ?? [];
+  const orders = items.map((it) => it.order);
+  if (afterId === null) return orders.length ? Math.min(0, orders[0]) - 10 : 10;
+  const i = items.findIndex((it) => (it.type === 'activity' ? it.a.id : it.l.id) === afterId);
+  if (i < 0) return (orders.at(-1) ?? 0) + 10;
+  const prev = orders[i];
+  const next = orders[i + 1];
+  return next === undefined ? prev + 10 : Math.floor((prev + next) / 2) === prev ? prev : Math.floor((prev + next) / 2);
+}
+
+interface NewPlace { name_zh: string; name_en: string; city: string; address: string }
+
+/** 地点选择：已有地点（当天城市优先）/ 新地点 / 无。 */
+function PlacePicker({ ix, day, value, onChange, newPlace, setNewPlace, label, allowNone = true }: {
+  ix: Index; day: string; value: string; onChange: (v: string) => void; newPlace: NewPlace; setNewPlace: (p: NewPlace) => void; label: string; allowNone?: boolean;
+}) {
+  const dayCities = ix.cityOfDay.get(day) ?? [];
+  const cityOrder = [...dayCities, ...ix.bundle.data.trip.cities.map((c) => c.id).filter((c) => !dayCities.includes(c))];
+  const real = ix.bundle.data.places.filter((p) => !/未选定/.test(p.name_zh));
+  return (
+    <>
+      <label className="ed-wide">{label}
+        <select value={value} onChange={(e) => onChange(e.target.value)}>
+          {allowNone && <option value="">无具体地点</option>}
+          {!allowNone && <option value="">请选择</option>}
+          {cityOrder.map((c) => {
+            const list = real.filter((p) => p.city === c);
+            return list.length ? <optgroup key={c} label={ix.cityName.get(c) ?? c}>{list.map((p) => <option key={p.id} value={p.id}>{p.name_zh}</option>)}</optgroup> : null;
+          })}
+          <option value="__new">＋ 新地点…</option>
+        </select>
+      </label>
+      {value === '__new' && (
+        <div className="ed-grid ed-wide ed-sub">
+          <label>中文名<input value={newPlace.name_zh} onChange={(e) => setNewPlace({ ...newPlace, name_zh: e.target.value })} /></label>
+          <label>英文名<input value={newPlace.name_en} onChange={(e) => setNewPlace({ ...newPlace, name_en: e.target.value })} /></label>
+          <label>城市<select value={newPlace.city} onChange={(e) => setNewPlace({ ...newPlace, city: e.target.value })}>{ix.bundle.data.trip.cities.map((c) => <option key={c.id} value={c.id}>{c.name_zh}</option>)}</select></label>
+          <label>地址（可选）<input value={newPlace.address} onChange={(e) => setNewPlace({ ...newPlace, address: e.target.value })} /></label>
+          <p className="small muted ed-wide">新地点没有坐标，进入「待定位」列表，不会被猜测到地图上。</p>
+        </div>
+      )}
+    </>
+  );
+}
+
+function makePlace(np: NewPlace, kind: Place['kind']): Place {
+  return { id: newId('pl-u'), name_zh: np.name_zh.trim(), name_en: np.name_en.trim() || np.name_zh.trim(), kind, city: np.city, address: np.address.trim() || null, coord: null, coord_source: 'none', coord_precision: 'none' };
+}
+
+function PositionSelect({ ix, day, value, onChange }: { ix: Index; day: string; value: string; onChange: (v: string) => void }) {
+  const items = ix.itemsByDay.get(day) ?? [];
+  return (
+    <label>位置<select value={value} onChange={(e) => onChange(e.target.value)}>
+      <option value="__start">当天最前</option>
+      {items.map((it) => {
+        const id = it.type === 'activity' ? it.a.id : it.l.id;
+        return <option key={id} value={id}>在「{ix.subjectOf.get(id)?.title ?? id}」之后</option>;
+      })}
+      <option value="__end">当天最后</option>
+    </select></label>
+  );
+}
+
+export function AddItemForm({ ix, day, onDone }: { ix: Index; day: string; onDone: () => void }) {
+  const { addOps } = useEdit();
+  const defaultCity = (ix.cityOfDay.get(day) ?? [])[0] ?? ix.bundle.data.trip.cities[0].id;
+  const blankPlace: NewPlace = { name_zh: '', name_en: '', city: defaultCity, address: '' };
+  const [what, setWhat] = useState<'activity' | 'leg'>('activity');
+  const [date, setDate] = useState(day);
+  const [pos, setPos] = useState('__end');
+  const [a, setA] = useState({ kind: 'sight' as Activity['kind'], title_zh: '', title_en: '', place: '', plan_status: 'selected' as Activity['plan_status'], daypart: '', start: '', end: '', basis: 'proposed', importance: 'normal' as Activity['importance'], notes: '' });
+  const [l, setL] = useState({ mode: 'rail' as Leg['mode'], from: '', to: '', depart: '', arrive: '', timing_basis: '', daypart: '', importance: 'normal' as Leg['importance'], notes: '' });
+  const [np, setNp] = useState<NewPlace>(blankPlace);
+  const [np2, setNp2] = useState<NewPlace>(blankPlace);
+
+  const order = date !== day || pos === '__end' ? orderAfter(ix, date, (() => { const it = ix.itemsByDay.get(date) ?? []; const last = it.at(-1); return last ? (last.type === 'activity' ? last.a.id : last.l.id) : null; })()) : orderAfter(ix, day, pos === '__start' ? null : pos);
+
+  const placeOk = (v: string, p: NewPlace) => v !== '__new' || p.name_zh.trim().length > 0;
+  const actOk = a.title_zh.trim().length > 0 && placeOk(a.place, np);
+  const legOk = !!l.from && !!l.to && placeOk(l.from, np) && placeOk(l.to, np2) && !(l.from === l.to && l.from !== '__new');
+
+  const save = () => {
+    const ops: EditOp[] = [];
+    const resolve = (v: string, p: NewPlace, kind: Place['kind']): string | null => {
+      if (v === '__new') { const place = makePlace(p, kind); ops.push({ type: 'add_place', place }); return place.id; }
+      return v || null;
+    };
+    if (what === 'activity') {
+      const placeId = resolve(a.place, np, PLACE_KIND_FOR[a.kind]);
+      const act: Activity = {
+        id: newId('act-u'), date, order, kind: a.kind, title_zh: a.title_zh.trim(), title_en: a.title_en.trim() || a.title_zh.trim(),
+        place_id: placeId, time: a.start ? { start: a.start, end: a.end || null, basis: a.basis as 'proposed' } : null,
+        importance: a.importance, plan_status: a.plan_status,
+      };
+      if (!a.start && a.daypart) act.daypart = a.daypart as Activity['daypart'];
+      if (a.notes.trim()) act.notes = a.notes.trim();
+      ops.push({ type: 'add_activity', activity: act });
+    } else {
+      const from = resolve(l.from, np, 'other')!;
+      const to = resolve(l.to, np2, 'other')!;
+      const both = ix.places.get(from)?.coord && ix.places.get(to)?.coord;
+      const leg: Leg = {
+        id: newId('leg-u'), date, order, mode: l.mode, from_place_id: from, to_place_id: to,
+        depart: l.depart || null, arrive: l.arrive || null, timing_basis: (l.timing_basis || null) as Leg['timing_basis'],
+        duration_min: null, route_precision: both ? 'schematic' : 'unavailable', importance: l.importance,
+      };
+      if (l.daypart) leg.daypart = l.daypart as Leg['daypart'];
+      if (l.notes.trim()) leg.notes = l.notes.trim();
+      ops.push({ type: 'add_leg', leg });
+    }
+    addOps(ops);
+    onDone();
+  };
+
+  return (
+    <div className="editor add-form" role="group" aria-label="新增项目">
+      <div className="seg" role="radiogroup" aria-label="新增类型">
+        <button type="button" role="radio" aria-checked={what === 'activity'} onClick={() => setWhat('activity')}>活动</button>
+        <button type="button" role="radio" aria-checked={what === 'leg'} onClick={() => setWhat('leg')}>交通</button>
+      </div>
+      <div className="ed-grid">
+        <label>日期<select value={date} onChange={(e) => setDate(e.target.value)}>{ix.days.map((d) => <option key={d} value={d}>{shortDate(d)} {weekdayZh(d)}</option>)}</select></label>
+        {date === day ? <PositionSelect ix={ix} day={day} value={pos} onChange={setPos} /> : <label>位置<select disabled><option>当天最后</option></select></label>}
+        {what === 'activity' ? (
+          <>
+            <label>类型<select value={a.kind} onChange={(e) => setA({ ...a, kind: e.target.value as Activity['kind'] })}>{KIND_OPTIONS.map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
+            <label>计划状态<select value={a.plan_status} onChange={(e) => setA({ ...a, plan_status: e.target.value as Activity['plan_status'] })}>{Object.entries(PLAN_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
+            <label className="ed-wide">名称 <strong className="tone-text-bad">*</strong><input value={a.title_zh} onChange={(e) => setA({ ...a, title_zh: e.target.value })} placeholder="例如：自然史博物馆" maxLength={80} /></label>
+            <label className="ed-wide">英文名（可选）<input value={a.title_en} onChange={(e) => setA({ ...a, title_en: e.target.value })} maxLength={80} /></label>
+            <PlacePicker ix={ix} day={date} value={a.place} onChange={(v) => setA({ ...a, place: v })} newPlace={np} setNewPlace={setNp} label="地点" />
+            <label>时段<select value={a.daypart} onChange={(e) => setA({ ...a, daypart: e.target.value })} disabled={!!a.start}><option value="">未指定</option>{Object.entries(DAYPART_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
+            <label>开始<input type="time" value={a.start} onChange={(e) => setA({ ...a, start: e.target.value })} /></label>
+            <label>结束<input type="time" value={a.end} onChange={(e) => setA({ ...a, end: e.target.value })} disabled={!a.start} /></label>
+            <label>时间依据<select value={a.basis} onChange={(e) => setA({ ...a, basis: e.target.value })} disabled={!a.start}><option value="proposed">建议</option><option value="user_stated">同行提供</option></select></label>
+            <label>重要性<select value={a.importance} onChange={(e) => setA({ ...a, importance: e.target.value as Activity['importance'] })}><option value="critical">关键</option><option value="high">高</option><option value="normal">普通</option><option value="low">低</option></select></label>
+            <label className="ed-wide">备注<textarea rows={2} value={a.notes} onChange={(e) => setA({ ...a, notes: e.target.value })} /></label>
+          </>
+        ) : (
+          <>
+            <label>交通方式<select value={l.mode} onChange={(e) => setL({ ...l, mode: e.target.value as Leg['mode'] })}>{Object.entries(MODE_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
+            <label>重要性<select value={l.importance} onChange={(e) => setL({ ...l, importance: e.target.value as Leg['importance'] })}><option value="critical">关键</option><option value="high">高</option><option value="normal">普通</option><option value="low">低</option></select></label>
+            <PlacePicker ix={ix} day={date} value={l.from} onChange={(v) => setL({ ...l, from: v })} newPlace={np} setNewPlace={setNp} label="出发地 *" allowNone={false} />
+            <PlacePicker ix={ix} day={date} value={l.to} onChange={(v) => setL({ ...l, to: v })} newPlace={np2} setNewPlace={setNp2} label="目的地 *" allowNone={false} />
+            <label>出发<input type="time" value={l.depart} onChange={(e) => setL({ ...l, depart: e.target.value })} /></label>
+            <label>到达<input type="time" value={l.arrive} onChange={(e) => setL({ ...l, arrive: e.target.value })} /></label>
+            <label>班次依据<select value={l.timing_basis} onChange={(e) => setL({ ...l, timing_basis: e.target.value })}><option value="">未定</option><option value="proposed">建议</option><option value="user_stated">同行提供</option></select></label>
+            <label>时段<select value={l.daypart} onChange={(e) => setL({ ...l, daypart: e.target.value })}><option value="">未指定</option>{Object.entries(DAYPART_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
+            <label className="ed-wide">备注<textarea rows={2} value={l.notes} onChange={(e) => setL({ ...l, notes: e.target.value })} /></label>
+            <p className="small muted ed-wide">新交通段在地图上只画「连接示意」虚线；时长不估算，需要在核实中登记。</p>
+          </>
+        )}
+      </div>
+      <p className="small muted">新增项目的预订状态为「未知」，需要时到「预订」中补充；「已订」时间只能在关联预订确认后设置。</p>
+      <Actions onSave={save} onCancel={onDone} disabled={what === 'activity' ? !actOk : !legOk}
+        hint={what === 'activity' ? (!a.title_zh.trim() ? '请填写名称' : !placeOk(a.place, np) ? '请填写新地点名称' : undefined) : (!l.from || !l.to ? '请选择出发地和目的地' : l.from === l.to && l.from !== '__new' ? '出发地和目的地相同' : undefined)} />
+    </div>
+  );
+}
+
+export function RemoveConfirm({ entity, id, title, onDone }: { entity: 'activity' | 'leg'; id: string; title: string; onDone: () => void }) {
+  const { addOps } = useEdit();
+  const [note, setNote] = useState('');
+  return (
+    <div className="editor editor-danger" role="alertdialog" aria-label={`删除 ${title}`}>
+      <p><strong>删除「{title}」？</strong></p>
+      <p className="small muted">删除后从行程、地图和导出中移除；相关核实事实记为「不适用」，只关联它的预订不再计入完成率。记录本身保留，可以随时恢复。</p>
+      <label className="ed-wide">原因（可选）<input value={note} onChange={(e) => setNote(e.target.value)} maxLength={300} placeholder="例如：时间不够，改去别处" /></label>
+      <div className="ed-actions">
+        <button type="button" className="btn btn-danger" onClick={() => {
+          const ops: EditOp[] = [{ type: 'set', entity, id, field: 'removed', value: true }];
+          if (note.trim()) ops.push({ type: 'set', entity, id, field: 'removed_note', value: note.trim() });
+          addOps(ops); onDone();
+        }}>删除</button>
+        <button type="button" className="btn btn-ghost" onClick={onDone}>取消</button>
+      </div>
     </div>
   );
 }

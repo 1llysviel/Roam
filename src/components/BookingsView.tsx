@@ -34,7 +34,7 @@ export default function BookingsView({ ix, url, nav }: { ix: Index; url: UrlStat
             {list.map((b) => (
               <Fragment key={b.id}>
               <tr className={b.selected ? '' : 'is-candidate'}>
-                <th scope="row">{b.title_zh}{!b.selected && <span className="muted small">（未选定，不计入完成率）</span>}{!b.required && <span className="muted small">（非必须）</span>}{b.notes && <p className="small muted">{b.notes}</p>}</th>
+                <th scope="row">{b.title_zh}{!b.selected && <span className="muted small">（{ix.orphanBookings.has(b.id) ? '关联项目已删除' : '未选定'}，不计入完成率）</span>}{!b.required && <span className="muted small">（非必须）</span>}{b.notes && <p className="small muted">{b.notes}</p>}</th>
                 <td>
                   <Badge tone={TONE[b.status]} icon={ICON[b.status]}>{BOOKING_LABEL[b.status]}</Badge>
                   {touchedDraft.has(b.id) ? <Badge tone="info" icon="✎">本地草稿</Badge> : touchedPending.has(b.id) ? <Badge tone="info" icon="↑">待发布</Badge> : null}

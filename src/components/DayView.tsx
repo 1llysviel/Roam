@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useEdit } from '../lib/draft';
-import { StayEditor } from './editors';
+import { StayEditor, AddItemForm } from './editors';
+import { MODE_LABEL } from '../lib/derive';
 import DisplayToggles from './DisplayToggles';
 import type { Index } from '../lib/derive';
 import { dayPlaces } from '../lib/derive';
@@ -19,7 +20,10 @@ export default function DayView({ ix, day, url, nav, today, imported }: {
 }) {
   const { editMode, prefs, touchedDraft } = useEdit();
   const [stayEditing, setStayEditing] = useState(false);
-  useEffect(() => setStayEditing(false), [day]);
+  const [adding, setAdding] = useState(false);
+  useEffect(() => { setStayEditing(false); setAdding(false); }, [day]);
+  const { addOps } = useEdit();
+  const removed = ix.removedByDay.get(day) ?? [];
   const allItems = ix.itemsByDay.get(day) ?? [];
   const items = useMemo(() => allItems.filter((it) => {
     if (it.type === 'leg' && !prefs.showLegs) return false;
@@ -95,6 +99,27 @@ export default function DayView({ ix, day, url, nav, today, imported }: {
                 );
               })}
             </ol>
+          )}
+          {editMode && (adding
+            ? <AddItemForm ix={ix} day={day} onDone={() => setAdding(false)} />
+            : <button type="button" className="btn btn-edit add-btn" onClick={() => setAdding(true)}>＋ 新增活动或交通</button>)}
+          {removed.length > 0 && (
+            <details className="removed-list" open={editMode}>
+              <summary>已删除 {removed.length} 项</summary>
+              <ul>
+                {removed.map((it) => {
+                  const id = it.type === 'activity' ? it.a.id : it.l.id;
+                  const title = it.type === 'activity' ? it.a.title_zh : `${MODE_LABEL[it.l.mode]}：${ix.subjectOf.get(id)?.title ?? id}`;
+                  const note = it.type === 'activity' ? it.a.removed_note : it.l.removed_note;
+                  return (
+                    <li key={id}>
+                      <span><s>{title}</s>{note && <span className="muted small"> · {note}</span>}{touchedDraft.has(id) && <Badge tone="info" icon="✎">本地草稿</Badge>}</span>
+                      {editMode && <button type="button" className="linklike" onClick={() => addOps([{ type: 'set', entity: it.type, id, field: 'removed', value: false }, { type: 'set', entity: it.type, id, field: 'removed_note', value: undefined }])}>恢复</button>}
+                    </li>
+                  );
+                })}
+              </ul>
+            </details>
           )}
         </section>
         <div className="day-map">

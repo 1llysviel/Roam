@@ -14,15 +14,15 @@ export function toCsv(rows: Record<string, unknown>[], cols: string[]): string {
 export function activitiesCsv(b: Bundle) {
   const place = new Map(b.data.places.map((p) => [p.id, p]));
   const rows = [
-    ...b.data.activities.map((a) => ({ id: a.id, date: a.date, type: 'activity', kind: a.kind, title: a.title_zh, place: a.place_id ? place.get(a.place_id)?.name_en : '', start: a.time?.start ?? '', end: a.time?.end ?? '', time_basis: a.time?.basis ?? '', plan_status: a.plan_status, importance: a.importance })),
-    ...b.data.legs.map((l) => ({ id: l.id, date: l.date, type: 'leg', kind: l.mode, title: `${place.get(l.from_place_id)?.name_en} → ${place.get(l.to_place_id)?.name_en}`, place: '', start: l.depart ?? '', end: l.arrive ?? '', time_basis: l.timing_basis ?? '', plan_status: '', importance: l.importance })),
+    ...b.data.activities.filter((a) => !a.removed).map((a) => ({ id: a.id, date: a.date, type: 'activity', kind: a.kind, title: a.title_zh, place: a.place_id ? place.get(a.place_id)?.name_en : '', start: a.time?.start ?? '', end: a.time?.end ?? '', time_basis: a.time?.basis ?? '', plan_status: a.plan_status, importance: a.importance })),
+    ...b.data.legs.filter((l) => !l.removed).map((l) => ({ id: l.id, date: l.date, type: 'leg', kind: l.mode, title: `${place.get(l.from_place_id)?.name_en} → ${place.get(l.to_place_id)?.name_en}`, place: '', start: l.depart ?? '', end: l.arrive ?? '', time_basis: l.timing_basis ?? '', plan_status: '', importance: l.importance })),
   ].sort((x, y) => (x.date + x.start).localeCompare(y.date + y.start));
   return toCsv(rows, ['id', 'date', 'type', 'kind', 'title', 'place', 'start', 'end', 'time_basis', 'plan_status', 'importance']);
 }
 export const bookingsCsv = (b: Bundle) =>
   toCsv(b.data.bookings.map((x) => ({ ...x, currency: x.amount.currency, amount_minor: x.amount.minor })), ['id', 'title_zh', 'kind', 'selected', 'required', 'status', 'owner', 'currency', 'amount_minor', 'cancel_by']);
 export const claimsCsv = (b: Bundle) =>
-  toCsv(b.data.claims as unknown as Record<string, unknown>[], ['id', 'subject_id', 'kind', 'statement_zh', 'target_date', 'direction', 'importance', 'critical', 'source_ids', 'max_age_days']);
+  toCsv(b.data.claims as unknown as Record<string, unknown>[], ['id', 'subject_id', 'kind', 'statement_zh', 'target_date', 'direction', 'importance', 'critical', 'applicable', 'source_ids', 'max_age_days']);
 
 const icsText = (s: string) => s.replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
 const icsDate = (d: string) => d.replace(/-/g, '');
@@ -46,12 +46,13 @@ export function toIcs(b: Bundle, stamp: string): string {
     lines.push(`DESCRIPTION:${icsText(desc)}`, 'END:VEVENT');
   };
   for (const a of b.data.activities) {
-    if (a.plan_status === 'candidate') continue;
+    if (a.plan_status === 'candidate' || a.removed) continue;
     const p = a.place_id ? place.get(a.place_id) : undefined;
     const basis = a.time ? { proposed: '建议时间', user_stated: '用户提供', booked: '已订' }[a.time.basis] : '时间未定';
     ev(a.id, a.date, a.time?.start ?? null, a.time?.end ?? null, a.title_zh, p ? `${p.name_en}${p.address ? ', ' + p.address : ''}` : '', `${basis}；计划状态 ${a.plan_status}`);
   }
   for (const l of b.data.legs) {
+    if (l.removed) continue;
     const f = place.get(l.from_place_id)!, t = place.get(l.to_place_id)!;
     ev(l.id, l.date, l.depart, l.arrive, `${f.name_zh} → ${t.name_zh}`, f.address ?? '', `${l.mode}；${l.timing_basis === 'proposed' ? '建议班次，未订' : l.timing_basis ?? '班次未定'}`);
   }

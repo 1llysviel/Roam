@@ -1,5 +1,5 @@
 // 将构建包整理成界面需要的索引。纯函数，便于测试。
-import type { Activity, Booking, Bundle, Claim, Leg, Place, Source, Stay } from './model';
+import type { Activity, Booking, Bundle, Claim, Leg, Place, Source, Stay, TripData } from './model';
 import { deriveClaimState, type ClaimState } from './status';
 import { dateRange } from './dates';
 
@@ -20,23 +20,50 @@ export interface Index {
   stayByNight: Map<string, Stay>;
   cityOfDay: Map<string, string[]>;
   subjectOf: Map<string, { date: string; title: string }>;
+  removedByDay: Map<string, DayItem[]>;
+  orphanBookings: Set<string>;
 }
 
-export function buildIndex(bundle: Bundle, now: Date): Index {
+/**
+ * 软删除的派生效果（纯函数）：
+ * - 主体已删除的事实 → applicable: false（不计入统计）；
+ * - 只关联到已删除项目、且没有住宿晚次引用的预订 → selected: false（不计入预订完成率）。
+ */
+export function applyRemovals(data: TripData): { data: TripData; orphanBookings: Set<string> } {
+  const removed = new Set([...data.activities, ...data.legs].filter((x) => x.removed).map((x) => x.id));
+  if (removed.size === 0) return { data, orphanBookings: new Set() };
+  const live = [...data.activities, ...data.legs].filter((x) => !x.removed);
+  const liveRefs = new Set([...live.flatMap((x) => x.booking_ids ?? []), ...data.stays.map((s) => s.booking_id).filter(Boolean) as string[]]);
+  const deadRefs = new Set([...data.activities, ...data.legs].filter((x) => x.removed).flatMap((x) => x.booking_ids ?? []));
+  const orphanBookings = new Set([...deadRefs].filter((b) => !liveRefs.has(b)));
+  return {
+    orphanBookings,
+    data: {
+      ...data,
+      claims: data.claims.map((c) => (removed.has(c.subject_id) ? { ...c, applicable: false } : c)),
+      bookings: data.bookings.map((b) => (orphanBookings.has(b.id) ? { ...b, selected: false } : b)),
+    },
+  };
+}
+
+export function buildIndex(raw: Bundle, now: Date): Index {
+  const eff = applyRemovals(raw.data);
+  const bundle: Bundle = { ...raw, data: eff.data };
   const d = bundle.data;
   const days = dateRange(d.trip.start_date, d.trip.end_date);
   const places = new Map(d.places.map((p) => [p.id, p]));
   const sources = new Map(bundle.sources.map((s) => [s.id, s]));
   const claimStates = d.claims.map((c) => deriveClaimState(c, bundle.reviews, bundle.checks, sources, now));
   const itemsByDay = new Map<string, DayItem[]>(days.map((x) => [x, []]));
-  for (const a of d.activities) itemsByDay.get(a.date)?.push({ type: 'activity', order: a.order, a });
-  for (const l of d.legs) itemsByDay.get(l.date)?.push({ type: 'leg', order: l.order, l });
-  for (const list of itemsByDay.values()) list.sort((x, y) => x.order - y.order);
+  const removedByDay = new Map<string, DayItem[]>(days.map((x) => [x, []]));
+  for (const a of d.activities) (a.removed ? removedByDay : itemsByDay).get(a.date)?.push({ type: 'activity', order: a.order, a });
+  for (const l of d.legs) (l.removed ? removedByDay : itemsByDay).get(l.date)?.push({ type: 'leg', order: l.order, l });
+  for (const list of [...itemsByDay.values(), ...removedByDay.values()]) list.sort((x, y) => x.order - y.order);
 
   const stayByNight = new Map(d.stays.map((s) => [s.night, s]));
   // 行程城市 = 有住宿或有活动的城市；只作为交通终点出现的城市（如同行朋友回坎特伯雷）不计入
   const tripCities = new Set<string>(d.stays.map((s) => s.city));
-  for (const a of d.activities) if (a.place_id) { const c = places.get(a.place_id)?.city; if (c) tripCities.add(c); }
+  for (const a of d.activities) if (a.place_id && !a.removed) { const c = places.get(a.place_id)?.city; if (c) tripCities.add(c); }
   const cityOfDay = new Map<string, string[]>();
   for (const day of days) {
     const set: string[] = [];
@@ -60,7 +87,7 @@ export function buildIndex(bundle: Bundle, now: Date): Index {
     claims: new Map(d.claims.map((c) => [c.id, c])),
     claimState: new Map(claimStates.map((s) => [s.claim.id, s])),
     cityName: new Map(d.trip.cities.map((c) => [c.id, c.name_zh])),
-    itemsByDay, stayByNight, cityOfDay, subjectOf,
+    itemsByDay, stayByNight, cityOfDay, subjectOf, removedByDay, orphanBookings: eff.orphanBookings,
     tripCities: d.trip.cities.map((c) => c.id).filter((c) => tripCities.has(c)),
   };
 }

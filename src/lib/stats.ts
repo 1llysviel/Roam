@@ -29,8 +29,8 @@ export function criticalGaps(states: ClaimState[], bundle: Bundle): CriticalGaps
   const crit = states.filter((s) => s.claim.critical && s.claim.applicable !== false);
   const critSubjects = new Set(crit.map((s) => s.claim.subject_id));
   const linkedBookings = new Set<string>();
-  for (const a of bundle.data.activities) if (a.importance === 'critical' || critSubjects.has(a.id)) a.booking_ids?.forEach((b) => linkedBookings.add(b));
-  for (const l of bundle.data.legs) if (l.importance === 'critical' || critSubjects.has(l.id)) l.booking_ids?.forEach((b) => linkedBookings.add(b));
+  for (const a of bundle.data.activities) if (!a.removed && (a.importance === 'critical' || critSubjects.has(a.id))) a.booking_ids?.forEach((b) => linkedBookings.add(b));
+  for (const l of bundle.data.legs) if (!l.removed && (l.importance === 'critical' || critSubjects.has(l.id))) l.booking_ids?.forEach((b) => linkedBookings.add(b));
   return {
     unverified: crit.filter((s) => s.status === 'unverified' || s.status === 'needs_review').map((s) => s.claim.id),
     stale: crit.filter((s) => s.status === 'verified' && (s.freshness === 'stale' || !s.date_matches)).map((s) => s.claim.id),
@@ -41,7 +41,7 @@ export function criticalGaps(states: ClaimState[], bundle: Bundle): CriticalGaps
 
 /** 交通时长缺项：没有人工核实时长的交通段。 */
 export function legsMissingDuration(legs: Leg[]): string[] {
-  return legs.filter((l) => l.duration_min === null).map((l) => l.id);
+  return legs.filter((l) => !l.removed && l.duration_min === null).map((l) => l.id);
 }
 
 export function stayGaps(bundle: Bundle): string[] {

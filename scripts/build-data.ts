@@ -6,6 +6,7 @@ import { loadAll, validateAll, applyEditFiles, ROOT, TRIP_ID } from './lib/load'
 import type { Bundle } from '../src/lib/model';
 import { SCHEMA_VERSION } from '../src/lib/model';
 import { activitiesCsv, bookingsCsv, claimsCsv, exportPackage, toIcs } from '../src/lib/exporters';
+import { applyRemovals } from '../src/lib/derive';
 
 const base = loadAll();
 const errs = validateAll(base);
@@ -40,10 +41,11 @@ mkdirSync(join(pub, 'exports'), { recursive: true });
 const exportsOnly = process.argv.includes('--exports-only');
 if (!exportsOnly) writeFileSync(join(pub, 'data', 'roam.json'), JSON.stringify(bundle));
 const ex = join(pub, 'exports');
+const view: Bundle = { ...bundle, data: applyRemovals(bundle.data).data }; // CSV / ICS 不含已删除项目
 writeFileSync(join(ex, `${TRIP_ID}.json`), JSON.stringify(exportPackage(bundle, builtAt), null, 2));
-writeFileSync(join(ex, `${TRIP_ID}-itinerary.csv`), activitiesCsv(bundle));
-writeFileSync(join(ex, `${TRIP_ID}-bookings.csv`), bookingsCsv(bundle));
-writeFileSync(join(ex, `${TRIP_ID}-claims.csv`), claimsCsv(bundle));
-writeFileSync(join(ex, `${TRIP_ID}.ics`), toIcs(bundle, builtAt));
+writeFileSync(join(ex, `${TRIP_ID}-itinerary.csv`), activitiesCsv(view));
+writeFileSync(join(ex, `${TRIP_ID}-bookings.csv`), bookingsCsv(view));
+writeFileSync(join(ex, `${TRIP_ID}-claims.csv`), claimsCsv(view));
+writeFileSync(join(ex, `${TRIP_ID}.ics`), toIcs(view, builtAt));
 writeFileSync(join(ex, 'LICENSE.txt'), bundle.license + '\n');
 console.log(`✓ 构建数据 ${bundle.build.version}（修改记录 ${applied.length} 个，跳过 ${rejected.length} 个）：${loaded.data.activities.length} 活动 / ${loaded.data.legs.length} 交通段 / ${loaded.data.claims.length} 待核实事实`);

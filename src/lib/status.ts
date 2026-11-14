@@ -68,6 +68,7 @@ export const FACT_LABEL: Record<FactStatus, string> = {
 
 /** 面向界面的综合标签（同时用文字与图标表达，不只靠颜色）。 */
 export function claimBadge(s: ClaimState): { label: string; tone: 'ok' | 'warn' | 'bad' | 'muted'; icon: string } {
+  if (s.claim.applicable === false) return { label: '不适用', tone: 'muted', icon: '–' };
   if (s.status === 'verified' && !s.date_matches) return { label: '日期不符', tone: 'bad', icon: '✕' };
   if (s.status === 'verified' && s.freshness === 'stale') return { label: '已过期', tone: 'warn', icon: '⟳' };
   if (s.status === 'verified') return { label: s.method === 'rule' ? '规则核实' : '已核实', tone: 'ok', icon: '✓' };

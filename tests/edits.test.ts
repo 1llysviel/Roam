@@ -46,3 +46,55 @@ test('提交前提醒私密信息；修改文件结构完整', () => {
   assert.match(f.id, /^ed-[a-z0-9-]+$/);
   assert.equal(f.format, 'roam-edits');
 });
+
+import { applyRemovals, buildIndex } from '../src/lib/derive';
+import { bookingCompletion, effectiveRate } from '../src/lib/stats';
+import { toIcs, activitiesCsv } from '../src/lib/exporters';
+import { realBundle } from './helpers';
+
+test('新增活动与交通（含新地点）通过完整校验，并出现在当天行程中', () => {
+  const r = applyOps(l.data, l.reviews, [
+    { type: 'add_place', place: { id: 'pl-u-nhm', name_zh: '自然史博物馆', name_en: 'Natural History Museum', kind: 'sight', city: 'london', address: null, coord: null, coord_source: 'none', coord_precision: 'none' } },
+    { type: 'add_activity', activity: { id: 'act-u-nhm', date: '2026-12-13', order: 20, kind: 'sight', title_zh: '自然史博物馆', title_en: 'Natural History Museum', place_id: 'pl-u-nhm', time: null, daypart: 'morning', importance: 'normal', plan_status: 'selected' } },
+    { type: 'add_leg', leg: { id: 'leg-u-1', date: '2026-12-13', order: 30, mode: 'tube', from_place_id: 'pl-u-nhm', to_place_id: 'pl-covent-garden', depart: null, arrive: null, timing_basis: null, duration_min: null, route_precision: 'unavailable', importance: 'low' } },
+  ]);
+  assert.deepEqual(r.errors, []);
+  assert.deepEqual(validateAll({ ...l, data: r.data }), []);
+  const b = { ...realBundle(), data: r.data };
+  const ix = buildIndex(b, new Date('2026-11-14T00:00:00Z'));
+  assert.deepEqual((ix.itemsByDay.get('2026-12-13') ?? []).map((i) => (i.type === 'activity' ? i.a.id : i.l.id)), ['act-1213-free', 'act-u-nhm', 'leg-u-1']);
+});
+
+test('新增时 ID 冲突或带删除标记被拒绝', () => {
+  const r = applyOps(l.data, l.reviews, [
+    { type: 'add_activity', activity: { ...l.data.activities[0] } },
+    { type: 'add_activity', activity: { ...l.data.activities[0], id: 'act-u-x', removed: true } },
+  ]);
+  assert.equal(r.errors.length, 2);
+  assert.equal(r.data.activities.length, l.data.activities.length);
+});
+
+test('删除（软删除）：从行程与导出中移除，相关事实不适用，孤立预订不计入完成率；可恢复', () => {
+  const del = applyOps(l.data, l.reviews, [{ type: 'set', entity: 'activity', id: 'act-1218-beamish-evening', field: 'removed', value: true }]);
+  assert.deepEqual(validateAll({ ...l, data: del.data }), []);
+  const b = { ...realBundle(), data: del.data };
+  const ix = buildIndex(b, new Date('2026-11-14T00:00:00Z'));
+  assert.ok(!(ix.itemsByDay.get('2026-12-18') ?? []).some((i) => i.type === 'activity' && i.a.id === 'act-1218-beamish-evening'));
+  assert.equal(ix.removedByDay.get('2026-12-18')!.length, 1);
+  assert.equal(ix.claimState.get('cl-beamish-evening-1218')!.claim.applicable, false);
+  assert.ok(ix.orphanBookings.has('bk-beamish-evening'));
+  const before = bookingCompletion(l.data.bookings).den;
+  assert.equal(bookingCompletion(ix.bundle.data.bookings).den, before - 1);
+  assert.equal(effectiveRate(ix.claimStates).den, l.data.claims.length - 1);
+  const view = { ...b, data: applyRemovals(b.data).data };
+  assert.doesNotMatch(toIcs(view, '2026-11-14T00:00:00.000Z'), /act-1218-beamish-evening/);
+  assert.doesNotMatch(activitiesCsv(view), /act-1218-beamish-evening/);
+  // 恢复
+  const back = applyOps(del.data, l.reviews, [{ type: 'set', entity: 'activity', id: 'act-1218-beamish-evening', field: 'removed', value: false }]);
+  assert.equal(applyRemovals(back.data).orphanBookings.size, 0);
+});
+
+test('删除住宿关联的活动时，被住宿晚次引用的预订不算孤立', () => {
+  const del = applyOps(l.data, l.reviews, [{ type: 'set', entity: 'activity', id: 'act-1217-lumley', field: 'removed', value: true }]);
+  assert.ok(!applyRemovals(del.data).orphanBookings.has('bk-lumley'));
+});

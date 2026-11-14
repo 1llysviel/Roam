@@ -65,6 +65,8 @@ export interface Activity {
   importance: Importance;
   plan_status: PlanStatus;
   alternative_to?: string;
+  removed?: boolean; // 软删除：保留记录与引用，从行程、地图、导出与统计中排除
+  removed_note?: string;
   booking_ids?: string[];
   claim_ids?: string[];
   notes?: string;
@@ -85,6 +87,8 @@ export interface Leg {
   route_geojson?: string; // geo/ 下的文件名，来源与许可须在文件 properties 中声明
   daypart?: Daypart;
   importance: Importance;
+  removed?: boolean;
+  removed_note?: string;
   booking_ids?: string[];
   claim_ids?: string[];
   notes?: string;

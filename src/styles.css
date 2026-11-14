@@ -340,3 +340,20 @@ summary { cursor: pointer; color: var(--ink-2); min-height: 28px; }
   .editor input:not([type="checkbox"]), .editor select, .editor textarea { min-height: var(--tap); }
   .switch { min-height: var(--tap); }
 }
+
+/* ── 新增 / 删除 ── */
+.add-btn { width: 100%; margin-top: var(--s3); min-height: var(--tap); border-style: dashed; }
+.btn-del { color: var(--bad); border-color: var(--rule-strong); }
+.btn-del:hover { border-color: var(--bad); }
+.btn-danger { background: var(--bad); border-color: var(--bad); color: #fff; }
+.editor-danger { border-color: var(--bad); }
+.editor-danger p { margin: 0 0 var(--s2); }
+.ed-sub { padding: var(--s2); background: var(--paper); border-radius: var(--radius); }
+.add-form { margin-top: var(--s3); }
+.seg { display: inline-grid; grid-template-columns: 1fr 1fr; margin-bottom: var(--s3); border: 1px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
+.seg button { min-height: 36px; padding: 0 var(--s5); border: 0; background: var(--card); cursor: pointer; font-weight: 500; }
+.seg button[aria-checked="true"] { background: var(--ink); color: var(--card); }
+.removed-list { margin-top: var(--s4); font-size: var(--fs-sm); color: var(--ink-2); }
+.removed-list ul { margin: var(--s2) 0 0; padding-left: var(--s5); }
+.removed-list li { display: flex; justify-content: space-between; gap: var(--s3); padding: 2px 0; }
+.removed-list li > span { overflow-wrap: anywhere; }
