@@ -4,7 +4,8 @@ import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
-import type { ChecksState, Features, ReviewEvent, Source, TripData } from '../../src/lib/model';
+import type { AppliedEdit, ChecksState, Features, RejectedEdit, ReviewEvent, Source, TripData } from '../../src/lib/model';
+import { applyOps, type EditFile } from '../../src/lib/edits';
 import { dateRange } from '../../src/lib/dates';
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -109,4 +110,31 @@ export function validateAll(l: Loaded): string[] {
     need(!!meta?.source && !!meta?.license, `geo/${name}: 必须在 roam 元数据中声明 source 与 license`);
   }
   return errs;
+}
+
+export interface WithEdits { loaded: Loaded; applied: AppliedEdit[]; rejected: RejectedEdit[] }
+
+/** 按文件名顺序应用 data/edits/*.json；任何一个文件不合法（结构、操作或应用后的数据校验）就整体跳过。 */
+export function applyEditFiles(base: Loaded): WithEdits {
+  const dir = join(ROOT, 'data', 'edits');
+  const applied: AppliedEdit[] = [];
+  const rejected: RejectedEdit[] = [];
+  if (!existsSync(dir)) return { loaded: base, applied, rejected };
+  const ajv = makeAjv();
+  const check = ajv.getSchema('edits.schema.json')!;
+  let cur = base;
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
+    let ef: EditFile;
+    try { ef = JSON.parse(readFileSync(join(dir, file), 'utf8')); }
+    catch (e) { rejected.push({ file, id: null, errors: [`JSON 解析失败：${(e as Error).message}`] }); continue; }
+    if (!check(ef)) { rejected.push({ file, id: (ef as any)?.id ?? null, errors: (check.errors ?? []).map((e: { instancePath: string; message?: string }) => `${e.instancePath} ${e.message}`) }); continue; }
+    if (applied.some((a) => a.id === ef.id)) { rejected.push({ file, id: ef.id, errors: ['重复的修改 ID'] }); continue; }
+    const r = applyOps(cur.data, cur.reviews, ef.ops);
+    const next: Loaded = { ...cur, data: r.data, reviews: r.reviews };
+    const errs = [...r.errors, ...validateAll(next)];
+    if (errs.length) { rejected.push({ file, id: ef.id, errors: errs.slice(0, 10) }); continue; }
+    cur = next;
+    applied.push({ id: ef.id, file, author: ef.author, created_at: ef.created_at, ops: ef.ops.length });
+  }
+  return { loaded: cur, applied, rejected };
 }

@@ -1,4 +1,7 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEdit } from '../lib/draft';
+import { StayEditor } from './editors';
+import DisplayToggles from './DisplayToggles';
 import type { Index } from '../lib/derive';
 import { dayPlaces } from '../lib/derive';
 import type { UrlState } from '../lib/url';
@@ -14,7 +17,17 @@ import type { ImportedLayer } from './ExtensionsPanel';
 export default function DayView({ ix, day, url, nav, today, imported }: {
   ix: Index; day: string; url: UrlState; nav: (p: Partial<UrlState>, push?: boolean) => void; today: string; imported: ImportedLayer[];
 }) {
-  const items = ix.itemsByDay.get(day) ?? [];
+  const { editMode, prefs, touchedDraft } = useEdit();
+  const [stayEditing, setStayEditing] = useState(false);
+  useEffect(() => setStayEditing(false), [day]);
+  const allItems = ix.itemsByDay.get(day) ?? [];
+  const items = useMemo(() => allItems.filter((it) => {
+    if (it.type === 'leg' && !prefs.showLegs) return false;
+    if (it.type === 'activity' && it.a.plan_status === 'candidate' && !prefs.showCandidates) return false;
+    if (prefs.criticalOnly && (it.type === 'activity' ? it.a.importance : it.l.importance) !== 'critical') return false;
+    return true;
+  }), [allItems, prefs]);
+  const hidden = allItems.length - items.length;
   const stay = ix.stayByNight.get(day);
   const stayPlace = stay?.selected_place_id ? ix.places.get(stay.selected_place_id) : null;
   const stayBooking = stay?.booking_id ? ix.bookings.get(stay.booking_id) : null;
@@ -51,6 +64,7 @@ export default function DayView({ ix, day, url, nav, today, imported }: {
           <header className="day-head">
             <h2>{longDateZh(day)}</h2>
             <p className="day-cities">{cities.join(' → ') || '城市未定'}{day === today && <Badge tone="accent">今天</Badge>}</p>
+            <DisplayToggles />
           </header>
           {day !== ix.bundle.data.trip.end_date && (
             <div className={`stay${stayPlace ? '' : ' is-gap'}`}>
@@ -63,9 +77,13 @@ export default function DayView({ ix, day, url, nav, today, imported }: {
               ) : <span className="stay-name">未选定 · {ix.cityName.get(stay?.city ?? '') ?? ''}</span>}
               {stayBooking ? <Badge tone={stayBooking.status === 'booked' ? 'ok' : 'warn'} icon={stayBooking.status === 'booked' ? '✓' : '!'}>{BOOKING_LABEL[stayBooking.status]}</Badge>
                 : <Badge tone="warn" icon="!">住宿空缺</Badge>}
+              {stay && (touchedDraft.has(stay.id) || (stay.booking_id && touchedDraft.has(stay.booking_id))) && <Badge tone="info" icon="✎">本地草稿</Badge>}
+              {editMode && stay && !stayEditing && <button type="button" className="btn btn-edit" onClick={() => setStayEditing(true)}>✎ {stayPlace ? '更换' : '选择住处'}</button>}
+              {stayEditing && stay && <StayEditor key={stay.id} ix={ix} stay={stay} onDone={() => setStayEditing(false)} />}
             </div>
           )}
-          {items.length === 0 ? <p className="empty">当天尚无安排。</p> : (
+          {hidden > 0 && <p className="small muted">按显示设置隐藏了 {hidden} 项。</p>}
+          {items.length === 0 ? <p className="empty">{hidden > 0 ? '当前显示设置下没有项目。' : '当天尚无安排。'}</p> : (
             <ol className="timeline">
               {items.map((it) => {
                 const pid = it.type === 'activity' ? it.a.place_id : it.l.to_place_id;

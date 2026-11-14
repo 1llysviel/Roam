@@ -101,6 +101,7 @@ export interface Booking {
   amount: { currency: string; minor: number | null };
   cancel_by: ISODate | null;
   reference_public?: boolean;
+  evidence?: string; // booked 时必填：用户确认或预订依据（不含订单号等私密信息）
   notes?: string;
 }
 
@@ -227,9 +228,13 @@ export interface Features {
 }
 
 /** 构建产物：前端读取的唯一数据文件。 */
+export interface AppliedEdit { id: string; file: string; author: string; created_at: string; ops: number }
+export interface RejectedEdit { file: string; id: string | null; errors: string[] }
+
 export interface Bundle {
   schema_version: number;
-  build: { version: string; built_at: string; commit: string | null };
+  build: { version: string; built_at: string; commit: string | null; repo: string | null; branch: string };
+  edits: { applied: AppliedEdit[]; rejected: RejectedEdit[] };
   data: TripData;
   sources: Source[];
   reviews: ReviewEvent[];

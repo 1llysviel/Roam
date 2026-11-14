@@ -2,10 +2,21 @@ import type { Index } from '../lib/derive';
 import { claimBadge } from '../lib/status';
 import { formatInstantLondon, shortDate } from '../lib/dates';
 import Badge from './Badge';
+import { useState } from 'react';
+import { useEdit } from '../lib/draft';
+import { ReviewForm } from './editors';
 
 const FETCH_LABEL = { ok: '抓取成功', blocked: '被拦截', error: '抓取失败', unsupported: '不支持自动解析' } as const;
 
 /** 来源详情：官方链接、目标日期、证据摘要、检查方式、上次成功检查、事实确认时间与历史。 */
+function ReviewButton({ ix, id }: { ix: Index; id: string }) {
+  const { editMode } = useEdit();
+  const [on, setOn] = useState(false);
+  const claim = ix.claims.get(id);
+  if (!editMode || !claim) return null;
+  return on ? <ReviewForm ix={ix} claim={claim} onDone={() => setOn(false)} /> : <button type="button" className="btn btn-edit" onClick={() => setOn(true)}>✎ 登记核实结果</button>;
+}
+
 export default function Evidence({ ix, claimIds }: { ix: Index; claimIds: string[] }) {
   if (claimIds.length === 0) return <p className="muted small">此项尚未登记需要核实的事实。</p>;
   return (
@@ -48,6 +59,7 @@ export default function Evidence({ ix, claimIds }: { ix: Index; claimIds: string
               })}
             </ul>
             {s.pending_change && <p className="small tone-text-warn">⚠ 来源相关段落有变化，等待维护者复核；确认值未自动更新。</p>}
+            <ReviewButton ix={ix} id={id} />
             {s.history.length > 0 && (
               <details className="ev-history"><summary>历史变化（{s.history.length}）</summary>
                 <ol>{s.history.map((h) => <li key={h.id}>{formatInstantLondon(h.at)} · {'result' in h ? `${h.result}（${h.method}）` : `规则 ${h.rule}：${h.matched ? '匹配' : '未匹配'} — ${h.reason}`}</li>)}</ol>

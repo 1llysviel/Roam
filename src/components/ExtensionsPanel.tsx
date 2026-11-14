@@ -26,7 +26,7 @@ export default function ExtensionsPanel({ ix, imported, setImported }: { ix: Ind
   return (
     <section className="ext" aria-labelledby="ext-title">
       <h3 id="ext-title" className="section-title">扩展功能</h3>
-      <p className="muted small">以下能力只保留接口，默认关闭；关闭时不会产生任何对应网络请求，也不需要账户或密钥。</p>
+      <p className="muted small">以下能力只保留接口，默认关闭；关闭时不会产生任何对应网络请求，也不需要账户或密钥。目前没有符合「免费、无账户」条件的实现，所以网页上不提供开启按钮；将来有合规实现后在 <code>config/features.json</code> 开启。</p>
       <ul className="flag-list">
         {FLAGS.map(([k, label]) => <li key={k}><span>{label}</span><span className={`flag ${f[k] ? 'on' : 'off'}`}>{f[k] ? '开启' : '关闭'}</span></li>)}
       </ul>

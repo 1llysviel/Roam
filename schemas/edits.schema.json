@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://roam.local/schemas/edits.schema.json",
+  "title": "Roam edit batch",
+  "type": "object", "additionalProperties": false,
+  "required": ["format", "schema_version", "id", "author", "created_at", "base_version", "ops"],
+  "properties": {
+    "format": { "const": "roam-edits" },
+    "schema_version": { "const": 1 },
+    "id": { "type": "string", "pattern": "^ed-[a-z0-9-]+$" },
+    "author": { "type": "string", "maxLength": 60 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "base_version": { "type": "string" },
+    "note": { "type": "string", "maxLength": 500 },
+    "ops": {
+      "type": "array", "minItems": 1, "maxItems": 200,
+      "items": {
+        "type": "object", "required": ["type"],
+        "properties": { "type": { "enum": ["set", "add_place", "select_stay", "add_review"] } }
+      }
+    }
+  }
+}

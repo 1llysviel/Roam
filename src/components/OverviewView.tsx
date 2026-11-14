@@ -3,6 +3,7 @@ import type { UrlState } from '../lib/url';
 import { bookingCompletion, coverage, criticalGaps, effectiveRate, legsMissingDuration, ratioText, stayGaps, type Ratio } from '../lib/stats';
 import { daysBetweenInstants, formatInstantLondon, shortDate } from '../lib/dates';
 import ExtensionsPanel, { type ImportedLayer } from './ExtensionsPanel';
+import DisplayToggles from './DisplayToggles';
 
 function Stat({ label, r, hint, onClick }: { label: string; r: Ratio; hint: string; onClick: () => void }) {
   return (
@@ -63,6 +64,10 @@ export default function OverviewView({ ix, nav, now, imported, setImported }: {
         <li>交通时长未核实：{noDur.length} / {ix.bundle.data.legs.length} 段 —— 日程总时长因此不完整，未做估算。</li>
         <li>待定位地点：{ix.bundle.data.places.filter((p) => !p.coord).length} 处；坐标为初稿的地点：{ix.bundle.data.places.filter((p) => p.coord_source === 'initial_draft').length} 处。</li>
       </ul>
+
+      <h3 className="section-title">显示设置</h3>
+      <p className="muted small">只影响本设备的显示，自动保存在浏览器。</p>
+      <DisplayToggles />
 
       <ExtensionsPanel ix={ix} imported={imported} setImported={setImported} />
     </main>

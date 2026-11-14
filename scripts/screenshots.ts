@@ -73,7 +73,7 @@ try {
       await page.waitForTimeout(400);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       if (overflow > 0) problems.push(`${vp.name} ${p.name}: 横向溢出 ${overflow}px`);
-      const clipped = await page.evaluate(() => [...document.querySelectorAll('.card-title, .stay-name, .claim-statement')]
+      const clipped = await page.evaluate(() => [...document.querySelectorAll('.card-title, .stay-name, .claim-statement, .datechip, .dc-date, .tab, .btn, .badge')]
         .filter((el) => el.scrollWidth > el.clientWidth + 1).map((el) => el.textContent?.slice(0, 30)));
       if (clipped.length) problems.push(`${vp.name} ${p.name}: 文字被截断 ${clipped.join(' | ')}`);
       await page.screenshot({ path: join(outDir, `${vp.name}--${p.name}${tilesFail ? '--tilesfail' : ''}.png`), fullPage: !p.name.includes('map') && !p.name.startsWith('day') });

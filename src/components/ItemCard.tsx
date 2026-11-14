@@ -4,6 +4,8 @@ import { BASIS_LABEL, BOOKING_LABEL, DAYPART_LABEL, KIND_LABEL, MODE_LABEL, PLAN
 import { appleMapsLeg, appleMapsPlace, googleMapsLeg, googleMapsPlace } from '../lib/links';
 import Badge, { type Tone } from './Badge';
 import Evidence from './Evidence';
+import { ActivityEditor, LegEditor } from './editors';
+import { useEdit } from '../lib/draft';
 
 const BOOK_TONE: Record<string, Tone> = { booked: 'ok', unknown: 'warn', not_booked: 'bad', cancelled: 'bad', not_required: 'muted' };
 
@@ -19,6 +21,8 @@ export default function ItemCard({ ix, item, n, selected, onLocate }: {
   ix: Index; item: DayItem; n: number | null; selected: boolean; onLocate: (placeId: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const { editMode, touchedDraft, touchedPending, prefs } = useEdit();
   const claimIds = item.type === 'activity' ? item.a.claim_ids ?? [] : item.l.claim_ids ?? [];
   const bookingIds = item.type === 'activity' ? item.a.booking_ids ?? [] : item.l.booking_ids ?? [];
   const importance = item.type === 'activity' ? item.a.importance : item.l.importance;
@@ -76,11 +80,12 @@ export default function ItemCard({ ix, item, n, selected, onLocate }: {
       <div className="card-body">
         <p className="card-kind">{kind}{importance === 'critical' && <strong className="crit"> · 关键</strong>}</p>
         <h3 className="card-title">{title}</h3>
-        {sub && <p className="card-sub">{sub}</p>}
+        {sub && prefs.showEnglish && <p className="card-sub">{sub}</p>}
         <div className="badges">
           {bookingIds.map((b) => { const bk = ix.bookings.get(b); return bk ? <Badge key={b} tone={BOOK_TONE[bk.status]} icon={bk.status === 'booked' ? '✓' : bk.status === 'not_required' ? '–' : '!'} title={bk.title_zh}>{BOOKING_LABEL[bk.status]}</Badge> : null; })}
           <VerifySummary ix={ix} ids={claimIds} />
           {extra}
+          {touchedDraft.has(id) ? <Badge tone="info" icon="✎">本地草稿</Badge> : touchedPending.has(id) ? <Badge tone="info" icon="↑">已提交待发布</Badge> : null}
         </div>
         {(item.type === 'activity' ? item.a.notes : item.l.notes) && <p className="card-note">{item.type === 'activity' ? item.a.notes : item.l.notes}</p>}
         <div className="card-actions">
@@ -92,7 +97,9 @@ export default function ItemCard({ ix, item, n, selected, onLocate }: {
             </span>
           )}
           {claimIds.length > 0 && <button type="button" className="btn btn-ghost" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? '收起来源' : `来源详情 (${claimIds.length})`}</button>}
+          {editMode && !editing && <button type="button" className="btn btn-edit" onClick={() => setEditing(true)}>✎ 修改</button>}
         </div>
+        {editing && (item.type === 'activity' ? <ActivityEditor ix={ix} a={item.a} onDone={() => setEditing(false)} /> : <LegEditor l={item.l} onDone={() => setEditing(false)} />)}
         {open && <Evidence ix={ix} claimIds={claimIds} />}
       </div>
     </article>

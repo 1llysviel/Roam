@@ -4,7 +4,7 @@ import { shortDate } from '../lib/dates';
 
 const TABS: Array<[View, string]> = [['day', '行程'], ['claims', '核实'], ['bookings', '预订'], ['overview', '总览']];
 
-export default function Header({ ix, view, onView }: { ix: Index; view: View; onView: (v: View) => void }) {
+export default function Header({ ix, view, onView, editMode, onToggleEdit }: { ix: Index; view: View; onView: (v: View) => void; editMode: boolean; onToggleEdit: () => void }) {
   const t = ix.bundle.data.trip;
   return (
     <header className="site-head">
@@ -20,6 +20,9 @@ export default function Header({ ix, view, onView }: { ix: Index; view: View; on
           <a key={v} href={v === 'day' ? '?' : `?v=${v}`} className="tab" aria-current={view === v ? 'page' : undefined}
             onClick={(e) => { e.preventDefault(); onView(v); }}>{label}</a>
         ))}
+        <button type="button" className={`tab tab-edit${editMode ? ' is-on' : ''}`} aria-pressed={editMode} onClick={onToggleEdit}>
+          <span aria-hidden="true">✎</span> {editMode ? '完成编辑' : '编辑'}
+        </button>
       </nav>
     </header>
   );
