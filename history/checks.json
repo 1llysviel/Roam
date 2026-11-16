@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "writer": "check-sources",
-  "last_attempt_at": "2026-11-15T12:47:18.503Z",
-  "last_success_at": "2026-11-15T12:47:18.503Z",
-  "last_run_summary": "检查 18 个来源：成功 12，失败/拦截 6，内容变化待复核 1",
+  "last_attempt_at": "2026-11-16T13:42:06.135Z",
+  "last_success_at": "2026-11-16T13:42:06.135Z",
+  "last_run_summary": "检查 18 个来源：成功 11，失败/拦截 7，内容变化待复核 0",
   "sources": {
     "src-national-express": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 200,
@@ -17,8 +17,8 @@
       "note": "疑似验证码/机器人拦截页，转人工核实"
     },
     "src-national-rail": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -33,7 +33,7 @@
       "note": ""
     },
     "src-tfl": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 403,
@@ -44,8 +44,8 @@
       "note": "来源拒绝或限流，转人工核实"
     },
     "src-heathrow-express": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
       "http_status": 304,
       "etag": "\"0c4684da86cdd1:0\"",
@@ -55,7 +55,7 @@
       "note": ""
     },
     "src-gwr": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": 202,
@@ -66,7 +66,7 @@
       "note": "HTTP 202"
     },
     "src-lner": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 403,
@@ -77,12 +77,12 @@
       "note": "来源拒绝或限流，转人工核实"
     },
     "src-kings-college": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
       "http_status": 200,
-      "etag": "\"1794703187-gzip\"",
-      "last_modified": "Sun, 15 Nov 2026 00:39:47 GMT",
+      "etag": "\"1794827916-gzip\"",
+      "last_modified": "Mon, 16 Nov 2026 11:18:36 GMT",
       "hash": "cb5492f219d5915e",
       "excerpt": [
         "Opening Times and Tickets"
@@ -90,8 +90,8 @@
       "note": ""
     },
     "src-york-minster": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -105,8 +105,8 @@
       "note": ""
     },
     "src-durham-cathedral": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -123,12 +123,12 @@
       "note": ""
     },
     "src-beamish": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
-      "last_modified": "Sun, 15 Nov 2026 11:32:16 GMT",
+      "last_modified": "Mon, 16 Nov 2026 12:57:45 GMT",
       "hash": "41bb1c8c34fcd87d",
       "excerpt": [
         "Our Drovers Tavern is closed 2nd November – 20th November to carry out maintenance. Apologies for any inconvenience caused.",
@@ -141,8 +141,8 @@
       "note": ""
     },
     "src-edinburgh-castle": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -158,10 +158,10 @@
       "note": ""
     },
     "src-bodleian": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
-      "http_status": 200,
+      "http_status": 304,
       "etag": "\"1794588497-0\"",
       "last_modified": "Fri, 13 Nov 2026 16:48:17 GMT",
       "hash": "53a6ff8105862f1d",
@@ -171,8 +171,8 @@
       "note": ""
     },
     "src-national-gallery": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -186,10 +186,10 @@
       "note": ""
     },
     "src-visit-york": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
       "last_ok_at": "2026-11-15T12:47:18.503Z",
-      "fetch_status": "ok",
-      "http_status": 200,
+      "fetch_status": "blocked",
+      "http_status": 403,
       "etag": null,
       "last_modified": null,
       "hash": "026daa609de53178",
@@ -198,10 +198,10 @@
         "York Christmas Market 2026",
         "📅 12 November – 21 December 2026🕥 10.30am – 7pm, Wednesday–Monday🎄 Closed Tuesdays for a weekly rest day📍 Parliament St…"
       ],
-      "note": ""
+      "note": "来源拒绝或限流，转人工核实"
     },
     "src-edinburgh-christmas": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": null,
@@ -212,8 +212,8 @@
       "note": "fetch failed"
     },
     "src-magdalen": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -223,8 +223,8 @@
       "note": ""
     },
     "src-wallace": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
-      "last_ok_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
+      "last_ok_at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -237,7 +237,7 @@
       "note": ""
     },
     "src-christ-church": {
-      "last_attempt_at": "2026-11-15T12:47:18.503Z",
+      "last_attempt_at": "2026-11-16T13:42:06.135Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": 404,
@@ -597,6 +597,175 @@
       "id": "ce-20261115124718-18",
       "source_id": "src-christ-church",
       "at": "2026-11-15T12:47:18.503Z",
+      "fetch_status": "error",
+      "http_status": 404,
+      "changed": false,
+      "hash": null,
+      "note": "HTTP 404"
+    },
+    {
+      "id": "ce-20261116134206-1",
+      "source_id": "src-national-express",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "blocked",
+      "http_status": 200,
+      "changed": false,
+      "hash": null,
+      "note": "疑似验证码/机器人拦截页，转人工核实"
+    },
+    {
+      "id": "ce-20261116134206-2",
+      "source_id": "src-national-rail",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "3d0b273d81674653"
+    },
+    {
+      "id": "ce-20261116134206-3",
+      "source_id": "src-tfl",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "blocked",
+      "http_status": 403,
+      "changed": false,
+      "hash": null,
+      "note": "来源拒绝或限流，转人工核实"
+    },
+    {
+      "id": "ce-20261116134206-4",
+      "source_id": "src-heathrow-express",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 304,
+      "changed": false,
+      "hash": "e3b0c44298fc1c14"
+    },
+    {
+      "id": "ce-20261116134206-5",
+      "source_id": "src-gwr",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "error",
+      "http_status": 202,
+      "changed": false,
+      "hash": null,
+      "note": "HTTP 202"
+    },
+    {
+      "id": "ce-20261116134206-6",
+      "source_id": "src-lner",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "blocked",
+      "http_status": 403,
+      "changed": false,
+      "hash": null,
+      "note": "来源拒绝或限流，转人工核实"
+    },
+    {
+      "id": "ce-20261116134206-7",
+      "source_id": "src-kings-college",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "cb5492f219d5915e"
+    },
+    {
+      "id": "ce-20261116134206-8",
+      "source_id": "src-york-minster",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "6a065adffd4cd50e"
+    },
+    {
+      "id": "ce-20261116134206-9",
+      "source_id": "src-durham-cathedral",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "7a7430708f380e43"
+    },
+    {
+      "id": "ce-20261116134206-10",
+      "source_id": "src-beamish",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "41bb1c8c34fcd87d"
+    },
+    {
+      "id": "ce-20261116134206-11",
+      "source_id": "src-edinburgh-castle",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "e37be2487e772ff7"
+    },
+    {
+      "id": "ce-20261116134206-12",
+      "source_id": "src-bodleian",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 304,
+      "changed": false,
+      "hash": "53a6ff8105862f1d"
+    },
+    {
+      "id": "ce-20261116134206-13",
+      "source_id": "src-national-gallery",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "28337c066f69426e"
+    },
+    {
+      "id": "ce-20261116134206-14",
+      "source_id": "src-visit-york",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "blocked",
+      "http_status": 403,
+      "changed": false,
+      "hash": "026daa609de53178",
+      "note": "来源拒绝或限流，转人工核实"
+    },
+    {
+      "id": "ce-20261116134206-15",
+      "source_id": "src-edinburgh-christmas",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "error",
+      "http_status": null,
+      "changed": false,
+      "hash": null,
+      "note": "fetch failed"
+    },
+    {
+      "id": "ce-20261116134206-16",
+      "source_id": "src-magdalen",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "e3b0c44298fc1c14"
+    },
+    {
+      "id": "ce-20261116134206-17",
+      "source_id": "src-wallace",
+      "at": "2026-11-16T13:42:06.135Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "f3f218c17d3cc97d"
+    },
+    {
+      "id": "ce-20261116134206-18",
+      "source_id": "src-christ-church",
+      "at": "2026-11-16T13:42:06.135Z",
       "fetch_status": "error",
       "http_status": 404,
       "changed": false,
