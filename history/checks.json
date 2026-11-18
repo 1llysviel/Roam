@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "writer": "check-sources",
-  "last_attempt_at": "2026-11-17T14:29:06.009Z",
-  "last_success_at": "2026-11-17T14:29:06.009Z",
-  "last_run_summary": "检查 18 个来源：成功 12，失败/拦截 6，内容变化待复核 0",
+  "last_attempt_at": "2026-11-18T14:04:16.103Z",
+  "last_success_at": "2026-11-18T14:04:16.103Z",
+  "last_run_summary": "检查 18 个来源：成功 12，失败/拦截 6，内容变化待复核 2",
   "sources": {
     "src-national-express": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 200,
@@ -17,23 +17,25 @@
       "note": "疑似验证码/机器人拦截页，转人工核实"
     },
     "src-national-rail": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
       "last_modified": null,
-      "hash": "3d0b273d81674653",
+      "hash": "80cf981ab9a0d2b1",
       "excerpt": [
+        "Check before you travel this Christmas and New YearBetween Christmas Eve (Thursday 24 December) and Monday 4 January, essential engineering works and upgrades are taking place. Please plan your journey in advance",
+        "Check before you travel this Christmas and New Year",
+        "Between Christmas Eve (Thursday 24 December) and Monday 4 January, essential engineering works and upgrades are taking place. Please plan your journey in advance",
         "10 Great Festive Places to Go Ice Skating by TrainFind an ice rink near you and get your skates on for a cool Christmas treat!",
         "Find an ice rink near you and get your skates on for a cool Christmas treat!",
-        "Watch our planned disruption videosSometimes planned engineering works can impact your journey, and you may need to travel by a different route or use rail replacement services. Where this happens, we provide short, accessible videos to help you plan your journey",
-        "Sometimes planned engineering works can impact your journey, and you may need to travel by a different route or use rail replacement services. Where this happens, we provide short, accessible videos to help you plan your journey"
+        "Watch our planned disruption videosSometimes planned engineering works can impact your journey, and you may need to travel by a different route or use rail replacement services. Where this happens, we provide short, accessible videos to help you plan your journey"
       ],
       "note": ""
     },
     "src-tfl": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 403,
@@ -44,18 +46,18 @@
       "note": "来源拒绝或限流，转人工核实"
     },
     "src-heathrow-express": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
-      "http_status": 304,
-      "etag": "\"0c4684da86cdd1:0\"",
-      "last_modified": "Wed, 04 Nov 2026 22:03:20 GMT",
+      "http_status": 200,
+      "etag": "\"0798854d77dd1:0\"",
+      "last_modified": "Wed, 18 Nov 2026 11:07:38 GMT",
       "hash": "e3b0c44298fc1c14",
       "excerpt": [],
       "note": ""
     },
     "src-gwr": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": 202,
@@ -66,7 +68,7 @@
       "note": "HTTP 202"
     },
     "src-lner": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 403,
@@ -77,12 +79,12 @@
       "note": "来源拒绝或限流，转人工核实"
     },
     "src-kings-college": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 200,
-      "etag": "\"1794923122-gzip\"",
-      "last_modified": "Tue, 17 Nov 2026 13:45:22 GMT",
+      "etag": "\"1794995691-gzip\"",
+      "last_modified": "Wed, 18 Nov 2026 09:54:51 GMT",
       "hash": "cb5492f219d5915e",
       "excerpt": [
         "Opening Times and Tickets"
@@ -90,14 +92,15 @@
       "note": ""
     },
     "src-york-minster": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
       "last_modified": null,
-      "hash": "6a065adffd4cd50e",
+      "hash": "aa4fc3791b247d8b",
       "excerpt": [
+        "We are closed all day for sightseeing",
         "Opening Times and Tickets",
         "York Minster is open 365 days a year, for worship, events and sightseeing. As we are a living church we may need to close from time to time to facilitate services through the year. Check our calendar for the most up-to-date information on our sightseeing opening times.",
         "Join one of our expertly led guided tours to explore the stories carved into the stone and stained glass. You can also access areas of the cathedral normally closed to the public by joining one of our exclusive Hidden Minster tours: the Chapter House Roof and Mason’s Loft Tour, …"
@@ -105,8 +108,8 @@
       "note": ""
     },
     "src-durham-cathedral": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -123,12 +126,12 @@
       "note": ""
     },
     "src-beamish": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
-      "last_modified": "Tue, 17 Nov 2026 14:04:36 GMT",
+      "last_modified": "Wed, 18 Nov 2026 10:50:16 GMT",
       "hash": "41bb1c8c34fcd87d",
       "excerpt": [
         "Our Drovers Tavern is closed 2nd November – 20th November to carry out maintenance. Apologies for any inconvenience caused.",
@@ -141,8 +144,8 @@
       "note": ""
     },
     "src-edinburgh-castle": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -158,8 +161,8 @@
       "note": ""
     },
     "src-bodleian": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 304,
       "etag": "\"1794588497-0\"",
@@ -171,8 +174,8 @@
       "note": ""
     },
     "src-national-gallery": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -186,8 +189,8 @@
       "note": ""
     },
     "src-visit-york": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -201,7 +204,7 @@
       "note": ""
     },
     "src-edinburgh-christmas": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": null,
@@ -212,8 +215,8 @@
       "note": "fetch failed"
     },
     "src-magdalen": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -223,8 +226,8 @@
       "note": ""
     },
     "src-wallace": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
-      "last_ok_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
+      "last_ok_at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -237,7 +240,7 @@
       "note": ""
     },
     "src-christ-church": {
-      "last_attempt_at": "2026-11-17T14:29:06.009Z",
+      "last_attempt_at": "2026-11-18T14:04:16.103Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": 404,
@@ -262,6 +265,41 @@
         "Explore the York Christmas Market 🎄",
         "York Christmas Market 2026",
         "📅 12 November – 21 December 2026🕥 10.30am – 7pm, Wednesday–Monday🎄 Closed Tuesdays for a weekly rest day📍 Parliament St…"
+      ]
+    },
+    {
+      "id": "pr-src-national-rail-2026-11-18",
+      "source_id": "src-national-rail",
+      "claim_ids": [
+        "cl-xmas-no-rail",
+        "cl-rail-cambridge-1214"
+      ],
+      "detected_at": "2026-11-18T14:04:16.103Z",
+      "old_hash": "3d0b273d81674653",
+      "new_hash": "80cf981ab9a0d2b1",
+      "excerpt": [
+        "Check before you travel this Christmas and New YearBetween Christmas Eve (Thursday 24 December) and Monday 4 January, essential engineering works and upgrades are taking place. Please plan your journey in advance",
+        "Check before you travel this Christmas and New Year",
+        "Between Christmas Eve (Thursday 24 December) and Monday 4 January, essential engineering works and upgrades are taking place. Please plan your journey in advance",
+        "10 Great Festive Places to Go Ice Skating by TrainFind an ice rink near you and get your skates on for a cool Christmas treat!",
+        "Find an ice rink near you and get your skates on for a cool Christmas treat!",
+        "Watch our planned disruption videosSometimes planned engineering works can impact your journey, and you may need to travel by a different route or use rail replacement services. Where this happens, we provide short, accessible videos to help you plan your journey"
+      ]
+    },
+    {
+      "id": "pr-src-york-minster-2026-11-18",
+      "source_id": "src-york-minster",
+      "claim_ids": [
+        "cl-minster-open-1216"
+      ],
+      "detected_at": "2026-11-18T14:04:16.103Z",
+      "old_hash": "6a065adffd4cd50e",
+      "new_hash": "aa4fc3791b247d8b",
+      "excerpt": [
+        "We are closed all day for sightseeing",
+        "Opening Times and Tickets",
+        "York Minster is open 365 days a year, for worship, events and sightseeing. As we are a living church we may need to close from time to time to facilitate services through the year. Check our calendar for the most up-to-date information on our sightseeing opening times.",
+        "Join one of our expertly led guided tours to explore the stories carved into the stone and stained glass. You can also access areas of the cathedral normally closed to the public by joining one of our exclusive Hidden Minster tours: the Chapter House Roof and Mason’s Loft Tour, …"
       ]
     }
   ],
@@ -934,6 +972,174 @@
       "id": "ce-20261117142906-18",
       "source_id": "src-christ-church",
       "at": "2026-11-17T14:29:06.009Z",
+      "fetch_status": "error",
+      "http_status": 404,
+      "changed": false,
+      "hash": null,
+      "note": "HTTP 404"
+    },
+    {
+      "id": "ce-20261118140416-1",
+      "source_id": "src-national-express",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "blocked",
+      "http_status": 200,
+      "changed": false,
+      "hash": null,
+      "note": "疑似验证码/机器人拦截页，转人工核实"
+    },
+    {
+      "id": "ce-20261118140416-2",
+      "source_id": "src-national-rail",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": true,
+      "hash": "80cf981ab9a0d2b1"
+    },
+    {
+      "id": "ce-20261118140416-3",
+      "source_id": "src-tfl",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "blocked",
+      "http_status": 403,
+      "changed": false,
+      "hash": null,
+      "note": "来源拒绝或限流，转人工核实"
+    },
+    {
+      "id": "ce-20261118140416-4",
+      "source_id": "src-heathrow-express",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "e3b0c44298fc1c14"
+    },
+    {
+      "id": "ce-20261118140416-5",
+      "source_id": "src-gwr",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "error",
+      "http_status": 202,
+      "changed": false,
+      "hash": null,
+      "note": "HTTP 202"
+    },
+    {
+      "id": "ce-20261118140416-6",
+      "source_id": "src-lner",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "blocked",
+      "http_status": 403,
+      "changed": false,
+      "hash": null,
+      "note": "来源拒绝或限流，转人工核实"
+    },
+    {
+      "id": "ce-20261118140416-7",
+      "source_id": "src-kings-college",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "cb5492f219d5915e"
+    },
+    {
+      "id": "ce-20261118140416-8",
+      "source_id": "src-york-minster",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": true,
+      "hash": "aa4fc3791b247d8b"
+    },
+    {
+      "id": "ce-20261118140416-9",
+      "source_id": "src-durham-cathedral",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "7a7430708f380e43"
+    },
+    {
+      "id": "ce-20261118140416-10",
+      "source_id": "src-beamish",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "41bb1c8c34fcd87d"
+    },
+    {
+      "id": "ce-20261118140416-11",
+      "source_id": "src-edinburgh-castle",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "e37be2487e772ff7"
+    },
+    {
+      "id": "ce-20261118140416-12",
+      "source_id": "src-bodleian",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 304,
+      "changed": false,
+      "hash": "53a6ff8105862f1d"
+    },
+    {
+      "id": "ce-20261118140416-13",
+      "source_id": "src-national-gallery",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "28337c066f69426e"
+    },
+    {
+      "id": "ce-20261118140416-14",
+      "source_id": "src-visit-york",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "026daa609de53178"
+    },
+    {
+      "id": "ce-20261118140416-15",
+      "source_id": "src-edinburgh-christmas",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "error",
+      "http_status": null,
+      "changed": false,
+      "hash": null,
+      "note": "fetch failed"
+    },
+    {
+      "id": "ce-20261118140416-16",
+      "source_id": "src-magdalen",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "e3b0c44298fc1c14"
+    },
+    {
+      "id": "ce-20261118140416-17",
+      "source_id": "src-wallace",
+      "at": "2026-11-18T14:04:16.103Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "f3f218c17d3cc97d"
+    },
+    {
+      "id": "ce-20261118140416-18",
+      "source_id": "src-christ-church",
+      "at": "2026-11-18T14:04:16.103Z",
       "fetch_status": "error",
       "http_status": 404,
       "changed": false,
