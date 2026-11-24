@@ -85,7 +85,8 @@ test('删除（软删除）：从行程与导出中移除，相关事实不适�
   assert.ok(ix.orphanBookings.has('bk-beamish-evening'));
   const before = bookingCompletion(l.data.bookings).den;
   assert.equal(bookingCompletion(ix.bundle.data.bookings).den, before - 1);
-  assert.equal(effectiveRate(ix.claimStates).den, l.data.claims.length - 1);
+  const baseIx = buildIndex(realBundle(), new Date('2026-11-14T00:00:00Z'));
+  assert.equal(effectiveRate(ix.claimStates).den, effectiveRate(baseIx.claimStates).den - 1);
   const view = { ...b, data: applyRemovals(b.data).data };
   assert.doesNotMatch(toIcs(view, '2026-11-14T00:00:00.000Z'), /act-1218-beamish-evening/);
   assert.doesNotMatch(activitiesCsv(view), /act-1218-beamish-evening/);
@@ -97,4 +98,14 @@ test('删除（软删除）：从行程与导出中移除，相关事实不适�
 test('删除住宿关联的活动时，被住宿晚次引用的预订不算孤立', () => {
   const del = applyOps(l.data, l.reviews, [{ type: 'set', entity: 'activity', id: 'act-1217-lumley', field: 'removed', value: true }]);
   assert.ok(!applyRemovals(del.data).orphanBookings.has('bk-lumley'));
+});
+
+test('候选活动的事实不计入统计，改为已选定后自动计入', () => {
+  const ix0 = buildIndex(realBundle(), new Date('2026-11-14T00:00:00Z'));
+  const st = ix0.claimState.get('cl-durham-castle-tour-1217')!;
+  assert.equal(st.claim.excluded, 'candidate');
+  const sel = applyOps(l.data, l.reviews, [{ type: 'set', entity: 'activity', id: 'act-1217-castle', field: 'plan_status', value: 'selected' }]);
+  const ix1 = buildIndex({ ...realBundle(), data: sel.data }, new Date('2026-11-14T00:00:00Z'));
+  assert.equal(ix1.claimState.get('cl-durham-castle-tour-1217')!.claim.applicable, undefined);
+  assert.equal(effectiveRate(ix1.claimStates).den, effectiveRate(ix0.claimStates).den + 1);
 });

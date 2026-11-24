@@ -123,6 +123,7 @@ export interface Claim {
   max_age_days: number;
   check_rule?: string | null;
   origin?: 'user_stated' | 'assistant_proposed';
+  excluded?: 'removed' | 'candidate'; // 仅派生（src/lib/derive.ts），不写入数据文件
 }
 
 export interface Source {

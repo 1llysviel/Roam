@@ -1,0 +1,992 @@
+{
+  "format": "roam-edits",
+  "schema_version": 1,
+  "id": "ed-20261124-nearby-candidates",
+  "author": "Claude（景点搜集）",
+  "created_at": "2026-11-24T20:39:22.625Z",
+  "base_version": "main",
+  "note": "各站附近推荐景点（候选）。来源多为旅游指南，日期多按往年推算，均标为线索、待官网核实；候选项不计入统计。",
+  "ops": [
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-visitlondon",
+        "kind": "official",
+        "title": "Visit London — Christmas",
+        "url": "https://www.visitlondon.com/things-to-do/whats-on/Christmas",
+        "publisher": "Visit London（伦敦官方旅游局）",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-visitlondon-trees",
+        "kind": "official",
+        "title": "Visit London — best Christmas trees",
+        "url": "https://www.visitlondon.com/things-to-do/whats-on/christmas/best-christmas-trees-in-london",
+        "publisher": "Visit London（伦敦官方旅游局）",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-visitlondon-xmasday",
+        "kind": "official",
+        "title": "Visit London — Christmas Day in London",
+        "url": "https://visitlondon.com/things-to-do/whats-on/christmas/things-to-do-in-london-on-christmas-day",
+        "publisher": "Visit London（伦敦官方旅游局）",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-londonist-xmasday",
+        "kind": "third_party",
+        "title": "Londonist — What's open on Christmas Day 2026",
+        "url": "https://londonist.com/london/christmas-in-london/what-open-london-christmas-day-restaurants-cafes-pubs-museums",
+        "publisher": "Londonist",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-cambridge-winter",
+        "kind": "third_party",
+        "title": "Things to do in Cambridge in winter",
+        "url": "https://oxfordsummercourses.com/articles/things-to-do-in-cambridge-in-winter",
+        "publisher": "Oxford Summer Courses",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-cambridge-dec",
+        "kind": "third_party",
+        "title": "Christmas in Cambridge 2026",
+        "url": "https://www.passthekeys.com/en/blog/december-activities-and-events-in-cambridge-uk",
+        "publisher": "Pass the Keys",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-york-markets",
+        "kind": "third_party",
+        "title": "York Christmas markets 2026",
+        "url": "https://www.designmynight.com/york/blog/york-christmas-markets",
+        "publisher": "DesignMyNight",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-forest-of-light",
+        "kind": "third_party",
+        "title": "Forest of Light at Beamish Hall",
+        "url": "https://www.dayoutwiththekids.co.uk/attractions/forest-of-light-at-beamish-hall-0effb32b",
+        "publisher": "Day Out With The Kids",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-durham-winter",
+        "kind": "official",
+        "title": "This is Durham — winter events",
+        "url": "https://thisisdurham.com/inspire-me/short-break-ideas/winter-breaks/winter-events?p=5",
+        "publisher": "Visit County Durham",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-edinburgh-list",
+        "kind": "third_party",
+        "title": "The List — Edinburgh's Christmas 2026",
+        "url": "https://list.co.uk/news/edinburghs-christmas-returns-with-city-wide-festive-celebrations-for-2026-49352",
+        "publisher": "The List",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-visitscotland-xmas",
+        "kind": "official",
+        "title": "VisitScotland — Edinburgh Christmas & winter",
+        "url": "https://www.visitscotland.com/things-to-do/events/christmas-winter-festivals/edinburgh",
+        "publisher": "VisitScotland（苏格兰官方旅游局）",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-edinburgh-guide",
+        "kind": "third_party",
+        "title": "Edinburgh Christmas guide",
+        "url": "https://thebettervacation.com/edinburgh/edinburgh-christmas/amp/",
+        "publisher": "The Better Vacation",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-oxford-council",
+        "kind": "official",
+        "title": "Oxford City Council — Christmas in Oxford",
+        "url": "https://www.oxford.gov.uk/oxfordchristmas",
+        "publisher": "Oxford City Council",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-oxford-market",
+        "kind": "third_party",
+        "title": "Oxford Christmas Market 2026",
+        "url": "https://radicalstorage.com/travel/oxford-christmas-market/",
+        "publisher": "Radical Storage",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_source",
+      "source": {
+        "id": "src-cand-oxford-december",
+        "kind": "third_party",
+        "title": "Things to do in Oxford in December",
+        "url": "https://wanderlog.com/geoInMonth/9723/12/oxford-in-december",
+        "publisher": "Wanderlog",
+        "fetch": "manual",
+        "lead": true,
+        "keywords": [],
+        "notes": "2026-11-24 搜集推荐景点时找到；多为旅游指南，日期需以官网为准"
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-trafalgar",
+        "name_zh": "特拉法加广场",
+        "name_en": "Trafalgar Square",
+        "kind": "sight",
+        "city": "london",
+        "address": "Trafalgar Square, London WC2N 5DN",
+        "coord": {
+          "lat": 51.508,
+          "lng": -0.1281
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1212-1",
+        "date": "2026-12-12",
+        "order": 15,
+        "kind": "sight",
+        "title_zh": "特拉法加广场圣诞树与市集",
+        "title_en": "Trafalgar Square Christmas tree & market",
+        "place_id": "pl-cand-trafalgar",
+        "time": null,
+        "daypart": "flexible",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "就在国家美术馆门口；圣诞树 12/3 点灯、亮到 1/5，12 月有合唱团在树下唱颂歌，免费。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1212-1",
+        "subject_id": "act-cand-1212-1",
+        "kind": "opening",
+        "statement_zh": "特拉法加广场圣诞树与市集 12/12 仍在（市集日期各来源不一致）",
+        "target_date": "2026-12-12",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-visitlondon-trees",
+          "src-cand-visitlondon"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-st-martin",
+        "name_zh": "圣马田教堂",
+        "name_en": "St Martin-in-the-Fields",
+        "kind": "sight",
+        "city": "london",
+        "address": "Trafalgar Square, London WC2N 4JH",
+        "coord": {
+          "lat": 51.5089,
+          "lng": -0.1267
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1212-2",
+        "date": "2026-12-12",
+        "order": 35,
+        "kind": "sight",
+        "title_zh": "圣马田教堂烛光颂歌音乐会",
+        "title_en": "Carols by Candlelight, St Martin-in-the-Fields",
+        "place_id": "pl-cand-st-martin",
+        "time": null,
+        "daypart": "evening",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "12 月演出，需购票；也可换到 12/11 或 12/13。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1212-2",
+        "subject_id": "act-cand-1212-2",
+        "kind": "ticket",
+        "statement_zh": "圣马田教堂 12/11–13 有烛光颂歌音乐会场次及余票",
+        "target_date": "2026-12-12",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-visitlondon"
+        ],
+        "max_age_days": 3
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1212-cg-deco",
+        "subject_id": "act-1212-covent-garden",
+        "kind": "opening",
+        "statement_zh": "Covent Garden 圣诞装饰与 50 英尺圣诞树 12/12 仍在展出",
+        "target_date": "2026-12-12",
+        "importance": "normal",
+        "critical": false,
+        "source_ids": [
+          "src-cand-visitlondon"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1214-3",
+        "date": "2026-12-14",
+        "order": 27,
+        "kind": "sight",
+        "title_zh": "冬季撑船（康河）",
+        "title_en": "Winter punting on the Cam",
+        "place_id": "pl-the-backs",
+        "time": null,
+        "daypart": "afternoon",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "冬天也有船公司营业，带向导的船一般提供毯子；与「学院街区和康河」同路。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1214-3",
+        "subject_id": "act-cand-1214-3",
+        "kind": "opening",
+        "statement_zh": "12/14（周一）康河有撑船公司营业",
+        "target_date": "2026-12-14",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-cambridge-winter"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-parkers-piece",
+        "name_zh": "Parker's Piece 市集与溜冰场",
+        "name_en": "Parker's Piece",
+        "kind": "sight",
+        "city": "cambridge",
+        "address": "Parker's Piece, Cambridge CB1",
+        "coord": {
+          "lat": 52.2017,
+          "lng": 0.1288
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1214-4",
+        "date": "2026-12-14",
+        "order": 28,
+        "kind": "sight",
+        "title_zh": "Parker's Piece 圣诞市集与溜冰场",
+        "title_en": "Parker's Piece market & ice rink",
+        "place_id": "pl-cand-parkers-piece",
+        "time": null,
+        "daypart": "afternoon",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "一份指南写 11/13–1/3。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1214-4",
+        "subject_id": "act-cand-1214-4",
+        "kind": "opening",
+        "statement_zh": "Parker's Piece 市集与溜冰场 12/14 开放",
+        "target_date": "2026-12-14",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-cambridge-dec"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-botanic",
+        "name_zh": "剑桥大学植物园",
+        "name_en": "Cambridge University Botanic Garden",
+        "kind": "sight",
+        "city": "cambridge",
+        "address": "1 Brookside, Cambridge CB2 1JE",
+        "coord": {
+          "lat": 52.1934,
+          "lng": 0.127
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1214-5",
+        "date": "2026-12-14",
+        "order": 29,
+        "kind": "sight",
+        "title_zh": "植物园灯光步道",
+        "title_en": "Botanic Garden light trail",
+        "place_id": "pl-cand-botanic",
+        "time": null,
+        "daypart": "evening",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "晚间活动，视回伦敦的车次决定。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1214-5",
+        "subject_id": "act-cand-1214-5",
+        "kind": "ticket",
+        "statement_zh": "剑桥植物园灯光步道 12/14 有场次",
+        "target_date": "2026-12-14",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-cambridge-dec"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1215-market-tue",
+        "subject_id": "act-1216-market",
+        "kind": "opening",
+        "statement_zh": "约克 St Nicholas Fair 周二闭市（12/15 周二不开，因此安排在 12/16）",
+        "target_date": "2026-12-15",
+        "importance": "normal",
+        "critical": false,
+        "source_ids": [
+          "src-cand-york-markets",
+          "src-visit-york"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1217-6",
+        "date": "2026-12-17",
+        "order": 45,
+        "kind": "sight",
+        "title_zh": "Lumley Castle 圣诞晚宴 / 活动",
+        "title_en": "Christmas dining & events at Lumley Castle",
+        "place_id": "pl-lumley-castle",
+        "time": null,
+        "daypart": "evening",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "往年有圣诞伊丽莎白式宴会、谋杀推理晚宴等；当晚正好住这里，可直接问酒店。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1217-6",
+        "subject_id": "act-cand-1217-6",
+        "kind": "ticket",
+        "statement_zh": "Lumley Castle 12/17 有圣诞晚宴或活动、是否需预订",
+        "target_date": "2026-12-17",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-durham-winter",
+          "src-lumley-castle"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1218-7",
+        "date": "2026-12-18",
+        "order": 45,
+        "kind": "sight",
+        "title_zh": "Beamish Hall 森林灯光步道（Forest of Light）",
+        "title_en": "Forest of Light at Beamish Hall",
+        "place_id": "pl-beamish-hall",
+        "time": null,
+        "daypart": "evening",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "就在当晚住的庄园酒店园内，博物馆夜场后顺路；只查到往年场次。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1218-7",
+        "subject_id": "act-cand-1218-7",
+        "kind": "ticket",
+        "statement_zh": "Beamish Hall 灯光步道 2026 年冬季举办且 12/18 有场次",
+        "target_date": "2026-12-18",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-forest-of-light",
+          "src-beamish-hall"
+        ],
+        "max_age_days": 7
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-george-st-rink",
+        "name_zh": "George Street 溜冰场",
+        "name_en": "George Street ice rink, Edinburgh's Christmas",
+        "kind": "sight",
+        "city": "edinburgh",
+        "address": "George Street, Edinburgh EH2",
+        "coord": {
+          "lat": 55.9534,
+          "lng": -3.1981
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1219-8",
+        "date": "2026-12-19",
+        "order": 40,
+        "kind": "sight",
+        "title_zh": "George Street 溜冰场",
+        "title_en": "George Street ice rink",
+        "place_id": "pl-cand-george-st-rink",
+        "time": null,
+        "daypart": "evening",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "在圣诞市集附近；一份来源写 11/20 起。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1219-8",
+        "subject_id": "act-cand-1219-8",
+        "kind": "opening",
+        "statement_zh": "George Street 溜冰场 12/19 开放",
+        "target_date": "2026-12-19",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-edinburgh-list"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-scottish-gallery",
+        "name_zh": "苏格兰国家美术馆",
+        "name_en": "Scottish National Gallery",
+        "kind": "sight",
+        "city": "edinburgh",
+        "address": "The Mound, Edinburgh EH2 2EL",
+        "coord": {
+          "lat": 55.9509,
+          "lng": -3.1959
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1220-9",
+        "date": "2026-12-20",
+        "order": 25,
+        "kind": "sight",
+        "title_zh": "苏格兰国家美术馆",
+        "title_en": "Scottish National Gallery",
+        "place_id": "pl-cand-scottish-gallery",
+        "time": null,
+        "daypart": "afternoon",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "就在圣诞市集旁，免费；适合天气不好时。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1220-9",
+        "subject_id": "act-cand-1220-9",
+        "kind": "opening",
+        "statement_zh": "苏格兰国家美术馆 12/20（周日）开放",
+        "target_date": "2026-12-20",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-edinburgh-guide"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1220-10",
+        "date": "2026-12-20",
+        "order": 40,
+        "kind": "sight",
+        "title_zh": "爱丁堡城堡灯光秀（Castle of Light）",
+        "title_en": "Castle of Light, Edinburgh Castle",
+        "place_id": "pl-edinburgh-castle",
+        "time": null,
+        "daypart": "evening",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "晚间活动，接在白天参观城堡之后；2026 年场次未查到。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1220-10",
+        "subject_id": "act-cand-1220-10",
+        "kind": "ticket",
+        "statement_zh": "爱丁堡城堡 Castle of Light 2026 年举办且 12/20 有场次",
+        "target_date": "2026-12-20",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-visitscotland-xmas",
+          "src-edinburgh-castle"
+        ],
+        "max_age_days": 7
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-broad-street",
+        "name_zh": "Broad Street 圣诞市集",
+        "name_en": "Christmas market, Broad Street",
+        "kind": "sight",
+        "city": "oxford",
+        "address": "Broad Street, Oxford OX1",
+        "coord": {
+          "lat": 51.7545,
+          "lng": -1.2565
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1222-11",
+        "date": "2026-12-22",
+        "order": 27,
+        "kind": "sight",
+        "title_zh": "Broad Street 圣诞市集",
+        "title_en": "Christmas on Broad Street market",
+        "place_id": "pl-cand-broad-street",
+        "time": null,
+        "daypart": "afternoon",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "紧邻博德利图书馆；多个来源写 11/21–12/31，官方日期未公布。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1222-11",
+        "subject_id": "act-cand-1222-11",
+        "kind": "opening",
+        "statement_zh": "Broad Street 圣诞市集 12/22 开放",
+        "target_date": "2026-12-22",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-oxford-market",
+          "src-cand-oxford-council"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-covered-market",
+        "name_zh": "牛津有顶市场",
+        "name_en": "Covered Market, Oxford",
+        "kind": "sight",
+        "city": "oxford",
+        "address": "Market Street, Oxford OX1 3DZ",
+        "coord": {
+          "lat": 51.7524,
+          "lng": -1.2577
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1222-12",
+        "date": "2026-12-22",
+        "order": 28,
+        "kind": "sight",
+        "title_zh": "牛津有顶市场（歇脚、咖啡）",
+        "title_en": "Covered Market",
+        "place_id": "pl-cand-covered-market",
+        "time": null,
+        "daypart": "flexible",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "圣诞季每天开，个别店铺时间不同。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1222-12",
+        "subject_id": "act-cand-1222-12",
+        "kind": "opening",
+        "statement_zh": "牛津有顶市场 12/22 营业",
+        "target_date": "2026-12-22",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-oxford-council"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-ashmolean",
+        "name_zh": "阿什莫林博物馆",
+        "name_en": "Ashmolean Museum",
+        "kind": "sight",
+        "city": "oxford",
+        "address": "Beaumont Street, Oxford OX1 2PH",
+        "coord": {
+          "lat": 51.7554,
+          "lng": -1.26
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1222-13",
+        "date": "2026-12-22",
+        "order": 29,
+        "kind": "sight",
+        "title_zh": "阿什莫林博物馆（雨天备选）",
+        "title_en": "Ashmolean Museum (rainy-day option)",
+        "place_id": "pl-cand-ashmolean",
+        "time": null,
+        "daypart": "flexible",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "英国最早的公共博物馆；12 月有时有夜场。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1222-13",
+        "subject_id": "act-cand-1222-13",
+        "kind": "opening",
+        "statement_zh": "阿什莫林博物馆 12/22 开放",
+        "target_date": "2026-12-22",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-oxford-december"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-serpentine",
+        "name_zh": "海德公园 Serpentine 湖边咖啡馆",
+        "name_en": "Serpentine Lido Café, Hyde Park",
+        "kind": "sight",
+        "city": "london",
+        "address": "Hyde Park, London W2 2UH",
+        "coord": {
+          "lat": 51.5048,
+          "lng": -0.1675
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1225-14",
+        "date": "2026-12-25",
+        "order": 4,
+        "kind": "sight",
+        "title_zh": "海德公园散步 + Serpentine 湖边咖啡馆",
+        "title_en": "Hyde Park walk & Serpentine Lido Café",
+        "place_id": "pl-cand-serpentine",
+        "time": null,
+        "daypart": "morning",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "公园开放；湖边咖啡馆 8:00–16:00（多数公园咖啡馆关门）。步行往返 Victoria。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1225-14",
+        "subject_id": "act-cand-1225-14",
+        "kind": "opening",
+        "statement_zh": "12/25 海德公园开放、Serpentine 湖边咖啡馆营业",
+        "target_date": "2026-12-25",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-londonist-xmasday",
+          "src-cand-visitlondon-xmasday"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-westminster-abbey",
+        "name_zh": "威斯敏斯特教堂",
+        "name_en": "Westminster Abbey",
+        "kind": "sight",
+        "city": "london",
+        "address": "20 Deans Yard, London SW1P 3PA",
+        "coord": {
+          "lat": 51.4993,
+          "lng": -0.1273
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1225-15",
+        "date": "2026-12-25",
+        "order": 5,
+        "kind": "sight",
+        "title_zh": "威斯敏斯特教堂圣诞礼拜",
+        "title_en": "Christmas Day service, Westminster Abbey",
+        "place_id": "pl-cand-westminster-abbey",
+        "time": null,
+        "daypart": "morning",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "圣诞日有礼拜；步行可达 Victoria。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1225-15",
+        "subject_id": "act-cand-1225-15",
+        "kind": "opening",
+        "statement_zh": "威斯敏斯特教堂 12/25 圣诞礼拜时间、是否需要入场券",
+        "target_date": "2026-12-25",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-visitlondon-xmasday"
+        ],
+        "max_age_days": 14
+      }
+    },
+    {
+      "type": "add_place",
+      "place": {
+        "id": "pl-cand-st-pauls",
+        "name_zh": "圣保罗大教堂",
+        "name_en": "St Paul's Cathedral",
+        "kind": "sight",
+        "city": "london",
+        "address": "St Paul's Churchyard, London EC4M 8AD",
+        "coord": {
+          "lat": 51.5138,
+          "lng": -0.0984
+        },
+        "coord_source": "initial_draft",
+        "coord_precision": "landmark_approx"
+      }
+    },
+    {
+      "type": "add_activity",
+      "activity": {
+        "id": "act-cand-1225-16",
+        "date": "2026-12-25",
+        "order": 6,
+        "kind": "sight",
+        "title_zh": "泰晤士河边步行：威斯敏斯特 → 圣保罗",
+        "title_en": "Embankment walk: Westminster to St Paul’s",
+        "place_id": "pl-cand-st-pauls",
+        "time": null,
+        "daypart": "morning",
+        "importance": "low",
+        "plan_status": "candidate",
+        "notes": "路上车少；注意回 Victoria 的步行时间（单程约 1 小时），别影响 16:45 大巴。"
+      }
+    },
+    {
+      "type": "add_claim",
+      "claim": {
+        "id": "cl-cand-1225-16",
+        "subject_id": "act-cand-1225-16",
+        "kind": "opening",
+        "statement_zh": "12/25 圣保罗大教堂圣诞礼拜时间（步行终点）",
+        "target_date": "2026-12-25",
+        "importance": "low",
+        "critical": false,
+        "source_ids": [
+          "src-cand-visitlondon-xmasday"
+        ],
+        "max_age_days": 14
+      }
+    }
+  ]
+}

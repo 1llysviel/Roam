@@ -25,13 +25,15 @@ export interface Index {
 }
 
 /**
- * 软删除的派生效果（纯函数）：
- * - 主体已删除的事实 → applicable: false（不计入统计）；
+ * 统计口径的派生效果（纯函数，不改动原始数据）：
+ * - 主体已删除的事实 → applicable: false，excluded: 'removed'；
+ * - 主体是「候选」活动的事实 → applicable: false，excluded: 'candidate'（选定后自动计入）；
  * - 只关联到已删除项目、且没有住宿晚次引用的预订 → selected: false（不计入预订完成率）。
  */
 export function applyRemovals(data: TripData): { data: TripData; orphanBookings: Set<string> } {
   const removed = new Set([...data.activities, ...data.legs].filter((x) => x.removed).map((x) => x.id));
-  if (removed.size === 0) return { data, orphanBookings: new Set() };
+  const candidates = new Set(data.activities.filter((a) => !a.removed && a.plan_status === 'candidate').map((a) => a.id));
+  if (removed.size === 0 && candidates.size === 0) return { data, orphanBookings: new Set() };
   const live = [...data.activities, ...data.legs].filter((x) => !x.removed);
   const liveRefs = new Set([...live.flatMap((x) => x.booking_ids ?? []), ...data.stays.map((s) => s.booking_id).filter(Boolean) as string[]]);
   const deadRefs = new Set([...data.activities, ...data.legs].filter((x) => x.removed).flatMap((x) => x.booking_ids ?? []));
@@ -40,7 +42,8 @@ export function applyRemovals(data: TripData): { data: TripData; orphanBookings:
     orphanBookings,
     data: {
       ...data,
-      claims: data.claims.map((c) => (removed.has(c.subject_id) ? { ...c, applicable: false } : c)),
+      claims: data.claims.map((c) => (removed.has(c.subject_id) ? { ...c, applicable: false, excluded: 'removed' as const }
+        : candidates.has(c.subject_id) ? { ...c, applicable: false, excluded: 'candidate' as const } : c)),
       bookings: data.bookings.map((b) => (orphanBookings.has(b.id) ? { ...b, selected: false } : b)),
     },
   };
