@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "writer": "check-sources",
-  "last_attempt_at": "2026-11-24T15:56:15.176Z",
-  "last_success_at": "2026-11-24T15:56:15.176Z",
+  "last_attempt_at": "2026-11-25T15:39:27.317Z",
+  "last_success_at": "2026-11-25T15:39:27.317Z",
   "last_run_summary": "检查 18 个来源：成功 12，失败/拦截 6，内容变化待复核 0",
   "sources": {
     "src-national-express": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 200,
@@ -17,8 +17,8 @@
       "note": "疑似验证码/机器人拦截页，转人工核实"
     },
     "src-national-rail": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -35,7 +35,7 @@
       "note": ""
     },
     "src-tfl": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 403,
@@ -46,8 +46,8 @@
       "note": "来源拒绝或限流，转人工核实"
     },
     "src-heathrow-express": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 304,
       "etag": "\"0798854d77dd1:0\"",
@@ -57,7 +57,7 @@
       "note": ""
     },
     "src-gwr": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": 202,
@@ -68,7 +68,7 @@
       "note": "HTTP 202"
     },
     "src-lner": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 403,
@@ -79,12 +79,12 @@
       "note": "来源拒绝或限流，转人工核实"
     },
     "src-kings-college": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 200,
-      "etag": "\"1795531576-gzip\"",
-      "last_modified": "Tue, 24 Nov 2026 14:46:16 GMT",
+      "etag": "\"1795598455-gzip\"",
+      "last_modified": "Wed, 25 Nov 2026 09:20:55 GMT",
       "hash": "cb5492f219d5915e",
       "excerpt": [
         "Opening Times and Tickets"
@@ -92,8 +92,8 @@
       "note": ""
     },
     "src-york-minster": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -107,8 +107,8 @@
       "note": ""
     },
     "src-durham-cathedral": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -125,8 +125,8 @@
       "note": ""
     },
     "src-beamish": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": "\"6b016cd9-f7fab\"",
@@ -143,8 +143,8 @@
       "note": ""
     },
     "src-edinburgh-castle": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -160,8 +160,8 @@
       "note": ""
     },
     "src-bodleian": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 304,
       "etag": "\"1795265328-0\"",
@@ -173,8 +173,8 @@
       "note": ""
     },
     "src-national-gallery": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -188,8 +188,8 @@
       "note": ""
     },
     "src-visit-york": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -203,7 +203,7 @@
       "note": ""
     },
     "src-edinburgh-christmas": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": null,
@@ -214,8 +214,8 @@
       "note": "fetch failed"
     },
     "src-magdalen": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -225,8 +225,8 @@
       "note": ""
     },
     "src-wallace": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
-      "last_ok_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_ok_at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -239,7 +239,7 @@
       "note": ""
     },
     "src-christ-church": {
-      "last_attempt_at": "2026-11-24T15:56:15.176Z",
+      "last_attempt_at": "2026-11-25T15:39:27.317Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": 404,
@@ -2181,6 +2181,174 @@
       "id": "ce-20261124155615-18",
       "source_id": "src-christ-church",
       "at": "2026-11-24T15:56:15.176Z",
+      "fetch_status": "error",
+      "http_status": 404,
+      "changed": false,
+      "hash": null,
+      "note": "HTTP 404"
+    },
+    {
+      "id": "ce-20261125153927-1",
+      "source_id": "src-national-express",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "blocked",
+      "http_status": 200,
+      "changed": false,
+      "hash": null,
+      "note": "疑似验证码/机器人拦截页，转人工核实"
+    },
+    {
+      "id": "ce-20261125153927-2",
+      "source_id": "src-national-rail",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "80cf981ab9a0d2b1"
+    },
+    {
+      "id": "ce-20261125153927-3",
+      "source_id": "src-tfl",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "blocked",
+      "http_status": 403,
+      "changed": false,
+      "hash": null,
+      "note": "来源拒绝或限流，转人工核实"
+    },
+    {
+      "id": "ce-20261125153927-4",
+      "source_id": "src-heathrow-express",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 304,
+      "changed": false,
+      "hash": "e3b0c44298fc1c14"
+    },
+    {
+      "id": "ce-20261125153927-5",
+      "source_id": "src-gwr",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "error",
+      "http_status": 202,
+      "changed": false,
+      "hash": null,
+      "note": "HTTP 202"
+    },
+    {
+      "id": "ce-20261125153927-6",
+      "source_id": "src-lner",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "blocked",
+      "http_status": 403,
+      "changed": false,
+      "hash": null,
+      "note": "来源拒绝或限流，转人工核实"
+    },
+    {
+      "id": "ce-20261125153927-7",
+      "source_id": "src-kings-college",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "cb5492f219d5915e"
+    },
+    {
+      "id": "ce-20261125153927-8",
+      "source_id": "src-york-minster",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "6a065adffd4cd50e"
+    },
+    {
+      "id": "ce-20261125153927-9",
+      "source_id": "src-durham-cathedral",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "7a7430708f380e43"
+    },
+    {
+      "id": "ce-20261125153927-10",
+      "source_id": "src-beamish",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "6ba669c39b6d5575"
+    },
+    {
+      "id": "ce-20261125153927-11",
+      "source_id": "src-edinburgh-castle",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "e37be2487e772ff7"
+    },
+    {
+      "id": "ce-20261125153927-12",
+      "source_id": "src-bodleian",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 304,
+      "changed": false,
+      "hash": "53a6ff8105862f1d"
+    },
+    {
+      "id": "ce-20261125153927-13",
+      "source_id": "src-national-gallery",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "28337c066f69426e"
+    },
+    {
+      "id": "ce-20261125153927-14",
+      "source_id": "src-visit-york",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "026daa609de53178"
+    },
+    {
+      "id": "ce-20261125153927-15",
+      "source_id": "src-edinburgh-christmas",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "error",
+      "http_status": null,
+      "changed": false,
+      "hash": null,
+      "note": "fetch failed"
+    },
+    {
+      "id": "ce-20261125153927-16",
+      "source_id": "src-magdalen",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "e3b0c44298fc1c14"
+    },
+    {
+      "id": "ce-20261125153927-17",
+      "source_id": "src-wallace",
+      "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "7724ba9b29ddf099"
+    },
+    {
+      "id": "ce-20261125153927-18",
+      "source_id": "src-christ-church",
+      "at": "2026-11-25T15:39:27.317Z",
       "fetch_status": "error",
       "http_status": 404,
       "changed": false,
