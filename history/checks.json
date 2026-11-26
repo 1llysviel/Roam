@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "writer": "check-sources",
-  "last_attempt_at": "2026-11-25T15:39:27.317Z",
-  "last_success_at": "2026-11-25T15:39:27.317Z",
-  "last_run_summary": "检查 18 个来源：成功 12，失败/拦截 6，内容变化待复核 0",
+  "last_attempt_at": "2026-11-26T15:21:59.330Z",
+  "last_success_at": "2026-11-26T15:21:59.330Z",
+  "last_run_summary": "检查 18 个来源：成功 12，失败/拦截 6，内容变化待复核 2",
   "sources": {
     "src-national-express": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 200,
@@ -17,8 +17,8 @@
       "note": "疑似验证码/机器人拦截页，转人工核实"
     },
     "src-national-rail": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -35,7 +35,7 @@
       "note": ""
     },
     "src-tfl": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 403,
@@ -46,18 +46,18 @@
       "note": "来源拒绝或限流，转人工核实"
     },
     "src-heathrow-express": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
-      "http_status": 304,
-      "etag": "\"0798854d77dd1:0\"",
-      "last_modified": "Wed, 18 Nov 2026 11:07:38 GMT",
+      "http_status": 200,
+      "etag": "\"01fe9b307ddd1:0\"",
+      "last_modified": "Wed, 25 Nov 2026 22:59:22 GMT",
       "hash": "e3b0c44298fc1c14",
       "excerpt": [],
       "note": ""
     },
     "src-gwr": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": 202,
@@ -68,7 +68,7 @@
       "note": "HTTP 202"
     },
     "src-lner": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
       "last_ok_at": null,
       "fetch_status": "blocked",
       "http_status": 403,
@@ -79,12 +79,12 @@
       "note": "来源拒绝或限流，转人工核实"
     },
     "src-kings-college": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 200,
-      "etag": "\"1795598455-gzip\"",
-      "last_modified": "Wed, 25 Nov 2026 09:20:55 GMT",
+      "etag": "\"1795651945-gzip\"",
+      "last_modified": "Thu, 26 Nov 2026 00:12:25 GMT",
       "hash": "cb5492f219d5915e",
       "excerpt": [
         "Opening Times and Tickets"
@@ -92,8 +92,8 @@
       "note": ""
     },
     "src-york-minster": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -107,8 +107,8 @@
       "note": ""
     },
     "src-durham-cathedral": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -125,26 +125,26 @@
       "note": ""
     },
     "src-beamish": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": "\"6b016cd9-f7fab\"",
-      "last_modified": "Tue, 24 Nov 2026 09:58:09 GMT",
-      "hash": "6ba669c39b6d5575",
+      "last_modified": "Thu, 26 Nov 2026 10:06:17 GMT",
+      "hash": "d0433d8e2be37645",
       "excerpt": [
         "The farmhouse at The 1940s Farm is closed for essential maintenance, the rest of the farm is open.",
+        "The record shop and the hairdresser’s in The 1950s Town are closed.",
         "Opening times:",
         "Saturday, 21st November – Thursday, 24th December: Monday – Sunday: 10am – 4pm.",
         "For opening hours beyond this date, please see the drop-down menu.",
-        "Opening Times",
-        "Mon 2 Nov – Fri 20th Nov 2026: Open Wed-Sun, 10am-4pm (closed Mon & Tue) Sat 21 Nov – Thu 24 Dec 2026: Open daily, 10am-4pm Fri 25th Dec 2026: Closed Sat 26th Dec 2026: Closed Sun 27th – Thu 31st Dec 2026: Open daily, 10am-4pm"
+        "Opening Times"
       ],
       "note": ""
     },
     "src-edinburgh-castle": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -160,8 +160,8 @@
       "note": ""
     },
     "src-bodleian": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 304,
       "etag": "\"1795265328-0\"",
@@ -173,8 +173,8 @@
       "note": ""
     },
     "src-national-gallery": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -188,22 +188,23 @@
       "note": ""
     },
     "src-visit-york": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
       "last_modified": null,
-      "hash": "026daa609de53178",
+      "hash": "94cb187a485646b3",
       "excerpt": [
         "Explore the York Christmas Market 🎄",
         "York Christmas Market 2026",
-        "📅 12 November – 21 December 2026🕥 10.30am – 7pm, Wednesday–Monday🎄 Closed Tuesdays for a weekly rest day📍 Parliament St…"
+        "📅 12 November – 21 December 2026🕥 10.30am – 7pm, Wednesday–Monday🎄 Closed Tuesdays for a weekly rest day📍 Parliament St…",
+        "Christmas Market At York Stadium Leisure Complex"
       ],
       "note": ""
     },
     "src-edinburgh-christmas": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": null,
@@ -214,8 +215,8 @@
       "note": "fetch failed"
     },
     "src-magdalen": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -225,8 +226,8 @@
       "note": ""
     },
     "src-wallace": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
-      "last_ok_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
+      "last_ok_at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "ok",
       "http_status": 200,
       "etag": null,
@@ -239,7 +240,7 @@
       "note": ""
     },
     "src-christ-church": {
-      "last_attempt_at": "2026-11-25T15:39:27.317Z",
+      "last_attempt_at": "2026-11-26T15:21:59.330Z",
       "last_ok_at": null,
       "fetch_status": "error",
       "http_status": 404,
@@ -251,21 +252,6 @@
     }
   },
   "pending_reviews": [
-    {
-      "id": "pr-src-visit-york-2026-11-15",
-      "source_id": "src-visit-york",
-      "claim_ids": [
-        "cl-york-market-1216"
-      ],
-      "detected_at": "2026-11-15T12:47:18.503Z",
-      "old_hash": "94cb187a485646b3",
-      "new_hash": "026daa609de53178",
-      "excerpt": [
-        "Explore the York Christmas Market 🎄",
-        "York Christmas Market 2026",
-        "📅 12 November – 21 December 2026🕥 10.30am – 7pm, Wednesday–Monday🎄 Closed Tuesdays for a weekly rest day📍 Parliament St…"
-      ]
-    },
     {
       "id": "pr-src-national-rail-2026-11-18",
       "source_id": "src-national-rail",
@@ -301,24 +287,6 @@
       ]
     },
     {
-      "id": "pr-src-beamish-2026-11-21",
-      "source_id": "src-beamish",
-      "claim_ids": [
-        "cl-beamish-evening-1218"
-      ],
-      "detected_at": "2026-11-21T13:30:11.170Z",
-      "old_hash": "41bb1c8c34fcd87d",
-      "new_hash": "6ba669c39b6d5575",
-      "excerpt": [
-        "The farmhouse at The 1940s Farm is closed for essential maintenance, the rest of the farm is open.",
-        "Opening times:",
-        "Saturday, 21st November – Thursday, 24th December: Monday – Sunday: 10am – 4pm.",
-        "For opening hours beyond this date, please see the drop-down menu.",
-        "Opening Times",
-        "Mon 2 Nov – Fri 20th Nov 2026: Open Wed-Sun, 10am-4pm (closed Mon & Tue) Sat 21 Nov – Thu 24 Dec 2026: Open daily, 10am-4pm Fri 25th Dec 2026: Closed Sat 26th Dec 2026: Closed Sun 27th – Thu 31st Dec 2026: Open daily, 10am-4pm"
-      ]
-    },
-    {
       "id": "pr-src-wallace-2026-11-21",
       "source_id": "src-wallace",
       "claim_ids": [
@@ -331,6 +299,41 @@
       "excerpt": [
         "Entry to the permanent collection is free. We close on 24, 25 and 26 December each year.",
         "Parts of the museum may close at short notice. The 16th-Century Gallery will be closed 10.00-13.00 on 25 November 2026. East Galleries I & II will be closed 8-11 February 2027."
+      ]
+    },
+    {
+      "id": "pr-src-beamish-2026-11-26",
+      "source_id": "src-beamish",
+      "claim_ids": [
+        "cl-beamish-evening-1218"
+      ],
+      "detected_at": "2026-11-26T15:21:59.330Z",
+      "old_hash": "6ba669c39b6d5575",
+      "new_hash": "d0433d8e2be37645",
+      "excerpt": [
+        "The farmhouse at The 1940s Farm is closed for essential maintenance, the rest of the farm is open.",
+        "The record shop and the hairdresser’s in The 1950s Town are closed.",
+        "Opening times:",
+        "Saturday, 21st November – Thursday, 24th December: Monday – Sunday: 10am – 4pm.",
+        "For opening hours beyond this date, please see the drop-down menu.",
+        "Opening Times"
+      ]
+    },
+    {
+      "id": "pr-src-visit-york-2026-11-26",
+      "source_id": "src-visit-york",
+      "claim_ids": [
+        "cl-york-market-1216",
+        "cl-cand-1215-market-tue"
+      ],
+      "detected_at": "2026-11-26T15:21:59.330Z",
+      "old_hash": "026daa609de53178",
+      "new_hash": "94cb187a485646b3",
+      "excerpt": [
+        "Explore the York Christmas Market 🎄",
+        "York Christmas Market 2026",
+        "📅 12 November – 21 December 2026🕥 10.30am – 7pm, Wednesday–Monday🎄 Closed Tuesdays for a weekly rest day📍 Parliament St…",
+        "Christmas Market At York Stadium Leisure Complex"
       ]
     }
   ],
@@ -2349,6 +2352,174 @@
       "id": "ce-20261125153927-18",
       "source_id": "src-christ-church",
       "at": "2026-11-25T15:39:27.317Z",
+      "fetch_status": "error",
+      "http_status": 404,
+      "changed": false,
+      "hash": null,
+      "note": "HTTP 404"
+    },
+    {
+      "id": "ce-20261126152159-1",
+      "source_id": "src-national-express",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "blocked",
+      "http_status": 200,
+      "changed": false,
+      "hash": null,
+      "note": "疑似验证码/机器人拦截页，转人工核实"
+    },
+    {
+      "id": "ce-20261126152159-2",
+      "source_id": "src-national-rail",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "80cf981ab9a0d2b1"
+    },
+    {
+      "id": "ce-20261126152159-3",
+      "source_id": "src-tfl",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "blocked",
+      "http_status": 403,
+      "changed": false,
+      "hash": null,
+      "note": "来源拒绝或限流，转人工核实"
+    },
+    {
+      "id": "ce-20261126152159-4",
+      "source_id": "src-heathrow-express",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "e3b0c44298fc1c14"
+    },
+    {
+      "id": "ce-20261126152159-5",
+      "source_id": "src-gwr",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "error",
+      "http_status": 202,
+      "changed": false,
+      "hash": null,
+      "note": "HTTP 202"
+    },
+    {
+      "id": "ce-20261126152159-6",
+      "source_id": "src-lner",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "blocked",
+      "http_status": 403,
+      "changed": false,
+      "hash": null,
+      "note": "来源拒绝或限流，转人工核实"
+    },
+    {
+      "id": "ce-20261126152159-7",
+      "source_id": "src-kings-college",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "cb5492f219d5915e"
+    },
+    {
+      "id": "ce-20261126152159-8",
+      "source_id": "src-york-minster",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "6a065adffd4cd50e"
+    },
+    {
+      "id": "ce-20261126152159-9",
+      "source_id": "src-durham-cathedral",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "7a7430708f380e43"
+    },
+    {
+      "id": "ce-20261126152159-10",
+      "source_id": "src-beamish",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": true,
+      "hash": "d0433d8e2be37645"
+    },
+    {
+      "id": "ce-20261126152159-11",
+      "source_id": "src-edinburgh-castle",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "e37be2487e772ff7"
+    },
+    {
+      "id": "ce-20261126152159-12",
+      "source_id": "src-bodleian",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 304,
+      "changed": false,
+      "hash": "53a6ff8105862f1d"
+    },
+    {
+      "id": "ce-20261126152159-13",
+      "source_id": "src-national-gallery",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "28337c066f69426e"
+    },
+    {
+      "id": "ce-20261126152159-14",
+      "source_id": "src-visit-york",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": true,
+      "hash": "94cb187a485646b3"
+    },
+    {
+      "id": "ce-20261126152159-15",
+      "source_id": "src-edinburgh-christmas",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "error",
+      "http_status": null,
+      "changed": false,
+      "hash": null,
+      "note": "fetch failed"
+    },
+    {
+      "id": "ce-20261126152159-16",
+      "source_id": "src-magdalen",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "e3b0c44298fc1c14"
+    },
+    {
+      "id": "ce-20261126152159-17",
+      "source_id": "src-wallace",
+      "at": "2026-11-26T15:21:59.330Z",
+      "fetch_status": "ok",
+      "http_status": 200,
+      "changed": false,
+      "hash": "7724ba9b29ddf099"
+    },
+    {
+      "id": "ce-20261126152159-18",
+      "source_id": "src-christ-church",
+      "at": "2026-11-26T15:21:59.330Z",
       "fetch_status": "error",
       "http_status": 404,
       "changed": false,
